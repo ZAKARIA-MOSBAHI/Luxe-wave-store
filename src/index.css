@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme typography {
+  --text-desktop-h1: 47.78px;
+  --text-desktop-h2: 39.81px;
+  --text-desktop-h3: 33.18px;
+  --text-desktop-h4: 27.65px;
+  --text-desktop-h5: 23.04px;
+  --text-desktop-h6: 19.2px;
+  --text-desktop-p: 16px;
+  --text-desktop-sm: 13.33px;
+  --text-desktop-xs: 11.11px;
+  /* LINE HEIGHTS */
+  --leading-desktop-h1: ;
+  --leading-desktop-h2: ;
+  --leading-desktop-h3: ;
+  --leading-desktop-h4: ;
+  --leading-desktop-h5: ;
+  --leading-desktop-h6: ;
+  --leading-desktop-p: ;
+  --leading-desktop-sm: ;
+  --leading-desktop-xs: ;
+  /* DESKTOP */
+  --text-mobile-h1: 41.8px;
+  --text-mobile-h2: 34.84px;
+  --text-mobile-h3: 29.03px;
+  --text-mobile-h4: 24.19px;
+  --text-mobile-h5: 20.16px;
+  --text-mobile-h6: 16.8px;
+  --text-mobile-p: 14px;
+  --text-mobile-sm: 11.67px;
+  --text-mobile-xs: 9.72px;
+  /* LINE HEIGHTS */
+  --leading-mobile-h1: ;
+  --leading-mobile-h2: ;
+  --leading-mobile-h3: ;
+  --leading-mobile-h4: ;
+  --leading-mobile-h5: ;
+  --leading-mobile-h6: ;
+  --leading-mobile-p: ;
+  --leading-mobile-sm: ;
+  --leading-mobile-xs: ;
+}
+@theme {
+  --shadow-card: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+
+  font-family: "Outfit", sans-serif;
+}
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+a.active {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #000;
+  color: #fff;
+}
