@@ -7,11 +7,11 @@ export default function IconsRow() {
   const Icons = [LinkedinIcon, TwitterIcon, InstagramIcon, FacebookIcon];
   return (
     <div className="flex items-center justify-center md:justify-start gap-4">
-      {Icons.map((Icon, index) => (
+      {Icons.map((Icon) => (
         <Icon
           className={"cursor-pointer"}
-          pathClassname={"fill-[#101828]"}
-          key={index}
+          pathClassname={"fill-white"}
+          key={Icon.toString()}
         />
       ))}
     </div>

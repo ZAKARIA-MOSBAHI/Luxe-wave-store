@@ -3,8 +3,8 @@ import IconsRow from "./components/IconsRow";
 function Footer() {
   const { logoWhite } = assets;
   return (
-    <footer className="border-t border-t-black bg-gray-900">
-      <div className="flex flex-col md:grid grid-cols-3 gap-16 w-full px-4 my-20 max-w-[1152px] mx-auto">
+    <footer className=" bg-black">
+      <div className="border-b border-gray-400 flex flex-col md:grid grid-cols-3 gap-16 w-full px-4 py-20 max-w-[1152px] mx-auto">
         <div className="flex flex-col gap-4 text-center md:text-left ">
           <img src={logoWhite} alt="" className="w-32 mx-auto md:mx-0" />
           <p className="w-full text-gray-400 ">
@@ -34,7 +34,6 @@ function Footer() {
         </div>
       </div>
       <div>
-        <hr />
         <p className="text-gray-400 text-center py-4 ">
           2025 Company. All rights reserved.
         </p>
