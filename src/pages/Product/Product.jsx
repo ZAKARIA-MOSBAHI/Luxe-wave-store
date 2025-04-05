@@ -1,12 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { simpleFaker } from "@faker-js/faker";
-
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../../context/ProductContext";
-import { assets } from "../../assets/client/assets";
 import SimilarProducts from "./components/SimilarProducts";
 import Toast from "../../components/Toast";
-import StartIcon from "../../assets/client/icons/StartIcon";
 import ProductImage from "./components/ProductImage";
 import ProductInfo from "./components/ProductInfo";
 
@@ -29,12 +25,10 @@ export default function Product() {
     });
   };
   const handleClick = () => {
-    const reference = simpleFaker.string.uuid();
     if (sizeChoosen) {
       addToCart({
         ...product,
         sizeChoosen: sizeChoosen,
-        ref: reference,
         quantity: 1,
       });
       setShowToast(true);
