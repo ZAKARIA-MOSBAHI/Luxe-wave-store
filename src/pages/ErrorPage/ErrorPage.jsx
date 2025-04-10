@@ -1,3 +1,3 @@
-export default function ErrorPage() {
-  return <div> 404</div>;
+export default function ErrorPage({ status, message }) {
+  return <div> {message}</div>;
 }

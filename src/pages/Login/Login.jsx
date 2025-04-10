@@ -1,43 +1,32 @@
-import { useContext, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "../../api/axios";
-import { assets } from "../../assets/client/assets";
-import { ShopContext } from "../../context/ProductContext";
+
 import ShowPasswordIcon from "../../assets/client/icons/ShowPasswordIcon";
 import HidePasswordIcon from "../../assets/client/icons/HidePasswordIcon";
+import { useDispatch, useSelector } from "react-redux";
+import { Loader2 } from "lucide-react";
+import { loginUser } from "../../app/thunks/userThunks";
+import { resetRequestResults } from "../../app/slices/userSlice";
 
 export default function Login({ setPageType }) {
-  const { eye, noEye } = assets;
-  const { setLoggedIn } = useContext(ShopContext);
-  const [message, setMessage] = useState("");
+  const { status, data, error } = useSelector((state) => state.user);
+
   const [showPassword, setShowPassword] = useState(false);
   const LoginEmailRef = useRef();
   const LoginPwordRef = useRef();
   const tooglePage = () => {
     setPageType("signup");
-    setMessage("");
+    dispatch(resetRequestResults());
   };
-  const handleLogin = (e) => {
+  const dispatch = useDispatch();
+  const handleLogin = async (e) => {
     e.preventDefault();
-    api
-      .post(
-        "/login",
-        {
-          email: LoginEmailRef.current.value,
-          password: LoginPwordRef.current.value,
-        },
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        setLoggedIn(true);
-        setMessage(response.data.message);
-      })
-      .catch((error) => {
-        setMessage(error.response.data.message);
-      });
+    dispatch(resetRequestResults());
+    const formData = {
+      email: LoginEmailRef.current.value,
+      password: LoginPwordRef.current.value,
+    };
+    dispatch(loginUser(formData));
   };
 
   return (
@@ -89,10 +78,31 @@ export default function Login({ setPageType }) {
               Sign up
             </span>
           </p>
-          <p className="text-sm sm:text-base w-full text-red-500">{message}</p>
+
+          {error?.field === "LoginFailedError" && (
+            <p className="text-sm sm:text-base w-full text-red-500">
+              {error?.message}
+            </p>
+          )}
+          {status === "success" ? (
+            <p className="text-sm sm:text-base w-full text-green-500">
+              User Logged in successfully
+            </p>
+          ) : null}
         </div>
-        <button className="px-8 py-2.5 bg-black w-full sm:w-1/2 md:w-1/4 text-white my-4">
-          LOG IN
+        <button
+          disabled={status === "loading"}
+          onClick={handleLogin}
+          className=" cursor-pointer px-8 py-2.5 bg-black w-full sm:w-1/2 md:w-1/4 flex justify-center text-white my-4"
+        >
+          {status === "loading" ? (
+            <>
+              <Loader2 className="animate-spin" />
+              <span className="ml-2">LOGGING...</span>
+            </>
+          ) : (
+            "LOG IN"
+          )}
         </button>
       </form>
     </div>

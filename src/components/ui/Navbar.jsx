@@ -1,13 +1,13 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { assets } from "../assets/client/assets";
+import { assets } from "../../assets/client/assets";
 import { useContext, useState } from "react";
-import { ShopContext } from "../context/ProductContext";
-import SearchIcon from "../assets/client/icons/SearchIcon";
-import ProfileIcon from "../assets/client/icons/ProfileIcon";
-import MenuIcon from "../assets/client/icons/MenuIcon";
-import CartIcon from "../assets/client/icons/CartIcon";
+import { ShopContext } from "../../context/ProductContext";
+import SearchIcon from "../../assets/client/icons/SearchIcon";
+import ProfileIcon from "../../assets/client/icons/ProfileIcon";
+import MenuIcon from "../../assets/client/icons/MenuIcon";
+import CartIcon from "../../assets/client/icons/CartIcon";
 import Headroom from "react-headroom";
-import MobileNavbar from "./MobileNavbar";
+import MobileNavbar from "../MobileNavbar";
 function Navbar() {
   const { logo } = assets;
   const [isOpen, setIsOpen] = useState(false);

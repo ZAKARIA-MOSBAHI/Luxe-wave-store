@@ -1,15 +1,17 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import FilterMenu from "./pages/Collections/components/FilterMenu";
 import { lazy, Suspense, useContext } from "react";
 import { ShopContext } from "./context/ProductContext";
 import Loading from "./components/ui/Loading";
-import Footer from "./components/Footer/Footer";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import ScrollToTop from "./components/ScrollTop";
+import AdminDashboard from "../admin/AdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AuthProvider from "./context/AuthProvider";
+import Layout from "./components/Layout/Layout";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const About = lazy(() => import("./pages/About/About"));
@@ -40,26 +42,45 @@ function App() {
         filterOptions={filterOptions}
       />
       <SearchBar />
-      <Navbar />
       <div className="max-w-[1152px] w-full mx-auto px-4 md:px-8">
         <ScrollToTop />
-        <Suspense fallback={<Loading />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/collections/:pageNumber" element={<Collections />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<Order />} />
-            <Route path="/place-order" element={<PlaceOrder />} />
-            <Route path="/product/:productId" element={<Product />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        </Suspense>
+        <AuthProvider>
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route
+                  path="/collections/:pageNumber"
+                  element={<Collections />}
+                />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/orders" element={<Order />} />
+                <Route path="/place-order" element={<PlaceOrder />} />
+                <Route path="/product/:productId" element={<Product />} />
+              </Route>
+              {/* ADMIN ROUTES  */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* 404 Catch-all (outside Layout) */}
+              <Route
+                path="*"
+                element={<ErrorPage message={"Not found"} status={404} />}
+              />
+            </Routes>
+          </Suspense>
+        </AuthProvider>
       </div>
-      <Footer />
     </div>
   );
 }
