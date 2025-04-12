@@ -47,7 +47,7 @@ const navItems = [
   },
   {
     title: "Cart",
-    href: "/admin/cart",
+    href: "/admin/carts",
     icon: ShoppingCart,
   },
 ];
