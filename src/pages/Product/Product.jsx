@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../../context/ProductContext";
 import SimilarProducts from "./components/SimilarProducts";
-import Toast from "../../components/Toast";
 import ProductImage from "./components/ProductImage";
 import ProductInfo from "./components/ProductInfo";
+import { toast } from "sonner";
+import { X } from "lucide-react";
 
 export default function Product() {
   const [product, setProduct] = useState({});
@@ -12,7 +13,6 @@ export default function Product() {
   const { products, currency, addToCart, sizeChoosen, setSizeChoosen } =
     useContext(ShopContext);
   const { productId } = useParams();
-  const [showToast, setShowToast] = useState(true);
 
   const [err, setErr] = useState("");
   const fetchProductData = async () => {
@@ -31,7 +31,17 @@ export default function Product() {
         sizeChoosen: sizeChoosen,
         quantity: 1,
       });
-      setShowToast(true);
+      toast.success("Added to cart", {
+        description: "Product has been added to your cart.",
+        action: {
+          label: "Close",
+          onClick: () => console.log("Undo"),
+          style: {
+            background: "transparent",
+            padding: "0",
+          },
+        },
+      });
     } else {
       setErr("Please select a size");
     }
@@ -39,7 +49,6 @@ export default function Product() {
   useEffect(() => {
     setSizeChoosen(null);
     fetchProductData();
-    setShowToast(false);
   }, [productId]);
 
   return (
@@ -64,7 +73,6 @@ export default function Product() {
         <p className="text-2xl font-medium my-6 md:my-12">SIMILAR PRODUCTS</p>
         <SimilarProducts pCategory={product.category} pId={product._id} />
       </div>
-      {showToast && <Toast setShowToast={setShowToast} />}
     </div>
   );
 }

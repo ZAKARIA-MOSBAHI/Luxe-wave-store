@@ -11,6 +11,7 @@ import ScrollToTop from "./components/ScrollTop";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./context/AuthProvider";
 import Layout from "./components/Layout/Layout";
+import { Toaster } from "sonner";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const About = lazy(() => import("./pages/About/About"));
@@ -24,6 +25,8 @@ const Register = lazy(() => import("./pages/Register"));
 const Order = lazy(() => import("./pages/Order"));
 const Dashboard = lazy(() => import("./admin/pages/Dashboard"));
 const AdminProducts = lazy(() => import("./admin/pages/Products"));
+const AdminCategories = lazy(() => import("./admin/pages/Categories"));
+const AdminUsers = lazy(() => import("./admin/pages/Users"));
 
 function App() {
   const {
@@ -35,6 +38,7 @@ function App() {
   } = useContext(ShopContext);
   return (
     <div className={`relative overflow-hidden`}>
+      <Toaster />
       <FilterMenu
         showFilterMenu={showFilterMenu}
         setShowFilterMenu={setShowFilterMenu}
@@ -77,6 +81,23 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AdminProducts />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/admin/categories"
+                element={
+                  <ProtectedRoute>
+                    <AdminCategories />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/users"
+                element={
+                  <ProtectedRoute>
+                    <AdminUsers />
                   </ProtectedRoute>
                 }
               />

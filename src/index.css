@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./AdminGlobals.css";
 
 @tailwind base;
 @tailwind components;
@@ -47,99 +48,6 @@
 }
 @theme {
   --shadow-card: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
-}
-
-@layer base {
-  :root {
-    --background: hsl(0, 0%, 100%);
-    --foreground: hsl(222.2, 84%, 4.9%);
-
-    --card: hsl(0, 0%, 100%);
-    --card-foreground: hsl(222.2, 84%, 4.9%);
-
-    --popover: hsl(0, 0%, 100%);
-    --popover-foreground: hsl(222.2, 84%, 4.9%);
-
-    --primary: hsl(240, 5.9%, 10%);
-    --primary-foreground: hsl(0, 0%, 98%);
-
-    --secondary: hsl(240, 4.8%, 95.9%);
-    --secondary-foreground: hsl(240, 5.9%, 10%);
-
-    --muted: hsl(240, 4.8%, 95.9%);
-    --muted-foreground: hsl(240, 5%, 64.9%);
-
-    --accent: hsl(240, 4.8%, 95.9%);
-    --accent-foreground: hsl(240, 5.9%, 10%);
-
-    --destructive: hsl(0, 84.2%, 60.2%);
-    --destructive-foreground: hsl(0, 0%, 98%);
-
-    --border: hsl(240, 5.9%, 90%);
-    --input: hsl(240, 5.9%, 90%);
-    --ring: hsl(142.1, 76.2%, 36.3%);
-
-    --radius: 0.5rem;
-
-    --sidebar-background: hsl(223, 70%, 13%);
-    --sidebar-foreground: hsl(210, 40%, 98%);
-    --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
-    --sidebar-primary-foreground: hsl(0, 0%, 100%);
-    --sidebar-accent: hsl(214, 59.4%, 15.3%);
-    --sidebar-accent-foreground: hsl(210, 40%, 98%);
-    --sidebar-border: hsl(214, 37.5%, 16.9%);
-    --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
-  }
-
-  .dark {
-    --background: hsl(222.2, 84%, 4.9%);
-    --foreground: hsl(0, 100%, 50%);
-
-    --card: hsl(222.2, 84%, 4.9%);
-    --card-foreground: hsl(210, 40%, 98%);
-
-    --popover: hsl(222.2, 84%, 4.9%);
-    --popover-foreground: hsl(210, 40%, 98%);
-
-    --primary: hsl(210, 40%, 98%);
-    --primary-foreground: hsl(222.2, 47.4%, 11.2%);
-
-    --secondary: hsl(217.2, 32.6%, 17.5%);
-    --secondary-foreground: hsl(210, 40%, 98%);
-
-    --muted: hsl(217.2, 32.6%, 17.5%);
-    --muted-foreground: hsl(215, 20.2%, 65.1%);
-
-    --accent: hsl(217.2, 32.6%, 17.5%);
-    --accent-foreground: hsl(210, 40%, 98%);
-
-    --destructive: hsl(0, 62.8%, 30.6%);
-    --destructive-foreground: hsl(0, 0%, 98%);
-
-    --border: hsl(217.2, 32.6%, 17.5%);
-    --input: hsl(217.2, 32.6%, 17.5%);
-    --ring: hsl(224.3, 76.3%, 48%);
-
-    --sidebar-background: hsl(223, 70%, 13%);
-    --sidebar-foreground: hsl(210, 40%, 98%);
-    --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
-    --sidebar-primary-foreground: hsl(0, 0%, 100%);
-    --sidebar-accent: hsl(214, 59.4%, 15.3%);
-    --sidebar-accent-foreground: hsl(210, 40%, 98%);
-    --sidebar-border: hsl(214, 37.5%, 16.9%);
-    --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
-  }
-}
-
-@layer base {
-  * {
-    @apply border-[var(--border)];
-  }
-
-  body {
-    @apply bg-[var(--background)];
-    @apply text-[var(--foreground)];
-  }
 }
 
 @layer components {
