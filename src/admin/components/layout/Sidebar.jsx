@@ -27,27 +27,27 @@ const navItems = [
   },
   {
     title: "Products",
-    href: "/products",
+    href: "/admin/products",
     icon: Package,
   },
   {
     title: "Categories",
-    href: "/categories",
+    href: "/admin/categories",
     icon: FolderTree,
   },
   {
     title: "Users",
-    href: "/users",
+    href: "/admin/users",
     icon: Users,
   },
   {
     title: "Orders",
-    href: "/orders",
+    href: "/admin/orders",
     icon: List,
   },
   {
     title: "Cart",
-    href: "/cart",
+    href: "/admin/cart",
     icon: ShoppingCart,
   },
 ];

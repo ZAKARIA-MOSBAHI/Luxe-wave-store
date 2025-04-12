@@ -8,7 +8,6 @@ import { ShopContext } from "./context/ProductContext";
 import Loading from "./components/ui/Loading";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import ScrollToTop from "./components/ScrollTop";
-import AdminDashboard from "../admin/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./context/AuthProvider";
 import Layout from "./components/Layout/Layout";
@@ -23,6 +22,8 @@ const Cart = lazy(() => import("./pages/Cart/Cart"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
 const Register = lazy(() => import("./pages/Register"));
 const Order = lazy(() => import("./pages/Order"));
+const Dashboard = lazy(() => import("./admin/pages/Dashboard"));
+const AdminProducts = lazy(() => import("./admin/pages/Products"));
 
 function App() {
   const {
@@ -67,7 +68,15 @@ function App() {
                 path="/admin/dashboard"
                 element={
                   <ProtectedRoute>
-                    <AdminDashboard />
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/products"
+                element={
+                  <ProtectedRoute>
+                    <AdminProducts />
                   </ProtectedRoute>
                 }
               />
