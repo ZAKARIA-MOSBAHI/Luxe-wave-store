@@ -36,8 +36,20 @@ import {
   ShoppingBag,
   UserX,
   UserPlus,
+  PlusCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../components/ui/Dialog";
+import { UserForm } from "../components/forms/UserForm";
 
 // Sample data - in a real application, this would come from an API
 const users = [
@@ -104,6 +116,7 @@ const users = [
 ];
 
 const Users = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredUsers = users.filter(
@@ -127,10 +140,33 @@ const Users = () => {
       <div className="flex flex-col gap-4 md:gap-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="text-3xl font-bold">Users</h1>
-          <Button>
-            <UserPlus className="h-4 w-4 mr-2" />
-            Add User
-          </Button>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <UserPlus className="h-4 w-4 mr-2" />
+                Add User
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Add New Product</DialogTitle>
+                <DialogDescription>
+                  Fill in the details to add a new user to your inventory.
+                </DialogDescription>
+              </DialogHeader>
+              <UserForm
+                onSubmit={() => {
+                  toast.success("Product Created Successfully !", {
+                    action: {
+                      label: "Close",
+                      onClick: () => console.log("Undo"),
+                    },
+                  });
+                }}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
 
         <Card>

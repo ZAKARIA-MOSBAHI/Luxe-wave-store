@@ -1,9 +1,4 @@
 @import "tailwindcss";
-@import "./AdminGlobals.css";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @theme typography {
   --text-desktop-h1: 47.78px;

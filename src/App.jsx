@@ -6,12 +6,12 @@ import FilterMenu from "./pages/Collections/components/FilterMenu";
 import { lazy, Suspense, useContext } from "react";
 import { ShopContext } from "./context/ProductContext";
 import Loading from "./components/ui/Loading";
-import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import ScrollToTop from "./components/ScrollTop";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./context/AuthProvider";
 import Layout from "./components/Layout/Layout";
 import { Toaster } from "sonner";
+import NotFound from "./pages/NotFound";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const About = lazy(() => import("./pages/About/About"));
@@ -121,10 +121,7 @@ function App() {
               />
 
               {/* 404 Catch-all (outside Layout) */}
-              <Route
-                path="*"
-                element={<ErrorPage message={"Not found"} status={404} />}
-              />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </AuthProvider>
