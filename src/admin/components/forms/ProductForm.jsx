@@ -22,6 +22,7 @@ import {
 } from "../ui/Select";
 import { useState } from "react";
 import { toast } from "sonner";
+import { DialogClose } from "../ui/Dialog";
 
 // Sample data - in a real application, this would come from an API
 const categories = [
@@ -226,9 +227,9 @@ export function ProductForm({ initialData, onSubmit }) {
         />
 
         <div className="flex justify-end space-x-4">
-          <Button type="button" variant="outline">
-            Cancel
-          </Button>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
           <Button type="submit">Save Product</Button>
         </div>
       </form>

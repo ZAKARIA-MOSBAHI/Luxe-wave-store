@@ -29,6 +29,7 @@ const AdminCategories = lazy(() => import("./admin/pages/Categories"));
 const AdminUsers = lazy(() => import("./admin/pages/Users"));
 const AdminOrders = lazy(() => import("./admin/pages/Orders"));
 const AdminCarts = lazy(() => import("./admin/pages/Carts"));
+const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
 
 function App() {
   const {
@@ -116,6 +117,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AdminCarts />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/discounts"
+                element={
+                  <ProtectedRoute>
+                    <AdminDiscounts />
                   </ProtectedRoute>
                 }
               />

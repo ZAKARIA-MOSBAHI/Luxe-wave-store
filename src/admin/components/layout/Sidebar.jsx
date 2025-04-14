@@ -16,6 +16,7 @@ import {
   X,
   LogOut,
   Store,
+  TicketPercent,
 } from "lucide-react";
 import { AdminAssets } from "../../assets/AdminAssets";
 
@@ -49,6 +50,11 @@ const navItems = [
     title: "Cart",
     href: "/admin/carts",
     icon: ShoppingCart,
+  },
+  {
+    title: "Discounts",
+    href: "/admin/discounts",
+    icon: TicketPercent,
   },
 ];
 

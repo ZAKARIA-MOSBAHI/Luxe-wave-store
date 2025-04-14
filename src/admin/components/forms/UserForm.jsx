@@ -20,10 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Eye, EyeClosed } from "lucide-react";
 import { DialogClose } from "../ui/Dialog";
+import { PhoneInput } from "../ui/PhoneInput";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 const userSchema = z
   .object({
@@ -36,9 +38,6 @@ const userSchema = z
       .string()
       .min(6, { message: "Password must be at least 6 characters." }),
     confirmPassword: z.string(),
-    phone: z
-      .string()
-      .min(10, { message: "Phone number must be at least 10 digits." }),
     street: z
       .string()
       .min(10, { message: "Address must be at least 10 characters." }),
@@ -53,8 +52,8 @@ const userSchema = z
     path: ["confirmPassword"],
     message: "Passwords do not match",
   });
-
 export function UserForm({ initialData, onSubmit }) {
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [showPword, setShowPword] = useState(false);
   const [showConfirmPword, setShowConfirmPword] = useState(false);
   const form = useForm({
@@ -73,10 +72,19 @@ export function UserForm({ initialData, onSubmit }) {
   });
 
   const handleSubmit = (values) => {
-    console.log("Submitted values:", values); // 👈 this will log form data
+    const formattedPhone = isValidPhoneNumber(phoneNumber);
+    if (!formattedPhone) {
+      toast.error("Invalid phone number format.");
+      return;
+    }
+    const newValues = { ...values, phone: phoneNumber };
+    console.log("Submitted values:", newValues);
     toast.success("User saved successfully!");
   };
-
+  useEffect(() => {
+    console.log(phoneNumber);
+    console.log(typeof phoneNumber);
+  }, [phoneNumber]);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
@@ -215,11 +223,10 @@ export function UserForm({ initialData, onSubmit }) {
             <FormItem>
               <FormLabel>Phone Number</FormLabel>
               <FormControl>
-                <Input
-                  min="0"
-                  className="pl-7"
-                  {...field}
-                  type="number"
+                <PhoneInput
+                  value={phoneNumber}
+                  onChange={setPhoneNumber}
+                  defaultCountry="US"
                   placeholder="Enter phone number"
                 />
               </FormControl>

@@ -14,6 +14,7 @@ import {
 import { Input } from "../ui/Input";
 import { Textarea } from "../ui/Textarea";
 import { toast } from "sonner";
+import { DialogClose } from "../ui/Dialog";
 
 const categorySchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -122,9 +123,10 @@ export function CategoryForm({ initialData, onSubmit }) {
         />
 
         <div className="flex justify-end space-x-4">
-          <Button type="button" variant="outline">
-            Cancel
-          </Button>
+          {/* since the form will be inside a dialog context  */}
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
           <Button type="submit">Save Category</Button>
         </div>
       </form>

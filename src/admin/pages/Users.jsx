@@ -59,7 +59,7 @@ const users = [
     email: "john.doe@example.com",
     avatar: "/avatar.png",
     status: "active",
-    role: "customer",
+    role: "user",
     orders: 8,
     lastActive: "2 hours ago",
   },
@@ -69,7 +69,7 @@ const users = [
     email: "jane.smith@example.com",
     avatar: "/avatar.png",
     status: "active",
-    role: "customer",
+    role: "user",
     orders: 12,
     lastActive: "1 day ago",
   },
@@ -79,7 +79,7 @@ const users = [
     email: "robert.johnson@example.com",
     avatar: "/avatar.png",
     status: "inactive",
-    role: "customer",
+    role: "user",
     orders: 3,
     lastActive: "2 weeks ago",
   },
@@ -99,7 +99,7 @@ const users = [
     email: "michael.wilson@example.com",
     avatar: "/avatar.png",
     status: "suspended",
-    role: "customer",
+    role: "user",
     orders: 5,
     lastActive: "1 month ago",
   },
@@ -109,7 +109,7 @@ const users = [
     email: "sarah.taylor@example.com",
     avatar: "/avatar.png",
     status: "active",
-    role: "customer",
+    role: "user",
     orders: 9,
     lastActive: "3 days ago",
   },
@@ -172,9 +172,7 @@ const Users = () => {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle>User Management</CardTitle>
-            <CardDescription>
-              Manage your customers and admin users
-            </CardDescription>
+            <CardDescription>Manage your users and admin users</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex items-center mb-6">
