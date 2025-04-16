@@ -26,13 +26,7 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = "success";
         state.error = null;
-        state.data = action.payload;
-        if (action.payload.accessToken) {
-          localStorage.setItem("accessToken", action.payload.accessToken);
-        }
-        if (action.payload.refreshToken) {
-          localStorage.setItem("refreshToken", action.payload.refreshToken);
-        }
+        state.data = action.payload.user;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = "failed";

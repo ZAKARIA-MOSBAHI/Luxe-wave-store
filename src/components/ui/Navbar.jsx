@@ -8,13 +8,15 @@ import MenuIcon from "../../assets/client/icons/MenuIcon";
 import CartIcon from "../../assets/client/icons/CartIcon";
 import Headroom from "react-headroom";
 import MobileNavbar from "../MobileNavbar";
+import { useSelector } from "react-redux";
 function Navbar() {
   const { logo } = assets;
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { setShowSearch, cart, LoggedIn } = useContext(ShopContext);
+  const { data } = useSelector((state) => state.user);
+  const { setShowSearch, cart } = useContext(ShopContext);
   const redirectTo = () => {
-    if (LoggedIn) {
+    if (data !== null) {
       navigate("/profile");
     } else {
       navigate("/register");

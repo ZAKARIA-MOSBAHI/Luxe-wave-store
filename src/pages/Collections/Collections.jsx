@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import ProcuctsList from "./components/ProcuctsList";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../app/thunks/productThunks";
+import { resetRequestResults } from "../../app/slices/productSlice";
 
 const Collections = () => {
   const { status, data, error } = useSelector((state) => state.products);
@@ -59,9 +60,14 @@ const Collections = () => {
     setFilteredProducts(productPage);
   }, [pageNumber]);
   useEffect(() => {
-    dispatch(getProducts()).then((res) => console.log(res.payload)); // why this action dispatches non stop
-    console.log(status);
+    dispatch(getProducts()).then((res) => console.log(res.payload.products));
+    return () => {
+      dispatch(resetRequestResults());
+    };
   }, []);
+  useEffect(() => {
+    console.log(status);
+  }, [status]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10  relative max-w-[1152px] w-full mx-auto xl:px-0 px-4">
@@ -84,6 +90,30 @@ const Collections = () => {
           <div>NO PRODUCTS FOUND </div>
         )}
         <Pagination pageIndex={pageNumber} maxPages={maxPages} />
+        {data?.length > 0 && (
+          <div className=" overflow-hidden  relative hover:shadow-card rounded-xl max-w-[350px] w-full cursor-pointer transition-all duration-300 ">
+            <div className="overflow-hidden max-h-[300px] ">
+              <img
+                loading="lazy"
+                src={data[0].mainImage.url}
+                alt=""
+                className="hover:scale-110 transition ease-in-out h-full  w-full object-cover"
+              />
+            </div>
+            <div className="p-2 flex flex-col gap-2">
+              <p className="text-desktop-sm text-gray-400">
+                {data[0].categoryId.name}
+              </p>
+              <p
+                className=" text-desktop-p font-medium truncate"
+                title={data[0].name}
+              >
+                {data[0].name}
+              </p>
+              <p className="font-medium text-desktop-p">{data[0].price}</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
