@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import Title from "../../components/Title";
-import ProductCard from "../../components/ProductCard";
 import { ShopContext } from "../../context/ProductContext";
 import FilterIcon from "../../assets/client/icons/FilterIcon";
 import Pagination from "./components/Pagination";
 import { useParams } from "react-router-dom";
-import ProductsCollection from "../Home/components/ProductsCollection";
 import ProcuctsList from "./components/ProcuctsList";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../app/thunks/productThunks";
 
 const Collections = () => {
+  const { status, data, error } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
   const { products, setShowFilterMenu, selectedFilterOptions } =
     useContext(ShopContext);
   const { pageNumber } = useParams();
@@ -56,6 +58,10 @@ const Collections = () => {
     const productPage = products.slice((pageNumber - 1) * 12, pageNumber * 12);
     setFilteredProducts(productPage);
   }, [pageNumber]);
+  useEffect(() => {
+    dispatch(getProducts()).then((res) => console.log(res.payload)); // why this action dispatches non stop
+    console.log(status);
+  }, []);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10  relative max-w-[1152px] w-full mx-auto xl:px-0 px-4">

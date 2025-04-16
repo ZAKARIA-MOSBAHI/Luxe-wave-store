@@ -26,7 +26,9 @@ export default function Login({ setPageType }) {
       email: LoginEmailRef.current.value,
       password: LoginPwordRef.current.value,
     };
-    dispatch(loginUser(formData));
+    dispatch(loginUser(formData)).then((res) => {
+      console.log(res);
+    });
   };
 
   return (

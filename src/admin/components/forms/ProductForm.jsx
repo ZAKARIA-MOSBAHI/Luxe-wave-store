@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { DialogClose } from "../ui/Dialog";
 
@@ -46,11 +46,17 @@ const productSchema = z.object({
     .number()
     .int()
     .nonnegative({ message: "Stock quantity must be a non-negative integer." }),
-  image: z.any().optional(),
+  mainImage: z.any(),
+  additionnalImages: z
+    .array(z.instanceof(File))
+    .max(4, { message: "Maximum 4 additional images allowed" }),
 });
 
 export function ProductForm({ initialData, onSubmit }) {
+  const [mainImage, setMainImage] = useState(null);
+  const [additionalImages, setAdditionalImages] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
+  const [additionalImagesPreviews, setAdditionalImagesPreviews] = useState([]);
 
   const form = useForm({
     resolver: zodResolver(productSchema),
@@ -60,32 +66,44 @@ export function ProductForm({ initialData, onSubmit }) {
       price: 0,
       categoryId: "",
       stockQuantity: 0,
-      image: undefined,
+      mainImage: null,
+      additionnalImages: [],
     },
   });
 
-  const handleImageChange = (e) => {
+  const handleMainImage = (e) => {
+    form.clearErrors("mainImage");
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-      form.setValue("image", file);
-    }
+    if (!file) return;
+    console.log(file instanceof File);
+    setImagePreview(URL.createObjectURL(file));
+    setMainImage(file);
   };
 
   const handleSubmit = (values) => {
-    if (onSubmit) {
-      onSubmit(values);
-    } else {
-      // For demo purposes, show a success toast
-      toast.success("Product saved successfully!");
-      console.log("Product form values:", values);
-    }
+    console.log("old values ", values);
+    const upadtedValues = {
+      ...values,
+      mainImage: mainImage,
+      additionnalImages: additionalImages,
+    };
+    console.log("updated values ", upadtedValues);
+    // For demo purposes, show a success toast
+    toast.success("Product saved successfully!");
   };
 
+  useEffect(() => {
+    return () => {
+      if (imagePreview) URL.revokeObjectURL(imagePreview);
+      additionalImagesPreviews.forEach((preview) =>
+        URL.revokeObjectURL(preview)
+      );
+    };
+  }, [imagePreview, additionalImagesPreviews]);
+  /* main image not instanceof file, but an object with a file property, so we need to handle it differently 
+  add x button to remove the image from the preview and the form state
+  
+*/
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
@@ -194,17 +212,17 @@ export function ProductForm({ initialData, onSubmit }) {
 
         <FormField
           control={form.control}
-          name="image"
-          render={({ field: { value, onChange, ...field } }) => (
+          name="mainImage"
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>Product Image</FormLabel>
+              <FormLabel>Product Main Image</FormLabel>
               <FormControl>
                 <div className="space-y-4">
                   <Input
                     {...field}
                     type="file"
                     accept="image/*"
-                    onChange={handleImageChange}
+                    onChange={handleMainImage}
                     className="cursor-pointer"
                   />
                   {imagePreview && (
@@ -219,7 +237,59 @@ export function ProductForm({ initialData, onSubmit }) {
                 </div>
               </FormControl>
               <FormDescription>
-                Upload a product image (PNG, JPG or WEBP)
+                <span className="sr-only">
+                  Upload a product image (PNG, JPG or WEBP)
+                </span>
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="additionnalImages"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product Additional Images</FormLabel>
+              <FormControl>
+                <div className="space-y-4">
+                  <Input
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files || []);
+                      field.onChange(files); // Update form state
+                      const previews = files.map((file) =>
+                        URL.createObjectURL(file)
+                      );
+                      setAdditionalImagesPreviews(previews);
+                      setAdditionalImages(files);
+                    }}
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    className="cursor-pointer"
+                  />
+
+                  <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">
+                    {additionalImagesPreviews.length > 0 &&
+                      additionalImagesPreviews.map((image, index) => (
+                        <div
+                          key={index}
+                          className="mt-2 rounded-md overflow-hidden border max-w-[200px]"
+                        >
+                          <img
+                            src={image}
+                            alt="additionnal  preview"
+                            className="w-full h-auto object-cover"
+                          />
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </FormControl>
+              <FormDescription>
+                <span className="sr-only">
+                  Upload additional product images (PNG, JPG or WEBP)
+                </span>
               </FormDescription>
               <FormMessage />
             </FormItem>

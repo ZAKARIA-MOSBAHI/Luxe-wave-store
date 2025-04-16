@@ -18,7 +18,7 @@ import { DialogClose } from "../ui/Dialog";
 
 const categorySchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  description: z.string().optional(),
+
   slug: z
     .string()
     .min(2, { message: "Slug must be at least 2 characters." })
@@ -33,7 +33,6 @@ export function CategoryForm({ initialData, onSubmit }) {
     resolver: zodResolver(categorySchema),
     defaultValues: initialData || {
       name: "",
-      description: "",
       slug: "",
     },
   });
@@ -99,24 +98,6 @@ export function CategoryForm({ initialData, onSubmit }) {
               <FormDescription>
                 The slug is used in the URL for this category
               </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description (Optional)</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Enter category description"
-                  className="min-h-20"
-                  {...field}
-                />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
