@@ -26,7 +26,7 @@
     --destructive-foreground: hsl(0, 0%, 98%);
 
     --border: hsl(240, 5.9%, 90%);
-    --input: hsl(240, 5.9%, 90%);
+    --input: hsl(240, 5.9%, 90%); /*zinc-200*/
     --ring: hsl(142.1, 76.2%, 36.3%);
 
     --radius: 0.5rem;

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Hero from "./components/Hero";
-import NewsLetter from "./components/NewsLetter";
 import Policy from "./components/Policy";
 import { products } from "../../assets/client/assets";
 import ProductsCollection from "./components/ProductsCollection";
+import NewsLetter from "../../components/NewsLetter";
 
 function Home() {
   const [BestSellers, setBestSellers] = useState([]);

@@ -6,57 +6,72 @@ import Badge from "./ui/Badge";
 
 export default function ProductCard({
   product,
-  withBadge,
-  withHeart,
+  withBadge = false,
+  withHeart = false,
   badgeText = "",
   badgeColor = "",
 }) {
   const { currency } = useContext(ShopContext);
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
+
   const handleFavorite = (e) => {
     e.stopPropagation();
     setIsFavorite(!isFavorite);
   };
+
+  const handleProductClick = () => {
+    navigate(`/product/${product._id}`);
+  };
+
   return (
     <div
-      onClick={() => navigate(`/product/${product._id}`)}
-      className="overflow-hidden  relative hover:shadow-card rounded-xl max-w-[350px] w-full cursor-pointer transition-all duration-300 "
+      onClick={handleProductClick}
+      className="group relative w-full max-w-[350px] overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg"
     >
-      <div className="overflow-hidden max-h-[300px] ">
+      {/* Image Container with Overlay Effect */}
+      <div className="relative overflow-hidden max-h-[300px] bg-gray-100">
         <img
           loading="lazy"
           src={product.image[0]}
-          alt=""
-          className="hover:scale-110 transition ease-in-out h-full  w-full object-cover"
+          alt={product.name}
+          className="h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
         />
       </div>
-      <div className="p-2 flex flex-col gap-2">
-        <p className="text-desktop-sm text-gray-400">
+
+      {/* Product Info Section */}
+      <div className="p-4 flex flex-col gap-2 bg-white">
+        <p className="text-xs uppercase tracking-wider text-gray-400">
           {product.category}'s Wear / {product.subCategory}
         </p>
         <p
-          className=" text-desktop-p font-medium truncate"
+          className="font-medium text-gray-800 truncate text-lg"
           title={product.name}
         >
           {product.name}
         </p>
-        <p className="font-medium text-desktop-p">
-          {currency}
+        <p className="font-bold text-lg">
+          <span className="text-sm font-normal">{currency}</span>
           {product.price}
         </p>
       </div>
+
+      {/* Badge Conditional Rendering */}
       {withBadge && <Badge content={badgeText} color={badgeColor} />}
+
+      {/* Heart Icon Conditional Rendering */}
       {withHeart && (
-        <div
-          onClick={(e) => handleFavorite(e)}
-          className="absolute top-3 right-3 bg-red-100/50 p-2 rounded-full"
+        <button
+          onClick={handleFavorite}
+          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          className="absolute top-3 right-3 p-2 rounded-full bg-white bg-opacity-70 backdrop-blur-sm shadow-sm transition-all duration-300 hover:bg-opacity-100"
         >
           <HeartIcon
             fill={isFavorite ? "#E60000" : "none"}
             stroke={isFavorite ? "" : "#fb2c36"}
+            className="w-5 h-5 transition-all duration-300"
           />
-        </div>
+        </button>
       )}
     </div>
   );
