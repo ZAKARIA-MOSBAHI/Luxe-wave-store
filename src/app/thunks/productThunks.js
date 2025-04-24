@@ -53,15 +53,24 @@ export const addProduct = createAsyncThunk(
       return response.data; // Becomes `action.payload` in `fulfilled`
     } catch (error) {
       console.log(error);
+      if (!error.response.data) {
+        return rejectWithValue({
+          message:
+            error.message || "An error occurred while adding the product.",
+        });
+      }
       const { name, message } = error.response.data;
+
       if (name === "accessTokenExpired") {
         console.log("first");
         try {
           await refreshAccessToken();
+          const newAccessToken = localStorage.getItem("accessToken");
+          const newRefreshToken = localStorage.getItem("refreshToken");
           const retryResponse = await api.post("/products/", payload, {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "x-refresh-token": refreshToken,
+              Authorization: `Bearer ${newAccessToken}`,
+              "x-refresh-token": newRefreshToken,
             },
           });
           console.log(retryResponse.data);
@@ -74,7 +83,7 @@ export const addProduct = createAsyncThunk(
         }
       } else {
         return rejectWithValue({
-          message: message || "An error occurred while adding the product.",
+          success: false,
         });
       }
     }
