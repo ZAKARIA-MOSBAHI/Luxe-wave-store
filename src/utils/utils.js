@@ -1,11 +1,13 @@
 import api from "../api/axios";
 export const refreshAccessToken = async () => {
   try {
+    const userRefreshToken = localStorage.getItem("refreshToken");
     const response = await api.get("/refresh-token", {
       headers: {
-        "x-refresh-token": localStorage.getItem("refreshToken"),
+        "x-refresh-token": userRefreshToken,
       },
     });
+    console.log("response  of remaking the token: ", response);
 
     const { accessToken, refreshToken } = response.data;
     localStorage.setItem("accessToken", accessToken);

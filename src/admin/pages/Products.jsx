@@ -146,16 +146,7 @@ const Products = () => {
                   Fill in the details to add a new product to your inventory.
                 </DialogDescription>
               </DialogHeader>
-              <ProductForm
-                onSubmit={() => {
-                  toast.success("Product Created Successfully !", {
-                    action: {
-                      label: "Close",
-                      onClick: () => console.log("Undo"),
-                    },
-                  });
-                }}
-              />
+              <ProductForm setDialogOpen={setDialogOpen} />
             </DialogContent>
           </Dialog>
         </div>

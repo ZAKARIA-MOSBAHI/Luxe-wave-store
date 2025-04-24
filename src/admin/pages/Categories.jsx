@@ -54,7 +54,7 @@ const categories = [
     productCount: 24,
   },
   {
-    id: "cat-2",
+    id: "67e98f8444ca874bee1c81ee",
     name: "Clothing",
     slug: "clothing",
     productCount: 36,

@@ -23,11 +23,13 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { DialogClose } from "../ui/Dialog";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct } from "../../../app/thunks/productThunks";
 
 // Sample data - in a real application, this would come from an API
 const categories = [
   { id: "cat-1", name: "Electronics" },
-  { id: "cat-2", name: "Clothing" },
+  { id: "67e98f8444ca874bee1c81ee", name: "Clothing" },
   { id: "cat-3", name: "Home & Kitchen" },
   { id: "cat-4", name: "Books" },
   { id: "cat-5", name: "Toys & Games" },
@@ -42,7 +44,7 @@ const productSchema = z.object({
     .number()
     .positive({ message: "Price must be a positive number." }),
   categoryId: z.string({ required_error: "Please select a category." }),
-  stockQuantity: z.coerce
+  stock: z.coerce
     .number()
     .int()
     .nonnegative({ message: "Stock quantity must be a non-negative integer." }),
@@ -52,12 +54,14 @@ const productSchema = z.object({
     .max(4, { message: "Maximum 4 additional images allowed" }),
 });
 
-export function ProductForm({ initialData, onSubmit }) {
+export function ProductForm({ initialData, setDialogOpen }) {
+  const { status, data, error } = useSelector((state) => state.products);
+
   const [mainImage, setMainImage] = useState(null);
   const [additionalImages, setAdditionalImages] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [additionalImagesPreviews, setAdditionalImagesPreviews] = useState([]);
-
+  const dispatch = useDispatch();
   const form = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: initialData || {
@@ -79,17 +83,60 @@ export function ProductForm({ initialData, onSubmit }) {
     setImagePreview(URL.createObjectURL(file));
     setMainImage(file);
   };
+  const handleAdditionalImagesChange = (e, field) => {
+    const files = Array.from(e.target.files || []); // Convert FileList to array
+    field.onChange(files); // Update form state
 
-  const handleSubmit = (values) => {
-    console.log("old values ", values);
-    const upadtedValues = {
-      ...values,
-      mainImage: mainImage,
-      additionnalImages: additionalImages,
-    };
-    console.log("updated values ", upadtedValues);
-    // For demo purposes, show a success toast
-    toast.success("Product saved successfully!");
+    // Create previews
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setAdditionalImagesPreviews(previews);
+
+    // Update the additionalImages state with array of files
+    setAdditionalImages(files); // Directly set as an array of File objects
+  };
+
+  const handleSubmit = async (values) => {
+    const formData = new FormData();
+
+    // Append text-based values
+    for (const key in values) {
+      if (Object.prototype.hasOwnProperty.call(values, key)) {
+        formData.append(key, values[key]);
+      }
+    }
+
+    // Append the main image file
+    if (mainImage) {
+      formData.append("mainImage", mainImage);
+    }
+
+    // Append additional images under one property "additionalImages"
+    if (additionalImages.length > 0) {
+      additionalImages.forEach((image) => {
+        formData.append("additionalImages", image);
+      });
+    }
+
+    // Log the FormData content
+    for (let pair of formData.entries()) {
+      console.log(pair);
+      console.log(pair[0] + ": " + pair[1]);
+    }
+
+    // Dispatch the request
+    try {
+      await dispatch(addProduct(formData));
+      if (status === "success") {
+        toast.success("Product saved successfully!");
+        setDialogOpen(false);
+      }
+      if (status === "error") {
+        toast.error("Failed to save product. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error saving product:", error);
+      toast.error("Failed to save product. Please try again.");
+    }
   };
 
   useEffect(() => {
@@ -100,12 +147,9 @@ export function ProductForm({ initialData, onSubmit }) {
       );
     };
   }, [imagePreview, additionalImagesPreviews]);
-  /* main image not instanceof file, but an object with a file property, so we need to handle it differently 
-  add x button to remove the image from the preview and the form state
-  
-*/
+
   return (
-    <Form {...form}>
+    <Form {...form} enctype="multipart/form-data">
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2">
           <FormField
@@ -197,7 +241,7 @@ export function ProductForm({ initialData, onSubmit }) {
 
           <FormField
             control={form.control}
-            name="stockQuantity"
+            name="stock"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Stock Quantity</FormLabel>
@@ -254,15 +298,7 @@ export function ProductForm({ initialData, onSubmit }) {
               <FormControl>
                 <div className="space-y-4">
                   <Input
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files || []);
-                      field.onChange(files); // Update form state
-                      const previews = files.map((file) =>
-                        URL.createObjectURL(file)
-                      );
-                      setAdditionalImagesPreviews(previews);
-                      setAdditionalImages(files);
-                    }}
+                    onChange={(e) => handleAdditionalImagesChange(e, field)}
                     type="file"
                     multiple
                     accept="image/*"
@@ -300,7 +336,9 @@ export function ProductForm({ initialData, onSubmit }) {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit">Save Product</Button>
+          <Button type="submit">
+            {status === "loading" ? "Saving Product..." : "Save Product"}
+          </Button>
         </div>
       </form>
     </Form>
