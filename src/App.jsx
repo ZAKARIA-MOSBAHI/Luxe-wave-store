@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import SearchBar from "./components/SearchBar";
 import FilterMenu from "./pages/Collections/components/FilterMenu";
-import { lazy, Suspense, useContext } from "react";
+import { lazy, Suspense, useContext, useEffect } from "react";
 import { ShopContext } from "./context/ProductContext";
 import Loading from "./components/ui/Loading";
 import ScrollToTop from "./components/ScrollTop";
@@ -12,6 +12,8 @@ import AuthProvider from "./context/AuthProvider";
 import Layout from "./components/Layout/Layout";
 import { Toaster } from "sonner";
 import NotFound from "./pages/NotFound";
+import { useDispatch } from "react-redux";
+import { setUser } from "./app/slices/userSlice";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const About = lazy(() => import("./pages/About/About"));
@@ -39,6 +41,14 @@ function App() {
     setSelectedFilterOptions,
     filterOptions,
   } = useContext(ShopContext);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      dispatch(setUser(JSON.parse(user)));
+    }
+  }, []);
+
   return (
     <div className={`relative overflow-hidden`}>
       <Toaster />

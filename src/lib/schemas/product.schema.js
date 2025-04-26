@@ -17,7 +17,10 @@ export const productSchema = z.object({
     .int({ message: "Stock quantity must be an integer." })
     .positive({ message: "Stock quantity  must be a positive number." })
     .min(0, { message: "Stock cannot be negative." }),
-
+  sizes: z
+    .array(z.string().min(1))
+    .min(1)
+    .nonempty("Please select at least one size."),
   mainImage: z.any({
     required_error: "Main image is required.",
   }),

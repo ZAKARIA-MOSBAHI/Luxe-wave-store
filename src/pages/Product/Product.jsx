@@ -5,7 +5,7 @@ import SimilarProducts from "./components/SimilarProducts";
 import ProductImage from "./components/ProductImage";
 import ProductInfo from "./components/ProductInfo";
 import { toast } from "sonner";
-import { X } from "lucide-react";
+import { getProductById } from "../../app/api/products";
 
 export default function Product() {
   const [product, setProduct] = useState({});
@@ -46,6 +46,9 @@ export default function Product() {
       setErr("Please select a size");
     }
   };
+  useEffect(() => {
+    getProductById("680a5a3520590e0a7ddfd142");
+  }, []);
   useEffect(() => {
     setSizeChoosen(null);
     fetchProductData();

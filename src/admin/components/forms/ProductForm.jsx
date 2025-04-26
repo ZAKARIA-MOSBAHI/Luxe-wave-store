@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../../app/thunks/productThunks";
 import { productSchema } from "../../../lib/schemas/product.schema";
 import { resetRequestResults } from "../../../app/slices/productSlice";
+import { MultiSelect } from "../ui/MultiSelect";
 
 // Sample data - in a real application, this would come from an API
 const categories = [
@@ -34,6 +35,32 @@ const categories = [
   { id: "cat-3", name: "Home & Kitchen" },
   { id: "cat-4", name: "Books" },
   { id: "cat-5", name: "Toys & Games" },
+];
+const sizes = [
+  {
+    value: "XS",
+    label: "XS",
+  },
+  {
+    value: "S",
+    label: "S",
+  },
+  {
+    value: "L",
+    label: "L",
+  },
+  {
+    value: "M",
+    label: "M",
+  },
+  {
+    value: "XL",
+    label: "XL",
+  },
+  {
+    value: "XXL",
+    label: "XXL",
+  },
 ];
 
 export function ProductForm({ initialData, setDialogOpen }) {
@@ -52,6 +79,7 @@ export function ProductForm({ initialData, setDialogOpen }) {
       price: 0,
       categoryId: "",
       stock: 0,
+      sizes: [],
       mainImage: undefined,
       additionalImages: [],
     },
@@ -73,8 +101,18 @@ export function ProductForm({ initialData, setDialogOpen }) {
     await dispatch(resetRequestResults());
     const formData = new FormData();
 
+    // destructuring the sizes value to an array because it comes like this "XS,S,L"
+    if (Array.isArray(values.sizes)) {
+      values.sizes.forEach((size) => {
+        formData.append("sizes", size);
+      });
+    } else {
+      formData.append("sizes", values.sizes);
+    }
+
     // Append text-based values
     for (const key in values) {
+      if (key === "sizes") continue;
       if (Object.prototype.hasOwnProperty.call(values, key)) {
         formData.append(key, values[key]);
       }
@@ -127,21 +165,20 @@ export function ProductForm({ initialData, setDialogOpen }) {
   return (
     <Form {...form} enctype="multipart/form-data">
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter product name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="grid gap-6 md:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Product Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter product name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={form.control}
             name="categoryId"
@@ -165,6 +202,27 @@ export function ProductForm({ initialData, setDialogOpen }) {
                     ))}
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="sizes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sizes</FormLabel>
+                <FormControl>
+                  <MultiSelect
+                    options={sizes}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    placeholder="Select size"
+                    variant="inverted"
+                    maxCount={3}
+                  />
+                </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}

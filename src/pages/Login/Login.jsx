@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import api from "../../api/axios";
 
 import ShowPasswordIcon from "../../assets/client/icons/ShowPasswordIcon";
 import HidePasswordIcon from "../../assets/client/icons/HidePasswordIcon";
@@ -10,6 +9,7 @@ import { resetRequestResults } from "../../app/slices/userSlice";
 
 export default function Login({ setPageType }) {
   const { status, data, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
   const LoginEmailRef = useRef();
@@ -18,7 +18,7 @@ export default function Login({ setPageType }) {
     setPageType("signup");
     dispatch(resetRequestResults());
   };
-  const dispatch = useDispatch();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(resetRequestResults());
@@ -26,9 +26,8 @@ export default function Login({ setPageType }) {
       email: LoginEmailRef.current.value,
       password: LoginPwordRef.current.value,
     };
-    dispatch(loginUser(formData)).then((res) => {
-      console.log(res);
-    });
+
+    dispatch(loginUser(formData));
   };
 
   return (
