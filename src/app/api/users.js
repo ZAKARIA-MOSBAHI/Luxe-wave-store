@@ -26,3 +26,24 @@ export const login = async (payload) => {
     }
   }
 };
+export const getLoggingUser = async () => {
+  try {
+    console.log("fetching the logging user");
+    const response = await api.get("/users/me", {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("user")).accessToken
+        }`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response.data) {
+      return error.response.data;
+    } else {
+      return {
+        message: "Failed to get user",
+      };
+    }
+  }
+};

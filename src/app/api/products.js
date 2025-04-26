@@ -1,5 +1,15 @@
 import api from "../../api/axios";
-export const getProducts = async () => {};
+export const getProducts = async () => {
+  try {
+    const response = await api.get("/products/");
+    console.log("fetching...");
+    console.log("Products data fetched successfully ");
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const getProductById = async (productId) => {
   try {
     const response = await api.get(`/products/${productId}`);

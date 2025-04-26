@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addProduct, getProducts } from "../thunks/productThunks";
+import { addProduct, getProductsToStore } from "../thunks/productThunks";
 
 const productSlice = createSlice({
   name: "product",
@@ -20,15 +20,15 @@ const productSlice = createSlice({
   extraReducers: (builder) => {
     // Get products
     builder
-      .addCase(getProducts.pending, (state) => {
+      .addCase(getProductsToStore.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getProducts.fulfilled, (state, action) => {
+      .addCase(getProductsToStore.fulfilled, (state, action) => {
         state.status = "success";
         state.error = null;
-        state.data = action.payload.products; // Populate with the list of fetched products
+        state.data = action.payload; // Populate with the list of fetched products
       })
-      .addCase(getProducts.rejected, (state, action) => {
+      .addCase(getProductsToStore.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload; // Handle the error
       })

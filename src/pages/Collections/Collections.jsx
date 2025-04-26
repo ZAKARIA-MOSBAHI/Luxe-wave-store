@@ -6,7 +6,7 @@ import Pagination from "./components/Pagination";
 import { useParams } from "react-router-dom";
 import ProcuctsList from "./components/ProcuctsList";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../app/thunks/productThunks";
+import { getProductsToStore } from "../../app/thunks/productThunks";
 import { resetRequestResults } from "../../app/slices/productSlice";
 
 const Collections = () => {
@@ -60,7 +60,7 @@ const Collections = () => {
     setFilteredProducts(productPage);
   }, [pageNumber]);
   useEffect(() => {
-    dispatch(getProducts()).then((res) => console.log(res.payload.products));
+    dispatch(getProductsToStore());
     return () => {
       dispatch(resetRequestResults());
     };
@@ -95,22 +95,22 @@ const Collections = () => {
             <div className="overflow-hidden max-h-[300px] ">
               <img
                 loading="lazy"
-                src={data[0].mainImage.url}
+                src={data[4].mainImage.url}
                 alt=""
                 className="hover:scale-110 transition ease-in-out h-full  w-full object-cover"
               />
             </div>
             <div className="p-2 flex flex-col gap-2">
               <p className="text-desktop-sm text-gray-400">
-                {data[0].categoryId.name}
+                {data[4].categoryId.name}
               </p>
               <p
                 className=" text-desktop-p font-medium truncate"
-                title={data[0].name}
+                title={data[4].name}
               >
-                {data[0].name}
+                {data[4].name}
               </p>
-              <p className="font-medium text-desktop-p">{data[0].price}</p>
+              <p className="font-medium text-desktop-p">{data[4].price}</p>
             </div>
           </div>
         )}

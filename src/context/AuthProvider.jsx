@@ -1,24 +1,32 @@
-import { createContext, useContext, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { getLoggingUser } from "../app/api/users";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const { data, loading, error } = useSelector((state) => state.user);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // ADD THIS
 
-  // Valeur dérivée pour vérifier l'authentification
-  const isAdmin = Boolean(data?.role === "admin");
-
-  // Protection contre les re-renders inutiles
   const contextValue = useMemo(
     () => ({
-      data,
       isAdmin,
-      loading,
-      error,
+      isLoading, // ADD THIS
     }),
-    [data, isAdmin, loading, error]
+    [isAdmin, isLoading]
   );
+
+  useEffect(() => {
+    getLoggingUser()
+      .then((data) => {
+        const { role } = data.user;
+        if (role === "admin") {
+          setIsAdmin(true);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false); // SET loading to false when finished
+      });
+  }, []);
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

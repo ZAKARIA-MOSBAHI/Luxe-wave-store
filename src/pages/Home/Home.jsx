@@ -4,10 +4,13 @@ import Policy from "./components/Policy";
 import { products } from "../../assets/client/assets";
 import ProductsCollection from "./components/ProductsCollection";
 import NewsLetter from "../../components/NewsLetter";
+import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
 
 function Home() {
   const [BestSellers, setBestSellers] = useState([]);
   const [LatestCollections, setLatestCollections] = useState([]);
+  const location = useLocation();
   useEffect(() => {
     setLatestCollections(products.slice(10, 14));
     const filteredArr = products.filter(
@@ -15,6 +18,15 @@ function Home() {
     );
     setBestSellers(filteredArr.slice(0, 4));
   }, []);
+  useEffect(() => {
+    // check if the user is coming from the login page and if he just logged in
+    if (location.state?.firstLogin) {
+      toast.success("User Logged in Successfully.");
+      // Clear the state after showing the toast
+      // This prevents the toast from showing again on page refresh
+      window.history.replaceState({}, "");
+    }
+  }, [location.state]);
   return (
     <div className="">
       <Hero />

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import ShowPasswordIcon from "../../assets/client/icons/ShowPasswordIcon";
 import HidePasswordIcon from "../../assets/client/icons/HidePasswordIcon";
@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loader2 } from "lucide-react";
 import { loginUser } from "../../app/thunks/userThunks";
 import { resetRequestResults } from "../../app/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ setPageType }) {
-  const { status, data, error } = useSelector((state) => state.user);
+  const { status, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const LoginEmailRef = useRef();
@@ -27,7 +29,13 @@ export default function Login({ setPageType }) {
       password: LoginPwordRef.current.value,
     };
 
-    dispatch(loginUser(formData));
+    dispatch(loginUser(formData)).then(() => {
+      // redirect to the homepage if the user is logged in successfully
+      navigate("/", {
+        replace: true,
+        state: { firstLogin: true },
+      });
+    });
   };
 
   return (
@@ -72,12 +80,12 @@ export default function Login({ setPageType }) {
           </div>
           <p className="text-sm sm:text-base my-1 text-right">
             don't have an account ?{" "}
-            <span
+            <button
               onClick={tooglePage}
               className=" underline cursor-pointer transition-all duration-300 hover:text-gray-400"
             >
               Sign up
-            </span>
+            </button>
           </p>
 
           {error?.field === "LoginFailedError" && (
@@ -85,11 +93,6 @@ export default function Login({ setPageType }) {
               {error?.message}
             </p>
           )}
-          {status === "success" ? (
-            <p className="text-sm sm:text-base w-full text-green-500">
-              User Logged in successfully
-            </p>
-          ) : null}
         </div>
         <button
           disabled={status === "loading"}

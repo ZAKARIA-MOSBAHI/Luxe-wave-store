@@ -45,7 +45,9 @@ function App() {
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
-      dispatch(setUser(JSON.parse(user)));
+      const parsedUser = JSON.parse(user);
+
+      dispatch(setUser(parsedUser));
     }
   }, []);
 
