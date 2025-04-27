@@ -1,6 +1,6 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { json, Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/client/assets";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { ShopContext } from "../../context/ProductContext";
 import SearchIcon from "../../assets/client/icons/SearchIcon";
 import ProfileIcon from "../../assets/client/icons/ProfileIcon";
@@ -9,7 +9,26 @@ import CartIcon from "../../assets/client/icons/CartIcon";
 import Headroom from "react-headroom";
 import MobileNavbar from "../MobileNavbar";
 import { useSelector } from "react-redux";
+import {
+  LayoutDashboard,
+  LogOut,
+  Search,
+  Settings,
+  ShoppingCart,
+  UserRound,
+} from "lucide-react";
+import { Button } from "../../admin/components/ui/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../admin/components/ui/DropdownMenu";
+import { useAuth } from "../../context/AuthProvider";
 function Navbar() {
+  const { isAdmin, isLoading } = useAuth();
   const { logo } = assets;
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -22,6 +41,7 @@ function Navbar() {
       navigate("/register");
     }
   };
+
   return (
     <Headroom>
       {/* THE HEADER START HERE  */}
@@ -39,19 +59,60 @@ function Navbar() {
             <NavLink to="/contact">CONTACT</NavLink>
           </ul>
           <div className="flex items-center gap-6">
-            <SearchIcon
-              className={"cursor-pointer"}
+            <Search
+              size={28}
               onClick={() => setShowSearch(true)}
+              className="cursor-pointer"
             />
+
             <div className="group relative hidden md:block">
-              <ProfileIcon onClick={redirectTo} className={"cursor-pointer"} />
+              {localStorage.getItem("user") ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <UserRound size={28} className="cursor-pointer" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate("/profile")}>
+                      <UserRound className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </DropdownMenuItem>
+                    {isLoading ? null : isAdmin ? (
+                      <DropdownMenuItem
+                        onClick={() => navigate("/admin/dashboard")}
+                      >
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+
+                        <span>Dashboard</span>
+                      </DropdownMenuItem>
+                    ) : null}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="text-red-500">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <UserRound
+                  size={28}
+                  onClick={() => navigate("/register")}
+                  className="cursor-pointer"
+                />
+              )}
             </div>
             <Link to="/cart" className="relative  cursor-pointer">
-              <CartIcon />
+              <ShoppingCart size={28} />
+
               <p
                 className={`${
                   cart.items.length === 0 ? "hidden" : ""
-                } absolute right-[-5px] bottom-[-5px] rounded-full w-4 text-center leading-4 bg-red-500  text-white aspect-square  text-[8px]`}
+                } absolute right-[-5px] top-[-5px] rounded-full w-4 text-center leading-4 bg-red-500  text-white aspect-square  text-[8px]`}
               >
                 {cart.items.length}
               </p>

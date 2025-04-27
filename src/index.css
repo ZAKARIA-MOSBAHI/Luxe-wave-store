@@ -63,11 +63,7 @@
 
   font-family: "Outfit", sans-serif;
 }
-.prata-regular {
-  font-family: "Prata", serif;
-  font-weight: 400;
-  font-style: normal;
-}
+
 a.active {
   padding: 4px 8px;
   border-radius: 8px;

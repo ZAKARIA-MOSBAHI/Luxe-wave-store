@@ -1,22 +1,24 @@
-import { useEffect } from "react";
 import { useAuth } from "../context/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import ErrorPage from "../pages/ErrorPage";
 
 export default function ProtectedRoute({ children }) {
   const { isAdmin, isLoading } = useAuth();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (!isAdmin) {
-        navigate("/register", { replace: true });
-      }
-    }
-  }, [navigate, isAdmin, isLoading]);
-
-  if (!isAdmin) return null;
+  if (isLoading) {
+    return null; // to avoid rendering the component before loading is finished
+  }
   /*  we used isAdmin and not isloading because even if 
    the user is not an admin when loading ends the page shows up 
   a little before directing to the register page */
+  if (!isLoading) {
+    if (!isAdmin)
+      return (
+        <ErrorPage
+          statusCode={403}
+          message="You are not authorized to access this page."
+          redirectLink="/"
+        />
+      );
+  }
   return children;
 }

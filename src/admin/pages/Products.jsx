@@ -43,76 +43,81 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsToStore } from "../../app/thunks/productThunks";
 
-// Sample data - in a real application, this would come from an API
-const products = [
-  {
-    id: "prod-1",
-    name: "Wireless Headphones",
-    category: "Electronics",
-    price: "$129.99",
-    stock: 45,
-    status: "In Stock",
-  },
-  {
-    id: "prod-2",
-    name: "Cotton T-Shirt",
-    category: "Clothing",
-    price: "$24.99",
-    stock: 150,
-    status: "In Stock",
-  },
-  {
-    id: "prod-3",
-    name: "Blender",
-    category: "Home & Kitchen",
-    price: "$79.99",
-    stock: 23,
-    status: "In Stock",
-  },
-  {
-    id: "prod-4",
-    name: "Mystery Novel",
-    category: "Books",
-    price: "$14.99",
-    stock: 67,
-    status: "In Stock",
-  },
-  {
-    id: "prod-5",
-    name: "Board Game",
-    category: "Toys & Games",
-    price: "$49.99",
-    stock: 12,
-    status: "Low Stock",
-  },
-  {
-    id: "prod-6",
-    name: "Smart Watch",
-    category: "Electronics",
-    price: "$199.99",
-    stock: 0,
-    status: "Out of Stock",
-  },
-  {
-    id: "prod-7",
-    name: "Denim Jeans",
-    category: "Clothing",
-    price: "$59.99",
-    stock: 78,
-    status: "In Stock",
-  },
-  {
-    id: "prod-8",
-    name: "Coffee Maker",
-    category: "Home & Kitchen",
-    price: "$89.99",
-    stock: 15,
-    status: "Low Stock",
-  },
-];
+// // Sample data - in a real application, this would come from an API
+// const products = [
+//   {
+//     id: "prod-1",
+//     name: "Wireless Headphones",
+//     category: "Electronics",
+//     price: "$129.99",
+//     stock: 45,
+//     status: "In Stock",
+//   },
+//   {
+//     id: "prod-2",
+//     name: "Cotton T-Shirt",
+//     category: "Clothing",
+//     price: "$24.99",
+//     stock: 150,
+//     status: "In Stock",
+//   },
+//   {
+//     id: "prod-3",
+//     name: "Blender",
+//     category: "Home & Kitchen",
+//     price: "$79.99",
+//     stock: 23,
+//     status: "In Stock",
+//   },
+//   {
+//     id: "prod-4",
+//     name: "Mystery Novel",
+//     category: "Books",
+//     price: "$14.99",
+//     stock: 67,
+//     status: "In Stock",
+//   },
+//   {
+//     id: "prod-5",
+//     name: "Board Game",
+//     category: "Toys & Games",
+//     price: "$49.99",
+//     stock: 12,
+//     status: "Low Stock",
+//   },
+//   {
+//     id: "prod-6",
+//     name: "Smart Watch",
+//     category: "Electronics",
+//     price: "$199.99",
+//     stock: 0,
+//     status: "Out of Stock",
+//   },
+//   {
+//     id: "prod-7",
+//     name: "Denim Jeans",
+//     category: "Clothing",
+//     price: "$59.99",
+//     stock: 78,
+//     status: "In Stock",
+//   },
+//   {
+//     id: "prod-8",
+//     name: "Coffee Maker",
+//     category: "Home & Kitchen",
+//     price: "$89.99",
+//     stock: 15,
+//     status: "Low Stock",
+//   },
+// ];
 
 const Products = () => {
+  const [products, setProducts] = useState([]);
+  const { data } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -126,7 +131,16 @@ const Products = () => {
     toast.success("Product deleted successfully");
     console.log("Delete product:", id);
   };
-
+  useEffect(() => {
+    if (data) {
+      // the data will always be empty because we didn't persist the data in the redux store
+      console.log("data is fetched");
+      setProducts(data);
+    } else {
+      console.log("data is not fetched");
+      dispatch(getProductsToStore());
+    }
+  }, [data]);
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-4 md:gap-6">
@@ -191,12 +205,12 @@ const Products = () => {
                 <TableBody>
                   {filteredProducts.length > 0 ? (
                     filteredProducts.map((product) => (
-                      <TableRow key={product.id}>
+                      <TableRow key={product._id}>
                         <TableCell className="font-medium">
                           {product.name}
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
-                          {product.category}
+                          {product.categoryId.name}
                         </TableCell>
                         <TableCell>{product.price}</TableCell>
                         <TableCell className="hidden md:table-cell">
@@ -205,14 +219,18 @@ const Products = () => {
                         <TableCell>
                           <Badge
                             className={
-                              product.status === "In Stock"
+                              product.stock > 0
                                 ? "bg-green-100 text-green-800 hover:bg-green-100/80"
-                                : product.status === "Low Stock"
+                                : product.stock <= 10 && product.stock > 0
                                 ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100/80"
                                 : "bg-red-100 text-red-800 hover:bg-red-100/80"
                             }
                           >
-                            {product.status}
+                            {product.stock > 0
+                              ? "In Stock"
+                              : product.stock <= 10 && product.stock > 0
+                              ? "Low Stock"
+                              : "Out of Stock"}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -232,7 +250,7 @@ const Products = () => {
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 className="text-red-600 focus:text-red-600"
-                                onClick={() => handleDelete(product.id)}
+                                onClick={() => handleDelete(product._id)}
                               >
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 Delete

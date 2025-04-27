@@ -23,6 +23,9 @@ const AuthProvider = ({ children }) => {
           setIsAdmin(true);
         }
       })
+      .catch((err) => {
+        console.log("error", err);
+      })
       .finally(() => {
         setIsLoading(false); // SET loading to false when finished
       });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/layout/DashboardLayout";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
@@ -50,6 +50,7 @@ import {
   DialogTrigger,
 } from "../components/ui/Dialog";
 import { UserForm } from "../components/forms/UserForm";
+import { getUsers } from "../../app/api/users";
 
 // Sample data - in a real application, this would come from an API
 const users = [
@@ -134,7 +135,9 @@ const Users = () => {
     toast.success("User has been suspended");
     console.log("Suspend user:", id);
   };
-
+  useEffect(() => {
+    getUsers();
+  }, []);
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-4 md:gap-6">

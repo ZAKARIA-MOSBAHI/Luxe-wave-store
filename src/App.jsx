@@ -11,9 +11,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./context/AuthProvider";
 import Layout from "./components/Layout/Layout";
 import { Toaster } from "sonner";
-import NotFound from "./pages/NotFound";
 import { useDispatch } from "react-redux";
 import { setUser } from "./app/slices/userSlice";
+import ErrorPage from "./pages/ErrorPage";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const About = lazy(() => import("./pages/About/About"));
@@ -142,7 +142,16 @@ function App() {
               />
 
               {/* 404 Catch-all (outside Layout) */}
-              <Route path="*" element={<NotFound />} />
+              <Route
+                path="*"
+                element={
+                  <ErrorPage
+                    statusCode={404}
+                    message="Page Not Found"
+                    redirectLink="/"
+                  />
+                }
+              />
             </Routes>
           </Suspense>
         </AuthProvider>

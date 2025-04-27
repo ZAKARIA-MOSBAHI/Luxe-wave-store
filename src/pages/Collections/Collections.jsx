@@ -65,9 +65,6 @@ const Collections = () => {
       dispatch(resetRequestResults());
     };
   }, []);
-  useEffect(() => {
-    console.log(status);
-  }, [status]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10  relative max-w-[1152px] w-full mx-auto xl:px-0 px-4">
