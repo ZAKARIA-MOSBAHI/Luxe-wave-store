@@ -1,3 +1,4 @@
+import { refreshAccessToken } from "../../admin/utils/utils";
 import api from "../../api/axios";
 
 export const login = async (payload) => {
@@ -7,7 +8,7 @@ export const login = async (payload) => {
     if (accessToken) {
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     }
-    const { email, name } = response.data.user;
+    const { email, name, role } = response.data.user;
     const user = {
       email,
       name,
@@ -15,7 +16,8 @@ export const login = async (payload) => {
       refreshToken,
     };
     localStorage.setItem("user", JSON.stringify(user));
-    return user;
+    // sending the role to the redux store
+    return { ...user, role };
   } catch (error) {
     if (error.response.data) {
       return error.response.data;
@@ -35,23 +37,34 @@ export const getLoggingUser = async () => {
         message: "No access token found",
       });
     }
-    console.log("fetching the logging user");
     const response = await api.get("/users/me", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log("response", response);
+
     return response.data;
   } catch (error) {
-    console.log(error?.message?.name);
-
-    if (error.response?.data) {
-      return error.response?.data;
+    if (error.response?.data.name === "accessTokenExpired") {
+      console.log("access token expired refreshing token ...");
+      try {
+        await refreshAccessToken();
+        const newAccessToken = localStorage.getItem("accessToken");
+        const newRefreshToken = localStorage.getItem("refreshToken");
+        const retryResponse = await api.get("/users/me", {
+          headers: {
+            Authorization: `Bearer ${newAccessToken}`,
+            "x-refresh-token": newRefreshToken,
+          },
+        });
+        console.log(retryResponse.data);
+        return retryResponse.data;
+      } catch (error) {
+        console.log("error while refreshing token");
+        return error.response.data;
+      }
     } else {
-      return {
-        message: "Failed to get user",
-      };
+      return error.response?.data;
     }
   }
 };

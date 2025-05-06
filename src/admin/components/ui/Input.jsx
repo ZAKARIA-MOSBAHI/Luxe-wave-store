@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "../../utils/utils";
+import { cn } from "../../utils/clsx";
 import { cva } from "class-variance-authority";
 import { Slot } from "@radix-ui/react-slot";
 

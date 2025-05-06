@@ -6,6 +6,7 @@ import ProductsCollection from "./components/ProductsCollection";
 import NewsLetter from "../../components/NewsLetter";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
+import CategoryCard from "./components/CategoryCard";
 
 function Home() {
   const [BestSellers, setBestSellers] = useState([]);
@@ -30,6 +31,7 @@ function Home() {
   return (
     <div className="">
       <Hero />
+      <CategoryCard />
       <ProductsCollection
         CollectionName={"Best Sellers"}
         products={BestSellers}

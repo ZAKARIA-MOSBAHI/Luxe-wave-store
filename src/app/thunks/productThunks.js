@@ -1,7 +1,7 @@
 // userThunks.js (or inside your slice file)
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/axios";
-import { refreshAccessToken } from "../../utils/utils";
+import { refreshAccessToken } from "../../admin/utils/utils";
 import { getProducts } from "../api/products";
 // Async method for login
 export const getProductsToStore = createAsyncThunk(
@@ -40,7 +40,6 @@ export const addProduct = createAsyncThunk(
       const { name, message } = error.response.data;
 
       if (name === "accessTokenExpired") {
-        console.log("first");
         try {
           await refreshAccessToken();
           const newAccessToken = localStorage.getItem("accessToken");

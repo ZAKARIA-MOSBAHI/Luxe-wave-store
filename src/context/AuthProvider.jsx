@@ -1,35 +1,46 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getLoggingUser } from "../app/api/users";
+import { useQuery } from "react-query";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // ADD THIS
+  const { isLoading, data, isError, error } = useQuery(
+    "loggingUserData",
+    getLoggingUser
+  );
+
+  useEffect(() => {
+    if (isLoading) {
+      console.log("loading.....");
+    } else {
+      if (data?.user) {
+        console.log("useeffect the data is : ", data); // this is null
+        const user = data.user;
+        setUser({
+          name: user.name,
+          email: user.email,
+          id: user._id,
+        });
+        setUser(user);
+        if (user.role === "admin") {
+          console.log("user is admin");
+          setIsAdmin(true);
+        }
+      }
+    }
+  }, [isLoading]);
 
   const contextValue = useMemo(
     () => ({
       isAdmin,
-      isLoading, // ADD THIS
+      isLoading,
+      user: data?.user || null,
     }),
-    [isAdmin, isLoading]
+    [isAdmin, isLoading, data]
   );
-
-  useEffect(() => {
-    getLoggingUser()
-      .then((data) => {
-        const { role } = data.user;
-        if (role === "admin") {
-          setIsAdmin(true);
-        }
-      })
-      .catch((err) => {
-        console.log("error", err);
-      })
-      .finally(() => {
-        setIsLoading(false); // SET loading to false when finished
-      });
-  }, []);
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

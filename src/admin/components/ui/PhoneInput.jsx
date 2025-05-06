@@ -15,7 +15,7 @@ import {
 import { Input } from "./Input";
 import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
 import { ScrollArea } from "./ScrollArea";
-import { cn } from "../../utils/utils";
+import { cn } from "../../utils/clsx";
 
 const PhoneInput = React.forwardRef(
   ({ className, onChange, ...props }, ref) => {

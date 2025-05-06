@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
-import { cn } from "../../utils/utils";
+import { cn } from "../../utils/clsx";
 import { Button } from "./Button";
 import { Calendar } from "./Calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./Popover";

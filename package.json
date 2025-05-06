@@ -56,6 +56,7 @@
     "react-headroom": "^3.2.1",
     "react-hook-form": "^7.55.0",
     "react-phone-number-input": "^3.4.12",
+    "react-query": "^3.39.3",
     "react-redux": "^9.2.0",
     "react-resizable-panels": "^2.1.7",
     "react-router-dom": "^6.30.0",

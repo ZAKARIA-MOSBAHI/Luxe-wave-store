@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/Card";
-import { cn } from "../../utils/utils";
+import { cn } from "../../utils/clsx";
 import { cva } from "class-variance-authority";
 
 const iconVariants = cva("h-8 w-8 rounded-md p-1.5", {

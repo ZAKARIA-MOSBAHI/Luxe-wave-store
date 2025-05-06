@@ -1,25 +1,33 @@
-import { assets } from "../../../assets/client/assets";
+import idk from "../../../assets/client/images/idk.jpg";
+import tshirts from "../../../assets/client/images/tshirts.jpg";
 
 function Hero() {
-  const { hero_img } = assets;
   return (
-    <div className="relative flex flex-col sm:flex-row border border-gray-400 text-center ">
-      {/* hero left side */}
-      <div className="text-white sm:text-black absolute top-[50%] translate-y-[-50%]  left-3 md:static  md:translate-y-0 flex flex-col items-center justify-center py-10 sm:py-5 w-auto sm:w-1/2 ">
-        <div className="flex items-center gap-2">
-          <p className="w-8 md:w-11 h-[2px] bg-white sm:bg-black "></p>
-          <p className="font-medium text-sm md:text-base">OUR BESTSELLERS</p>
-        </div>
-        <h1 className="text-3xl sm:py-3 lg:text-5xl leading-relaxed font-bold tracking-tighter">
-          LATEST ARRIVALS
-        </h1>
-        <div className=" flex items-center gap-2">
-          <p className="font-medium text-sm md:text-base">SHOP NOW</p>
-          <p className="w-8 md:w-11 h-[2px]  bg-white sm:bg-black  "></p>
+    <div className="relative flex flex-col sm:flex-row border border-gray-400 text-center">
+      {/* Left side with overlay and image */}
+      <div className="relative w-full h-screen lg:w-1/2">
+        {/* Image */}
+        <img src={tshirts} className="w-full h-full object-cover" alt="" />
+
+        {/* Right-to-left gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black  to-transparent opacity-70" />
+
+        {/* Text content */}
+        <div className="text-left absolute top-1/2 -translate-1/2 left-1/2 text-white flex flex-col  w-full max-w-[400px] z-1">
+          <p className="">The Stevens Sports Coat Navy Blue Linen Surf</p>
+          <h1 className="text-[50px] font-medium pb-8">Breezy By Design</h1>
+          <button className="border border-white px-12 cursor-pointer py-4 w-fit hover:text-black transition-all duration-300 hover:bg-white">
+            SHOP NOW
+          </button>
         </div>
       </div>
-      {/* hero right side */}
-      <img src={hero_img} className="w-full md:w-1/2" alt="" />
+
+      {/* Right side image */}
+      <img
+        src={idk}
+        className="w-full h-screen object-cover md:w-1/2 hidden lg:block"
+        alt=""
+      />
     </div>
   );
 }

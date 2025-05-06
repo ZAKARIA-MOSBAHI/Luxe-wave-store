@@ -24,7 +24,7 @@ import {
 } from "../ui/DropdownMenu";
 import { Button } from "../ui/Button";
 import { MoreHorizontal, Eye } from "lucide-react";
-import { cn } from "../../utils/utils";
+import { cn } from "../../utils/clsx";
 // Sample data - in a real application, this would come from an API
 const recentOrders = [
   {

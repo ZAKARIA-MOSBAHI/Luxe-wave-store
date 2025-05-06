@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cva } from "class-variance-authority";
 import { CheckIcon, XCircle, ChevronDown, XIcon } from "lucide-react";
-import { cn } from "../../utils/utils";
+import { cn } from "../../utils/clsx";
 import { Separator } from "./Separator";
 import { Button } from "./Button";
 import { Badge } from "./Badge";

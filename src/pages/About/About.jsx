@@ -38,7 +38,7 @@ const Team = [
 ];
 const About = () => {
   return (
-    <div className="container max-w-5xl py-12 md:py-20">
+    <div className="container mx-auto max-w-5xl py-12 md:py-20">
       <div className="space-y-16">
         {/* Hero Section */}
         <section className="text-center space-y-6">

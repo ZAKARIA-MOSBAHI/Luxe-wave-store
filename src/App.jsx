@@ -8,7 +8,7 @@ import { ShopContext } from "./context/ProductContext";
 import Loading from "./components/ui/Loading";
 import ScrollToTop from "./components/ScrollTop";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AuthProvider from "./context/AuthProvider";
+import AuthProvider, { useAuth } from "./context/AuthProvider";
 import Layout from "./components/Layout/Layout";
 import { Toaster } from "sonner";
 import { useDispatch } from "react-redux";
@@ -42,14 +42,23 @@ function App() {
     filterOptions,
   } = useContext(ShopContext);
   const dispatch = useDispatch();
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      const parsedUser = JSON.parse(user);
-
-      dispatch(setUser(parsedUser));
-    }
-  }, []);
+  const { isLoading, isAdmin } = useAuth();
+  // useEffect(() => {
+  //   console.log(" App.js");
+  //   const user = localStorage.getItem("user");
+  //   if (user) {
+  //     console.log("user found");
+  //     const parsedUser = JSON.parse(user);
+  //     if (!isLoading) {
+  //       console.log("is not loading");
+  //       if (isAdmin) {
+  //         dispatch(setUser({ ...parsedUser, role: "admin" }));
+  //       } else {
+  //         dispatch(setUser(parsedUser));
+  //       }
+  //     }
+  //   }
+  // }, [isLoading, isAdmin]);
 
   return (
     <div className={`relative overflow-hidden`}>
@@ -64,97 +73,96 @@ function App() {
       <SearchBar />
       <div>
         <ScrollToTop />
-        <AuthProvider>
-          <Suspense fallback={<Loading />}>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route
-                  path="/collections/:pageNumber"
-                  element={<Collections />}
+
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route
+                path="/collections/:pageNumber"
+                element={<Collections />}
+              />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/orders" element={<Order />} />
+              <Route path="/place-order" element={<PlaceOrder />} />
+              <Route path="/product/:productId" element={<Product />} />
+            </Route>
+            {/* ADMIN ROUTES  */}
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/products"
+              element={
+                <ProtectedRoute>
+                  <AdminProducts />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/admin/categories"
+              element={
+                <ProtectedRoute>
+                  <AdminCategories />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <ProtectedRoute>
+                  <AdminUsers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <ProtectedRoute>
+                  <AdminOrders />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/carts"
+              element={
+                <ProtectedRoute>
+                  <AdminCarts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/discounts"
+              element={
+                <ProtectedRoute>
+                  <AdminDiscounts />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* 404 Catch-all (outside Layout) */}
+            <Route
+              path="*"
+              element={
+                <ErrorPage
+                  statusCode={404}
+                  message="Page Not Found"
+                  redirectLink="/"
                 />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/orders" element={<Order />} />
-                <Route path="/place-order" element={<PlaceOrder />} />
-                <Route path="/product/:productId" element={<Product />} />
-              </Route>
-              {/* ADMIN ROUTES  */}
-              <Route
-                path="/admin/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/products"
-                element={
-                  <ProtectedRoute>
-                    <AdminProducts />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/admin/categories"
-                element={
-                  <ProtectedRoute>
-                    <AdminCategories />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/users"
-                element={
-                  <ProtectedRoute>
-                    <AdminUsers />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/orders"
-                element={
-                  <ProtectedRoute>
-                    <AdminOrders />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/carts"
-                element={
-                  <ProtectedRoute>
-                    <AdminCarts />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/discounts"
-                element={
-                  <ProtectedRoute>
-                    <AdminDiscounts />
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* 404 Catch-all (outside Layout) */}
-              <Route
-                path="*"
-                element={
-                  <ErrorPage
-                    statusCode={404}
-                    message="Page Not Found"
-                    redirectLink="/"
-                  />
-                }
-              />
-            </Routes>
-          </Suspense>
-        </AuthProvider>
+              }
+            />
+          </Routes>
+        </Suspense>
       </div>
     </div>
   );

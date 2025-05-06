@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { cn } from "../../utils/utils";
+import { cn } from "../../utils/clsx";
 import { Button } from "../ui/Button";
 import { Separator } from "../ui/Separator";
 import { ScrollArea } from "../ui/ScrollArea";
