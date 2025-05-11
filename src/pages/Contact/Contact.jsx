@@ -1,6 +1,6 @@
 import { Button } from "../../admin/components/ui/Button";
 import { Input } from "../../admin/components/ui/Input";
-import { Textarea } from "../../admin/components/ui/Textarea";
+import { Textarea } from "../../components/ui/TextArea";
 import { Separator } from "../../admin/components/ui/Separator";
 import {
   Tabs,

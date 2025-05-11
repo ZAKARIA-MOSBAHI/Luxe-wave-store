@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "../ui/Form";
 import { Input } from "../ui/Input";
-import { Textarea } from "../ui/TextArea";
+import { Textarea } from "../../../components/ui/TextArea";
 import {
   Select,
   SelectContent,

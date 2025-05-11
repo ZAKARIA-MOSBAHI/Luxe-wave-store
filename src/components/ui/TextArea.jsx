@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { cn } from "../../utils/clsx";
+import { cn } from "../../admin/utils/clsx";
 
 const Textarea = forwardRef(({ className, ...props }, ref) => {
   return (
