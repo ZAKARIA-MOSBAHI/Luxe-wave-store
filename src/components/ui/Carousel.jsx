@@ -116,7 +116,6 @@ export default function Carousel() {
             <CategoryCard categoryImage={item.image} categoryName={item.name} />
           </SwiperSlide>
         ))}
-        {}
         {width >= 1000 ? null : (
           <>
             <PrevBtn setLeftPadding={setLeftPadding} />

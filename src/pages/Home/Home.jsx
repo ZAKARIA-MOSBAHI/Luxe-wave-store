@@ -7,6 +7,8 @@ import NewsLetter from "../../components/NewsLetter";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import Carousel from "../../components/ui/Carousel";
+import SectionTitle from "../../components/SectionTitle";
+import Title from "../../components/Title";
 
 function Home() {
   const [BestSellers, setBestSellers] = useState([]);
@@ -31,6 +33,9 @@ function Home() {
   return (
     <div className="">
       <Hero />
+      <SectionTitle className={"mt-10 px-4"}>
+        <Title title={"Shop By Category"} />
+      </SectionTitle>
       <Carousel />
       <ProductsCollection
         CollectionName={"Best Sellers"}

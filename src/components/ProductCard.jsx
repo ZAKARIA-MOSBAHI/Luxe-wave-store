@@ -25,9 +25,9 @@ export default function ProductCard({
   };
 
   return (
-    <div
+    <button
       onClick={handleProductClick}
-      className="group relative w-full max-w-[350px] overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg"
+      className="group relative w-full max-w-[350px] overflow-hidden  transition-all duration-300 "
     >
       {/* Image Container with Overlay Effect */}
       <div className="relative overflow-hidden max-h-[300px] bg-gray-100">
@@ -35,17 +35,17 @@ export default function ProductCard({
           loading="lazy"
           src={product.image[0]}
           alt={product.name}
-          className="h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+          className="h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
         />
       </div>
 
       {/* Product Info Section */}
-      <div className="p-4 flex flex-col gap-2 bg-white">
+      <div className="py-4 px-2 flex flex-col items-start gap-2 bg-white">
         <p className="text-xs uppercase tracking-wider text-gray-400">
           {product.category}'s Wear / {product.subCategory}
         </p>
         <p
-          className="font-medium text-gray-800 truncate text-lg"
+          className="group-hover:underline  group-hover:text-gray-400 transition-all duration-300 font-medium w-full text-gray-800 truncate text-lg"
           title={product.name}
         >
           {product.name}
@@ -73,6 +73,6 @@ export default function ProductCard({
           />
         </button>
       )}
-    </div>
+    </button>
   );
 }
