@@ -10,6 +10,20 @@ import Carousel from "../../components/ui/Carousel";
 import SectionTitle from "../../components/SectionTitle";
 import Title from "../../components/Title";
 
+import CategoryCard from "../../pages/Home/components/CategoryCard";
+import tshirts from "../../assets/client/images/tshirt-cat.jpg";
+import shorts from "../../assets/client/images/shorts-cat.jpg";
+import accessories from "../../assets/client/images/accessory-cat.jpg";
+import hoodies from "../../assets/client/images/hoodies-cat.jpg";
+import pants from "../../assets/client/images/pants-cat.jpg";
+
+const categories = [
+  { name: "T-Shirts", image: tshirts },
+  { name: "Bottoms", image: shorts },
+  { name: "Women", image: pants },
+  { name: "Accessories", image: accessories },
+  { name: "Hoodies & Sweaters", image: hoodies },
+];
 function Home() {
   const [BestSellers, setBestSellers] = useState([]);
   const [LatestCollections, setLatestCollections] = useState([]);
@@ -36,7 +50,13 @@ function Home() {
       <SectionTitle className={"mt-10 px-4"}>
         <Title title={"Shop By Category"} />
       </SectionTitle>
-      <Carousel />
+      <Carousel
+        className="w-[95%] lg:w-full"
+        items={categories}
+        renderItem={(item) => (
+          <CategoryCard categoryImage={item.image} categoryName={item.name} />
+        )}
+      />
       <ProductsCollection
         CollectionName={"Best Sellers"}
         products={BestSellers}

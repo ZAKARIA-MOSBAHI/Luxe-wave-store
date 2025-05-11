@@ -3,6 +3,7 @@ import ProductCard from "../../../components/ProductCard";
 import Title from "../../../components/Title";
 import { Button } from "../../../admin/components/ui/Button";
 import { ArrowRight } from "lucide-react";
+import Carousel from "../../../components/ui/Carousel";
 
 export default function ProductsCollection({
   CollectionName,
@@ -11,8 +12,8 @@ export default function ProductsCollection({
   badgeColor,
 }) {
   return (
-    <div className="max-w-[1152px] mx-auto w-full lg:px-0 px-8">
-      <SectionTitle className={"mt-10"}>
+    <div className="mx-auto w-full lg:px-0 px-8">
+      <SectionTitle className={"mt-10 px-4"}>
         <Title title={CollectionName} />
 
         <Button
@@ -27,19 +28,33 @@ export default function ProductsCollection({
           />
         </Button>
       </SectionTitle>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center  gap-8 ">
-        {products.map((product, index) => {
-          return (
-            <ProductCard
-              key={index}
-              product={product}
-              withBadge
-              badgeText={badgeText}
-              badgeColor={badgeColor}
-            />
-          );
-        })}
-      </div>
+      <Carousel
+        className="w-full"
+        items={products}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
+        renderItem={(product, index) => (
+          <ProductCard
+            key={index}
+            product={product}
+            withBadge
+            badgeText={badgeText}
+            badgeColor={badgeColor}
+          />
+        )}
+      />
     </div>
   );
 }

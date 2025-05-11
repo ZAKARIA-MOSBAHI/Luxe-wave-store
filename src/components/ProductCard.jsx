@@ -30,17 +30,17 @@ export default function ProductCard({
       className="group relative w-full max-w-[350px] overflow-hidden  transition-all duration-300 "
     >
       {/* Image Container with Overlay Effect */}
-      <div className="relative overflow-hidden max-h-[300px] bg-gray-100">
+      <div className="relative overflow-hidden  max-h-[400px]  bg-gray-100">
         <img
           loading="lazy"
           src={product.image[0]}
           alt={product.name}
-          className="h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+          className="h-full w-full object-cover   transition-transform duration-500 ease-in-out group-hover:scale-105"
         />
       </div>
 
       {/* Product Info Section */}
-      <div className="py-4 px-2 flex flex-col items-start gap-2 bg-white">
+      <div className="py-4 px-2 flex flex-col items-start text-left gap-2 bg-white">
         <p className="text-xs uppercase tracking-wider text-gray-400">
           {product.category}'s Wear / {product.subCategory}
         </p>

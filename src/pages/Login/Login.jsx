@@ -29,13 +29,15 @@ export default function Login({ setPageType }) {
       password: LoginPwordRef.current.value,
     };
 
-    dispatch(loginUser(formData)).then(() => {
-      // redirect to the homepage if the user is logged in successfully
-      navigate("/", {
-        replace: true,
-        state: { firstLogin: true },
-      });
-    });
+    dispatch(loginUser(formData))
+      .then(() => {
+        // redirect to the homepage if the user is logged in successfully
+        navigate("/", {
+          replace: true,
+          state: { firstLogin: true },
+        });
+      })
+      .catch((error) => error);
   };
 
   return (
