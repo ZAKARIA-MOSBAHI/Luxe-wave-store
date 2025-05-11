@@ -31,6 +31,7 @@ export const refreshAccessToken = async () => {
       console.log("Refresh token expired. Please log in again.");
       return (window.location.href = "/register");
     } else {
+      console.log(err);
       throw new Error(err.message);
     }
   }

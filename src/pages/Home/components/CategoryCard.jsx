@@ -10,24 +10,20 @@ const images = [
   { name: "Accessories", image: accessories },
   { name: "Hoodies & Sweaters", image: hoodies },
 ];
-export default function CategoryCard() {
+export default function CategoryCard({
+  categoryName = "",
+  categoryImage = "",
+}) {
   return (
-    <div className="flex gap-1 ">
-      {images.map((image, i) => (
-        <div
-          key={i}
-          className="min-w-[200px] w-full max-w-[280px] overflow-hidden  flex flex-col gap-2 group"
-        >
-          <img
-            src={image.image}
-            alt=""
-            className=" min-h-[300px] max-h-[300px] object-cover h-full w-full"
-          />
-          <p className="group-hover:underline  font-medium tracking-wider uppercase">
-            {image.name}
-          </p>
-        </div>
-      ))}
+    <div className="min-w-[200px] w-full max-w-[280px] overflow-hidden  flex flex-col gap-2 group">
+      <img
+        src={categoryImage}
+        alt=""
+        className=" min-h-[300px] max-h-[300px] object-cover h-full w-full"
+      />
+      <p className="group-hover:underline  font-medium tracking-wider uppercase">
+        {categoryName}
+      </p>
     </div>
   );
 }

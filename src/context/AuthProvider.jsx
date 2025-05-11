@@ -1,45 +1,40 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getLoggingUser } from "../app/api/users";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 const AuthContext = createContext();
-
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const { isLoading, data, isError, error } = useQuery(
-    "loggingUserData",
-    getLoggingUser
-  );
+
+  const { isLoading, data } = useQuery(["loggingUserData"], getLoggingUser);
 
   useEffect(() => {
-    if (isLoading) {
-      console.log("loading.....");
-    } else {
-      if (data?.user) {
-        console.log("useeffect the data is : ", data); // this is null
-        const user = data.user;
-        setUser({
-          name: user.name,
-          email: user.email,
-          id: user._id,
-        });
-        setUser(user);
-        if (user.role === "admin") {
-          console.log("user is admin");
-          setIsAdmin(true);
-        }
-      }
+    if (data?.user) {
+      const user = data.user;
+      setUser({
+        name: user.name,
+        email: user.email,
+        id: user._id,
+      });
+      setIsAdmin(user.role === "admin");
     }
-  }, [isLoading]);
+  }, [data]);
+  useEffect(() => {
+    // this doesn't re-run after loggin in
+    // so it doesn't cause re-render
+    // and the application doesn't show admin components
+    console.log("isAdmin");
+    console.log(isAdmin);
+  }, [isAdmin]);
 
   const contextValue = useMemo(
     () => ({
       isAdmin,
       isLoading,
-      user: data?.user || null,
+      user,
     }),
-    [isAdmin, isLoading, data]
+    [isAdmin, isLoading, user]
   );
 
   return (
@@ -54,4 +49,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
 export default AuthProvider;
