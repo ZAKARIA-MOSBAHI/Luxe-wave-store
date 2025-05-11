@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Badge({ content, color }) {
+export default function CardBadge({ content, color }) {
   //since tailwing doesn't support dynamic class names, we use a conditional statement to add the class
   const backgroundColors = {
     red: "bg-red-500",

@@ -1,31 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export const useDeviceType = () => {
-  const [deviceType, setDeviceType] = React.useState("desktop");
-  const [width, setWidth] = useState(0);
-  React.useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
+  const [deviceType, setDeviceType] = useState(null);
+  const [width, setWidth] = useState(window.innerWidth);
 
-      if (width <= 480) {
-        console.log("It's a cellphone");
+  useEffect(() => {
+    const handleResize = () => {
+      const newWidth = window.innerWidth;
+      setWidth(newWidth);
+
+      if (newWidth <= 480) {
         setDeviceType("cellphone");
-      } else if (width <= 768) {
-        console.log("It's a tablet");
+      } else if (newWidth <= 768) {
         setDeviceType("tablet");
       } else {
-        console.log("It's a desktop");
         setDeviceType("desktop");
       }
     };
 
-    handleResize(); // Initial check on mount
+    handleResize(); // Initial check
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    console.log("Device type is:", deviceType);
+  }, [deviceType]);
 
   return { deviceType, width };
 };

@@ -16,7 +16,7 @@ function Hero() {
         <div className="text-left absolute top-1/2 -translate-1/2 left-1/2 text-white flex flex-col  w-full max-w-[400px] z-1">
           <p className="">The Stevens Sports Coat Navy Blue Linen Surf</p>
           <h1 className="text-[50px] font-medium pb-8">Breezy By Design</h1>
-          <button className="border border-white px-12 cursor-pointer py-4 w-fit hover:text-black transition-all duration-300 hover:bg-white">
+          <button className=" px-12 cursor-pointer py-4 w-fit text-black transition-all duration-300 bg-white">
             SHOP NOW
           </button>
         </div>

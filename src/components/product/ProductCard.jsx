@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { ShopContext } from "../context/ProductContext";
+import { ShopContext } from "../../context/ProductContext";
 import { useNavigate } from "react-router-dom";
-import HeartIcon from "../assets/client/icons/HeartIcon";
-import Badge from "./ui/Badge";
+import HeartIcon from "../../assets/client/icons/HeartIcon";
+import CardBadge from "../ui/CardBadge";
 
 export default function ProductCard({
   product,
@@ -57,7 +57,7 @@ export default function ProductCard({
       </div>
 
       {/* Badge Conditional Rendering */}
-      {withBadge && <Badge content={badgeText} color={badgeColor} />}
+      {withBadge && <CardBadge content={badgeText} color={badgeColor} />}
 
       {/* Heart Icon Conditional Rendering */}
       {withHeart && (

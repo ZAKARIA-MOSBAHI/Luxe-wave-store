@@ -29,15 +29,17 @@ export default function Login({ setPageType }) {
       password: LoginPwordRef.current.value,
     };
 
-    dispatch(loginUser(formData))
-      .then(() => {
+    dispatch(loginUser(formData)).then((response) => {
+      if (response?.error) {
+        console.log("this is the error ", response);
+      } else {
         // redirect to the homepage if the user is logged in successfully
         navigate("/", {
           replace: true,
           state: { firstLogin: true },
         });
-      })
-      .catch((error) => error);
+      }
+    });
   };
 
   return (
@@ -90,7 +92,7 @@ export default function Login({ setPageType }) {
             </button>
           </p>
 
-          {error?.field === "LoginFailedError" && (
+          {error && (
             <p className="text-sm sm:text-base w-full text-red-500">
               {error?.message}
             </p>

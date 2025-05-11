@@ -4,7 +4,6 @@ import { cn } from "../../utils/clsx";
 import { Button } from "../ui/Button";
 import { Separator } from "../ui/Separator";
 import { ScrollArea } from "../ui/ScrollArea";
-import { useIsMobile } from "../../hooks/useIsMobile";
 import {
   BarChart3,
   Package,
@@ -19,6 +18,7 @@ import {
   TicketPercent,
 } from "lucide-react";
 import { AdminAssets } from "../../assets/AdminAssets";
+import { useDeviceType } from "../../../hooks/useDeviceType";
 
 const navItems = [
   {
@@ -62,8 +62,8 @@ export function Sidebar() {
   const { logoWhite } = AdminAssets;
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const isMobile = useIsMobile();
-
+  const { deviceType } = useDeviceType();
+  const mobileScreens = ["tablet", "cellphone"];
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -84,7 +84,7 @@ export function Sidebar() {
       </Button>
 
       {/* Overlay for mobile */}
-      {isOpen && isMobile && (
+      {isOpen && mobileScreens.includes(deviceType) && (
         <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={toggleSidebar}
@@ -95,8 +95,10 @@ export function Sidebar() {
       <aside
         className={cn(
           "fixed top-0 left-0 h-full bg-sidebar  bg-black z-50 transition-all duration-300 ease-in-out",
-          isOpen || !isMobile ? "translate-x-0" : "-translate-x-full",
-          isMobile ? "w-64" : "w-64 md:w-72"
+          isOpen || mobileScreens.includes(deviceType) === false
+            ? "translate-x-0"
+            : "-translate-x-full",
+          deviceType === "tablet" ? "w-64" : "w-64 md:w-72"
         )}
       >
         <div className="flex flex-col h-full">
@@ -110,7 +112,7 @@ export function Sidebar() {
                 className="w-36  "
               />
             </div>
-            {isMobile && (
+            {deviceType === "tablet" && (
               <Button
                 variant="ghost"
                 size="icon"
@@ -131,7 +133,7 @@ export function Sidebar() {
                 <Link
                   key={item.href}
                   to={item.href}
-                  onClick={isMobile ? toggleSidebar : undefined}
+                  onClick={deviceType === "tablet" ? toggleSidebar : undefined}
                   className={cn(
                     "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors cursor-pointer",
                     location.pathname === item.href

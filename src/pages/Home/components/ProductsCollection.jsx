@@ -1,5 +1,5 @@
 import SectionTitle from "../../../components/SectionTitle";
-import ProductCard from "../../../components/ProductCard";
+import ProductCard from "../../../components/product/ProductCard";
 import Title from "../../../components/Title";
 import { Button } from "../../../admin/components/ui/Button";
 import { ArrowRight } from "lucide-react";

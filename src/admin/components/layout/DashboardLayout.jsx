@@ -1,10 +1,7 @@
-import { useIsMobile } from "../../hooks/useIsMobile";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 
 export function DashboardLayout({ children }) {
-  const isMobile = useIsMobile();
-
   return (
     <div className="min-h-screen bg-background">
       <Sidebar />
