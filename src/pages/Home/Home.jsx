@@ -6,20 +6,8 @@ import ProductsCollection from "./components/ProductsCollection";
 import NewsLetter from "../../components/NewsLetter";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
-import CategoryCard from "./components/CategoryCard";
+import Carousel from "../../components/ui/Carousel";
 
-import hoodies from "../../assets/client/images/hoodies-cat.jpg";
-import tshirts from "../../assets/client/images/tshirt-cat.jpg";
-import shorts from "../../assets/client/images/shorts-cat.jpg";
-import accessories from "../../assets/client/images/accessory-cat.jpg";
-import pants from "../../assets/client/images/pants-cat.jpg";
-const images = [
-  { name: "T-Shirts", image: tshirts },
-  { name: "Bottoms", image: shorts },
-  { name: "Women", image: pants },
-  { name: "Accessories", image: accessories },
-  { name: "Hoodies & Sweaters", image: hoodies },
-];
 function Home() {
   const [BestSellers, setBestSellers] = useState([]);
   const [LatestCollections, setLatestCollections] = useState([]);
@@ -43,7 +31,7 @@ function Home() {
   return (
     <div className="">
       <Hero />
-      <CategoryCard />
+      <Carousel />
       <ProductsCollection
         CollectionName={"Best Sellers"}
         products={BestSellers}

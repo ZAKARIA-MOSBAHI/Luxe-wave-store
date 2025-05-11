@@ -15,8 +15,9 @@ export default function CategoryCard({
   categoryImage = "",
 }) {
   return (
-    <div className="min-w-[200px] w-full max-w-[280px] overflow-hidden  flex flex-col gap-2 group">
+    <div className=" w-full max-w-[280px] overflow-hidden  flex flex-col gap-2 group mx-auto">
       <img
+        loading="lazy"
         src={categoryImage}
         alt=""
         className=" min-h-[300px] max-h-[300px] object-cover h-full w-full"
