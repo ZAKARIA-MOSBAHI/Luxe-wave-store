@@ -69,7 +69,6 @@ function Home() {
         badgeColor={"green"}
         badgeText={"New Arrival"}
       />
-      <Policy />
       <NewsLetter />
     </div>
   );

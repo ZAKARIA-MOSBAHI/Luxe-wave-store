@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getLoggingUser } from "../app/api/users";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 
 const AuthContext = createContext();
+
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  // Store user in state to react to localStorage changes
+  const [user, setUser] = useState(localStorage.getItem("user"));
   const [isAdmin, setIsAdmin] = useState(false);
 
   const { isLoading, data } = useQuery(["loggingUserData"], getLoggingUser);
@@ -12,21 +14,24 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (data?.user) {
       const user = data.user;
-      setUser({
-        name: user.name,
-        email: user.email,
-        id: user._id,
-      });
+      setUser(user); // Update user state if needed
       setIsAdmin(user.role === "admin");
     }
   }, [data]);
+
   useEffect(() => {
-    // this doesn't re-run after loggin in
-    // so it doesn't cause re-render
-    // and the application doesn't show admin components
-    console.log("isAdmin");
-    console.log(isAdmin);
+    // This will now properly log when `isAdmin` changes
+    console.log("isAdmin", isAdmin);
   }, [isAdmin]);
+
+  // Optional: Listen for localStorage changes (e.g., if another tab logs in/out)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setUser(localStorage.getItem("user"));
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   const contextValue = useMemo(
     () => ({
