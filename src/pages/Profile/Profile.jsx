@@ -1,8 +1,9 @@
-import { ScrollArea } from "../../admin/components/ui/ScrollArea";
-import { useAuth } from "../../context/AuthProvider";
-import FavoriteProducts from "./components/favoriteProducts";
-import ProfileNav from "./components/ProfileNav";
-import UserInfo from "./components/UserInfo";
+import { ScrollArea } from "@/admin/components/ui/ScrollArea";
+import { useAuth } from "@/context/AuthProvider";
+import FavoriteProducts from "@/pages/Profile/components/FavoriteProducts";
+
+import ProfileNav from "@/pages/Profile/components/ProfileNav";
+import UserInfo from "@/pages/Profile/components/UserInfo";
 
 function Profile() {
   const { user } = useAuth();

@@ -1,7 +1,7 @@
 import { Archive, Bookmark, Heart, LogOut, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "../../../admin/components/ui/Button";
-import { useDeviceType } from "../../../hooks/useDeviceType";
+import { Button } from "@/admin/components/ui/Button";
+import { useDeviceType } from "@/hooks/useDeviceType";
 import {
   Tooltip,
   TooltipContent,

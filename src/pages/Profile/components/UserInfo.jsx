@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "../../../components/ui/Avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
 
 const UserInfo = () => {
   const user = {
