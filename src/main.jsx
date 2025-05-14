@@ -8,19 +8,22 @@ import store from "./app/mainStore.js";
 import AuthProvider from "./context/AuthProvider.jsx";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { TooltipProvider } from "./components/ui/Tooltip.jsx";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <BrowserRouter>
-        <Provider store={store}>
-          <ShopContextProvider>
-            <App />
-          </ShopContextProvider>
-        </Provider>
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-      </BrowserRouter>
+      <TooltipProvider>
+        <BrowserRouter>
+          <Provider store={store}>
+            <ShopContextProvider>
+              <App />
+            </ShopContextProvider>
+          </Provider>
+          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        </BrowserRouter>
+      </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

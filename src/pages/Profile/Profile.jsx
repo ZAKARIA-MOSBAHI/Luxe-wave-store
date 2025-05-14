@@ -1,3 +1,4 @@
+import { ScrollArea } from "../../admin/components/ui/ScrollArea";
 import { useAuth } from "../../context/AuthProvider";
 import FavoriteProducts from "./components/favoriteProducts";
 import ProfileNav from "./components/ProfileNav";
@@ -11,12 +12,16 @@ function Profile() {
   }
 
   return (
-    <div className="border-t-2 border-zinc-100 ">
+    <div className="h-screen flex gap-4 md:gap-8 border-t border-zinc-100 ">
       <ProfileNav />
-      <div className="space-y-8 w-full md:ml-[254px] ml-[64px]">
-        <UserInfo />
-        <FavoriteProducts />
-      </div>
+
+      {/* scroll area appearing in the bottom */}
+      <ScrollArea className="h-full">
+        <div className="px-4 space-y-8">
+          <UserInfo />
+          <FavoriteProducts />
+        </div>
+      </ScrollArea>
     </div>
   );
 }

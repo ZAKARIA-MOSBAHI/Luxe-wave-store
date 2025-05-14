@@ -94,7 +94,7 @@ export function Sidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 h-full bg-sidebar  bg-black z-50 transition-all duration-300 ease-in-out",
+          "fixed top-0 left-0 h-full    bg-black z-50 transition-all duration-300 ease-in-out",
           isOpen || mobileScreens.includes(deviceType) === false
             ? "translate-x-0"
             : "-translate-x-full",

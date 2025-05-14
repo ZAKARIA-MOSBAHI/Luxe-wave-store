@@ -41,9 +41,10 @@ function Navbar() {
   };
 
   return (
-    <Headroom className="z-10 relative">
+    // can't apply bg color which cause the logo to be transparent
+    <Headroom className="z-10 relative bg-white">
       {/* THE HEADER START HERE  */}
-      <div className="flex items-center text-sm h-[70px]  bg-white">
+      <div className="flex items-center text-sm h-[70px]">
         <div
           className={`max-w-[1052px]  px-4  w-full mx-auto  flex items-center justify-between font-medium `}
         >

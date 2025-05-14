@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../../../context/ProductContext";
-import ProductCard from "../../../components/ProductCard";
+import ProductCard from "../../../components/product/ProductCard";
 
 function SimilarProducts({ pCategory, pId }) {
   const [similarProducts, setSimilarProducts] = useState([]);
