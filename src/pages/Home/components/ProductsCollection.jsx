@@ -29,7 +29,7 @@ export default function ProductsCollection({
         </Button>
       </SectionTitle>
       <Carousel
-        className="w-full"
+        className="max-w-[350px] sm:max-w-full"
         items={products}
         breakpoints={{
           0: {
