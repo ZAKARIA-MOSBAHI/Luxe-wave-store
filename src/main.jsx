@@ -13,17 +13,17 @@ import { TooltipProvider } from "./components/ui/Tooltip.jsx";
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <BrowserRouter>
-          <Provider store={store}>
+    <Provider store={store}>
+      <AuthProvider>
+        <TooltipProvider>
+          <BrowserRouter>
             <ShopContextProvider>
               <App />
             </ShopContextProvider>
-          </Provider>
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </Provider>
   </QueryClientProvider>
 );

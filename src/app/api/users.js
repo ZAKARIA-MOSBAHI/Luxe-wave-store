@@ -28,7 +28,7 @@ export const login = async (payload) => {
     }
   }
 };
-export const getLoggingUser = async () => {
+export const fetchLoggingUser = async () => {
   try {
     const accessToken = JSON.parse(localStorage.getItem("user"))?.accessToken;
     if (!accessToken) {

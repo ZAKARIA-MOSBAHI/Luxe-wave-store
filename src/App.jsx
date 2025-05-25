@@ -41,24 +41,6 @@ function App() {
     setSelectedFilterOptions,
     filterOptions,
   } = useContext(ShopContext);
-  const dispatch = useDispatch();
-  const { isLoading, isAdmin } = useAuth();
-  // useEffect(() => {
-  //   console.log(" App.js");
-  //   const user = localStorage.getItem("user");
-  //   if (user) {
-  //     console.log("user found");
-  //     const parsedUser = JSON.parse(user);
-  //     if (!isLoading) {
-  //       console.log("is not loading");
-  //       if (isAdmin) {
-  //         dispatch(setUser({ ...parsedUser, role: "admin" }));
-  //       } else {
-  //         dispatch(setUser(parsedUser));
-  //       }
-  //     }
-  //   }
-  // }, [isLoading, isAdmin]);
 
   return (
     <div className={`relative overflow-hidden`}>
@@ -70,7 +52,7 @@ function App() {
         setSelectedFilterOptions={setSelectedFilterOptions}
         filterOptions={filterOptions}
       />
-      <SearchBar />
+      {/* <SearchBar /> */}
       <div>
         <ScrollToTop />
 

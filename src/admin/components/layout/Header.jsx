@@ -9,22 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/DropdownMenu";
+import { useNavigate } from "react-router-dom";
+import { Logout } from "@/lib/utils";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 export function Header() {
+  const navigate = useNavigate();
   return (
     <header className="flex h-16 items-center justify-end gap-8 md:justify-between border-b bg-background px-2 md:px-6">
       {/* Search Bar */}
-      <div className="flex md:w-1/3">
-        <div className="relative w-full max-w-md">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search..."
-            className="w-full rounded-md border bg-background pl-8 md:w-[300px] lg:w-[400px]"
-          />
-        </div>
-      </div>
+      <div className="flex md:w-1/3"></div>
 
       {/* Right Side Icons */}
       <div className="flex items-center gap-4">
@@ -64,13 +57,15 @@ export function Header() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/profile")}>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500" onClick={() => Logout()}>
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

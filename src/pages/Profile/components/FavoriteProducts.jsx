@@ -1,23 +1,5 @@
-const favoriteProducts = [
-  {
-    id: 1,
-    name: "Classic Black Coat",
-    price: "$299",
-    image: "/placeholder.svg",
-  },
-  {
-    id: 2,
-    name: "White Silk Blouse",
-    price: "$189",
-    image: "/placeholder.svg",
-  },
-  {
-    id: 3,
-    name: "Leather Tote Bag",
-    price: "$249",
-    image: "/placeholder.svg",
-  },
-];
+import { products } from "@/assets/client/assets";
+const favoriteProducts = products.slice(6, 9);
 
 const FavoriteProducts = () => {
   return (
@@ -28,7 +10,7 @@ const FavoriteProducts = () => {
           <div key={product.id} className="group">
             <div className="relative aspect-square mb-3 overflow-hidden rounded-lg bg-zinc-100/20">
               <img
-                src={product.image}
+                src={product.image[0]}
                 alt={product.name}
                 className="object-cover w-full h-full transition-transform group-hover:scale-105"
               />

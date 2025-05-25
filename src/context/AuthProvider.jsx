@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getLoggingUser } from "../app/api/users";
+import { fetchLoggingUser } from "../app/api/users";
 import { useQuery } from "react-query";
 
 const AuthContext = createContext();
@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(localStorage.getItem("user"));
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const { isLoading, data } = useQuery(["loggingUserData"], getLoggingUser);
+  const { isLoading, data } = useQuery(["fetchLoggingUser"], fetchLoggingUser);
 
   useEffect(() => {
     if (data?.user) {

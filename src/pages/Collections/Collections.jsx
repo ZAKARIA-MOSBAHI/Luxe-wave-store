@@ -3,20 +3,15 @@ import Title from "../../components/Title";
 import { ShopContext } from "../../context/ProductContext";
 import FilterIcon from "../../assets/client/icons/FilterIcon";
 import Pagination from "./components/Pagination";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ProcuctsList from "./components/ProcuctsList";
-import { useDispatch, useSelector } from "react-redux";
-import { getProductsToStore } from "../../app/thunks/productThunks";
-import { resetRequestResults } from "../../app/slices/productSlice";
 
 const Collections = () => {
-  const { status, data, error } = useSelector((state) => state.products);
-  const dispatch = useDispatch();
   const { products, setShowFilterMenu, selectedFilterOptions } =
     useContext(ShopContext);
   const { pageNumber } = useParams();
   const maxPages = Math.ceil(products.length / 12);
-
+  const Location = useLocation();
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const sortProducts = (filters) => {
@@ -59,12 +54,6 @@ const Collections = () => {
     const productPage = products.slice((pageNumber - 1) * 12, pageNumber * 12);
     setFilteredProducts(productPage);
   }, [pageNumber]);
-  useEffect(() => {
-    dispatch(getProductsToStore());
-    return () => {
-      dispatch(resetRequestResults());
-    };
-  }, []);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10  relative max-w-[1152px] w-full mx-auto xl:px-0 px-4">
@@ -87,30 +76,6 @@ const Collections = () => {
           <div>NO PRODUCTS FOUND </div>
         )}
         <Pagination pageIndex={pageNumber} maxPages={maxPages} />
-        {data?.length > 0 && (
-          <div className=" overflow-hidden  relative hover:shadow-card rounded-xl max-w-[350px] w-full cursor-pointer transition-all duration-300 ">
-            <div className="overflow-hidden max-h-[300px] ">
-              <img
-                loading="lazy"
-                src={data[4].mainImage.url}
-                alt=""
-                className="hover:scale-110 transition ease-in-out h-full  w-full object-cover"
-              />
-            </div>
-            <div className="p-2 flex flex-col gap-2">
-              <p className="text-desktop-sm text-gray-400">
-                {data[4].categoryId.name}
-              </p>
-              <p
-                className=" text-desktop-p font-medium truncate"
-                title={data[4].name}
-              >
-                {data[4].name}
-              </p>
-              <p className="font-medium text-desktop-p">{data[4].price}</p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

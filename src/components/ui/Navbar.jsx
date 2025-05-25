@@ -25,15 +25,17 @@ import {
   DropdownMenuTrigger,
 } from "../../admin/components/ui/DropdownMenu";
 import { useAuth } from "../../context/AuthProvider";
+import { Avatar, AvatarFallback } from "./Avatar";
+import { Logout } from "@/lib/utils";
+import SearchInput from "./SearchInput";
 function Navbar() {
   const { logo } = assets;
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { data } = useSelector((state) => state.user);
-  const { setShowSearch, cart } = useContext(ShopContext);
+  const { showSearch, setShowSearch, cart } = useContext(ShopContext);
   const { isAdmin, user } = useAuth();
   const redirectTo = () => {
-    if (data !== null) {
+    if (user !== null) {
       navigate("/profile");
     } else {
       navigate("/register");
@@ -42,33 +44,39 @@ function Navbar() {
 
   return (
     // can't apply bg color which cause the logo to be transparent
-    <Headroom className="z-10 relative bg-white">
+    <Headroom className="z-10 relative">
       {/* THE HEADER START HERE  */}
-      <div className="flex items-center text-sm h-[70px]">
+      <div className="flex items-center bg-white text-sm h-[70px] border-b border-gray-200">
         <div
-          className={`max-w-[1052px]  px-4  w-full mx-auto  flex items-center justify-between font-medium `}
+          className={`max-w-[1152px]  px-4  w-full mx-auto  flex items-center justify-between font-medium `}
         >
-          <Link to={"/"}>
-            <img src={logo} className="w-36 cursor-pointer" alt="" />
-          </Link>
-          <ul className="hidden md:flex items-center gap-5 text-gray-700 text-sm">
-            <NavLink to="/">HOME</NavLink>
-            <NavLink to="/collections/1">COLLECTIONS</NavLink>
-            <NavLink to="/about">ABOUT</NavLink>
-            <NavLink to="/contact">CONTACT</NavLink>
-          </ul>
+          <div className="flex gap-4">
+            <Link to={"/"}>
+              <img src={logo} className="w-36 cursor-pointer" alt="" />
+            </Link>
+            <ul className="hidden md:flex items-center  gap-6 text-gray-900 text-sm px-4 border-l border-gray-200">
+              <NavLink to="/">HOME</NavLink>
+              <NavLink to="/collections/1">COLLECTIONS</NavLink>
+              <NavLink to="/about">ABOUT</NavLink>
+              <NavLink to="/contact">CONTACT</NavLink>
+            </ul>
+          </div>
+
           <div className="flex items-center gap-6">
-            <Search
-              size={24}
-              onClick={() => setShowSearch(true)}
-              className="cursor-pointer"
+            <SearchInput
+              setShowSearch={setShowSearch}
+              showSearch={showSearch}
             />
 
             <div className="group relative hidden md:block">
               {user && Object.keys(user).length > 0 ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <UserRound size={28} className="cursor-pointer" />
+                    <Avatar className="h-8 w-8 cursor-pointer bg-gray-100 text-lg flex justify-center items-center">
+                      <AvatarFallback className="">
+                        {user?.name?.charAt(0)?.toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -92,7 +100,12 @@ function Navbar() {
                     )}
 
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="text-red-500">
+                    <DropdownMenuItem
+                      onClick={() => {
+                        Logout();
+                      }}
+                      className="text-red-500"
+                    >
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>Log out</span>
                     </DropdownMenuItem>

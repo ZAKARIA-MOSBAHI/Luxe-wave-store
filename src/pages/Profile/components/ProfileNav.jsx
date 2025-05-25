@@ -35,7 +35,7 @@ const ProfileNav = () => {
         </Button>
       ))}
       <Tooltip>
-        <TooltipTrigger className="w-fit md:w-full">
+        <TooltipTrigger asChild className="w-fit md:w-full">
           <Button
             variant="ghost"
             className=" w-full justify-start text-red-400"

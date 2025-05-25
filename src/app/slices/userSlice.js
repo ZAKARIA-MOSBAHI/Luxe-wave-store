@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser } from "../thunks/userThunks";
+import { getLoggingUser, loginUser } from "../thunks/userThunks";
 
 const userSlice = createSlice({
   name: "user",
@@ -29,6 +29,17 @@ const userSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getLoggingUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getLoggingUser.fulfilled, (state, action) => {
+        state.status = "success";
+        state.error = null;
+      })
+      .addCase(getLoggingUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

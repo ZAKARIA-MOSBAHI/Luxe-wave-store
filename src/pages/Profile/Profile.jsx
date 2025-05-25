@@ -18,7 +18,7 @@ function Profile() {
 
       {/* scroll area appearing in the bottom */}
       <ScrollArea className="h-full">
-        <div className="px-4 space-y-8">
+        <div className="px-4 space-y-8 h-[1000px]">
           <UserInfo />
           <FavoriteProducts />
         </div>
