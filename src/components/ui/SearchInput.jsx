@@ -1,8 +1,16 @@
 import { cn } from "@/admin/utils/clsx";
 import { Search, X } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function SearchInput({ setShowSearch, showSearch }) {
+  const searchRef = React.useRef(null);
+  useEffect(() => {
+    if (showSearch) {
+      searchRef.current.focus();
+    } else {
+      searchRef.current.value = "";
+    }
+  }, [showSearch]);
   return (
     <div className="flex gap-2 items-center">
       <X
@@ -19,8 +27,10 @@ export default function SearchInput({ setShowSearch, showSearch }) {
       >
         <input
           type="text"
+          ref={searchRef}
+          placeholder="Search"
           className={cn(
-            "outline-none border-none bg-transparent transition-all duration-300",
+            "outline-none border-none bg-transparent transition-all duration-300 placeholder:text-gray-400/50 placeholder:font-medium",
             showSearch ? "w-[150px] delay-100" : "w-[0px] delay-0"
           )}
         />

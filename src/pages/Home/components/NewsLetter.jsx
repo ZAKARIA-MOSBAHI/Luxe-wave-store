@@ -1,12 +1,12 @@
-import { Input } from "../admin/components/ui/Input";
-import { Button } from "../admin/components/ui/Button";
+import { Input } from "../../../admin/components/ui/Input";
+import { Button } from "../../../admin/components/ui/Button";
 
 export default function NewsLetter() {
   return (
-    <section className="py-12 text-center">
+    <section className="pb-16 text-center">
       <div className="space-y-6 max-w-2xl mx-auto">
-        <h2 className="text-3xl font-bold">Stay Connected</h2>
-        <p className="text-zinc-600 text-lg">
+        <h2 className="text-3xl font-bold tracking-tight">Stay Connected.</h2>
+        <p className="text-zinc-400 text-lg">
           Subscribe to our newsletter for exclusive updates, early access to new
           collections, and styling inspiration.
         </p>

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import Hero from "./components/Hero";
-import Policy from "./components/Policy";
 import { products } from "../../assets/client/assets";
 import ProductsCollection from "./components/ProductsCollection";
-import NewsLetter from "../../components/NewsLetter";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
-import Carousel from "../../components/ui/Carousel";
 import SectionTitle from "../../components/SectionTitle";
 import Title from "../../components/Title";
 import CategoryCarousel from "./components/CategoryCarousel";
+import NewsLetter from "./components/NewsLetter";
+import WhyUs from "./components/WhyUs";
 
 function Home() {
   const [BestSellers, setBestSellers] = useState([]);
@@ -50,6 +49,7 @@ function Home() {
         badgeColor={"green"}
         badgeText={"New Arrival"}
       />
+      <WhyUs />
       <NewsLetter />
     </div>
   );

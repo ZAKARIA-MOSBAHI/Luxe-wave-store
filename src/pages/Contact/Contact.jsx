@@ -18,7 +18,7 @@ import {
   Facebook,
   Twitter,
 } from "lucide-react";
-import NewsLetter from "../../components/NewsLetter";
+import NewsLetter from "../Home/components/NewsLetter";
 
 const Contact = () => {
   return (

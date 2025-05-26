@@ -74,7 +74,7 @@ export default function Carousel({
   return (
     <div
       className={cn(
-        `flex justify-center relative w-[280px] min-[500px]:w-[90%] mx-auto`,
+        `flex justify-center relative w-[280px] min-[500px]:w-[95%] mx-auto`,
         className
       )}
     >
