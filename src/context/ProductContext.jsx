@@ -5,10 +5,10 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
   const [sizeChoosen, setSizeChoosen] = useState(null);
-  const [LoggedIn, setLoggedIn] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   // options for filter menu
   const filterOptions = {
     category: ["men", "women", "kids"],
@@ -113,6 +113,7 @@ const ShopContextProvider = (props) => {
 
     setSearchResults(searchedProducts);
   };
+  const handleSearch = async (e) => {};
   const value = {
     sizeChoosen,
     setSizeChoosen,
@@ -134,8 +135,10 @@ const ShopContextProvider = (props) => {
     selectedFilterOptions,
     setSelectedFilterOptions,
     filterOptions,
-    LoggedIn,
-    setLoggedIn,
+    handleSearch,
+    searchQuery,
+    setSearchQuery,
+    setSearchResults,
   };
   useEffect(() => {
     if (showSearch === false) {

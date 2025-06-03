@@ -2,16 +2,12 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/client/assets";
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../../context/ProductContext";
-
 import MenuIcon from "../../assets/client/icons/MenuIcon";
-
 import Headroom from "react-headroom";
 import MobileNavbar from "../MobileNavbar";
-import { useSelector } from "react-redux";
 import {
   LayoutDashboard,
   LogOut,
-  Search,
   Settings,
   ShoppingCart,
   UserRound,
@@ -28,12 +24,20 @@ import { useAuth } from "../../context/AuthProvider";
 import { Avatar, AvatarFallback } from "./Avatar";
 import { Logout } from "@/lib/utils";
 import SearchInput from "./SearchInput";
+import SearchResults from "./SearchResults";
+import useDebounce from "@/hooks/useDebounce";
+import { SearchContext } from "@/context/SearchContext";
+
 function Navbar() {
   const { logo } = assets;
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { showSearch, setShowSearch, cart } = useContext(ShopContext);
+  const { cart } = useContext(ShopContext);
+  const { showSearch, searchQuery, handleSearch, setSearchResults } =
+    useContext(SearchContext);
+  const debouncedSearchQuery = useDebounce(searchQuery);
   const { isAdmin, user } = useAuth();
+
   const redirectTo = () => {
     if (user !== null) {
       navigate("/profile");
@@ -42,11 +46,20 @@ function Navbar() {
     }
   };
 
+  useEffect(() => {
+    setSearchResults([]);
+    if (debouncedSearchQuery.length === 0) {
+      console.log("search query is empty do nothing");
+      return;
+    } else {
+      console.log("time has ended , making the api call ");
+      handleSearch(debouncedSearchQuery);
+    }
+  }, [debouncedSearchQuery]);
   return (
-    // can't apply bg color which cause the logo to be transparent
     <Headroom className="z-10 relative">
       {/* THE HEADER START HERE  */}
-      <div className="flex items-center bg-white text-sm h-[70px] border-b border-gray-200">
+      <div className="flex items-center bg-white text-sm h-[70px] border-b relative border-gray-200">
         <div
           className={`max-w-[1152px]  px-4  w-full mx-auto  flex items-center justify-between font-medium `}
         >
@@ -62,11 +75,8 @@ function Navbar() {
             </ul>
           </div>
 
-          <div className="flex items-center gap-6">
-            <SearchInput
-              setShowSearch={setShowSearch}
-              showSearch={showSearch}
-            />
+          <div className="flex relative h-[70px] items-center gap-6">
+            <SearchInput />
 
             <div className="group relative hidden md:block">
               {user && Object.keys(user).length > 0 ? (
@@ -143,6 +153,8 @@ function Navbar() {
             redirectTo={redirectTo}
           />
         </div>
+
+        {showSearch && searchQuery.trim().length > 0 && <SearchResults />}
       </div>
     </Headroom>
   );

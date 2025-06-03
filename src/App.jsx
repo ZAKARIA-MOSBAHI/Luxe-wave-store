@@ -1,19 +1,15 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-
-import SearchBar from "./components/SearchBar";
 import FilterMenu from "./pages/Collections/components/FilterMenu";
 import { lazy, Suspense, useContext, useEffect } from "react";
 import { ShopContext } from "./context/ProductContext";
 import Loading from "./components/ui/Loading";
 import ScrollToTop from "./components/ScrollTop";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AuthProvider, { useAuth } from "./context/AuthProvider";
 import Layout from "./components/Layout/Layout";
 import { Toaster } from "sonner";
-import { useDispatch } from "react-redux";
-import { setUser } from "./app/slices/userSlice";
 import ErrorPage from "./pages/ErrorPage";
+import { SearchContext } from "./context/SearchContext";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const About = lazy(() => import("./pages/About/About"));
@@ -41,9 +37,21 @@ function App() {
     setSelectedFilterOptions,
     filterOptions,
   } = useContext(ShopContext);
-
+  const { showSearch } = useContext(SearchContext);
+  useEffect(() => {
+    /* this use effect is used to disable scroll if the 
+    search input is open */
+    if (showSearch) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showSearch]);
   return (
-    <div className={`relative overflow-hidden`}>
+    <div className="relative overflow-hidden">
       <Toaster />
       <FilterMenu
         showFilterMenu={showFilterMenu}
@@ -52,7 +60,6 @@ function App() {
         setSelectedFilterOptions={setSelectedFilterOptions}
         filterOptions={filterOptions}
       />
-      {/* <SearchBar /> */}
       <div>
         <ScrollToTop />
 

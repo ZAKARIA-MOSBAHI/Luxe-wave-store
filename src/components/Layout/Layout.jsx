@@ -6,6 +6,7 @@ export default function Layout() {
   return (
     <>
       <Navbar />
+
       <main className="flex-1 w-full ">
         <Outlet />
       </main>
