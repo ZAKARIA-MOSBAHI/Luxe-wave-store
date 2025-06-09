@@ -13,17 +13,17 @@ export default function ProductsCollection({
 }) {
   return (
     <div className="mx-auto w-full lg:px-0 px-8">
-      <SectionTitle className={"mt-10 px-4"}>
+      <SectionTitle className={"mt-10 md:px-4"}>
         <Title title={CollectionName} />
 
         <Button
           variant="link"
           size="icon"
-          className="w-fit text-base font-medium cursor-pointer group"
+          className="w-fit text-base font-medium cursor-pointer group hidden md:inline-flex"
         >
           <span className="uppercase">Shop {CollectionName}</span>
           <ArrowRight
-            size={32}
+            size={20}
             className="group-hover:translate-x-0.5 transition-all duration-300"
           />
         </Button>

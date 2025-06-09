@@ -1,36 +1,30 @@
-import idk from "../../../assets/client/images/idk.jpg";
-import tshirts from "../../../assets/client/images/tshirts.jpg";
+import { Button } from "@/admin/components/ui/Button";
+import { assets } from "@/assets/client/assets";
+import { ArrowUpRight } from "lucide-react";
 
 function Hero() {
+  const { banner } = assets;
   return (
-    <div className="relative flex flex-col sm:flex-row border border-gray-400 text-center">
-      {/* Left side with overlay and image */}
-      <div className="relative w-full h-screen lg:w-1/2">
-        {/* Image */}
-        <img src={tshirts} className="w-full h-full object-cover" alt="" />
-
-        {/* Right-to-left gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black  to-transparent opacity-70" />
-
-        {/* Text content */}
-        <div className="text-left absolute top-1/2 -translate-1/2 left-1/2 text-white flex flex-col  w-full max-w-[400px] z-1">
-          <p className="">The Stevens Sports Coat Navy Blue Linen Surf</p>
-          <h1 className="text-[50px] font-medium pb-8">Breezy By Design</h1>
-          <button
-            onClick={() => (location.href = "/collections/1")}
-            className=" px-12 cursor-pointer py-4 w-fit text-black transition-all duration-300 bg-white"
-          >
-            SHOP NOW
-          </button>
-        </div>
-      </div>
-
-      {/* Right side image */}
+    <div className="relative overflow-hidden rounded-4xl mx-2 md:mx-6 mt-4">
       <img
-        src={idk}
-        className="w-full h-screen object-cover md:w-1/2 hidden lg:block"
+        src={banner}
+        className="w-full h-[calc(100vh-75px)] object-cover "
         alt=""
       />
+      <div className="bg-gradient-to-b from-black/0   to-black absolute top-0 left-0 w-full h-full"></div>
+      <div className="w-full mx-auto gap-4 md:gap-0 z-[2] grid md:grid-cols-2 items-end  bottom-12 absolute  place-items-end px-4 md:px-8">
+        <h1 className="uppercase text-[42px]  md:text-[60px]  text-white/80 font-bold tracking-tight leading-tight  ">
+          the future of fashion is here
+        </h1>
+        <Button
+          className=" uppercase px-4 py-2 h-auto bg-white text-black md:text-[32px] w-fit"
+          variant="sharp"
+          size="icon"
+        >
+          Shop Now
+          <ArrowUpRight className="md:size-8 size-5" />
+        </Button>
+      </div>
     </div>
   );
 }

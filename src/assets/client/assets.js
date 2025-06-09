@@ -66,8 +66,10 @@ import logo from "./images/logo.png";
 import logoWhite from "./images/logoWhite.png";
 import logoIcon from "./images/logo_icon.png";
 import hero_img from "./images/hero_img.png";
+import banner from "@/assets/client/images/banner.jpg";
 
 export const assets = {
+  banner,
   credit_card_icon,
   cash_on_delivery_icon,
   paypal_icon,
