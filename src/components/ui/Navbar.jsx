@@ -56,6 +56,7 @@ function Navbar() {
       handleSearch(debouncedSearchQuery);
     }
   }, [debouncedSearchQuery]);
+
   return (
     <Headroom className="z-10 relative">
       {/* THE HEADER START HERE  */}
@@ -99,7 +100,7 @@ function Navbar() {
                       <Settings className="mr-2 h-4 w-4" />
                       <span>Settings</span>
                     </DropdownMenuItem>
-                    {isAdmin && (
+                    {user.role === "admin" && (
                       <DropdownMenuItem
                         onClick={() => navigate("/admin/dashboard")}
                       >

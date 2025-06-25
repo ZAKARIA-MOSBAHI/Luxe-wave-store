@@ -2,7 +2,7 @@ import { useAuth } from "../context/AuthProvider";
 import ErrorPage from "../pages/ErrorPage";
 
 export default function ProtectedRoute({ children }) {
-  const { isAdmin, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return null; // to avoid rendering the component before loading is finished
@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children }) {
    the user is not an admin when loading ends the page shows up 
   a little before directing to the register page */
   if (!isLoading) {
-    if (!isAdmin)
+    if (user.role !== "admin")
       return (
         <ErrorPage
           statusCode={403}

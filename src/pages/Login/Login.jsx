@@ -7,9 +7,11 @@ import { Loader2 } from "lucide-react";
 import { loginUser } from "../../app/thunks/userThunks";
 import { resetRequestResults } from "../../app/slices/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function Login({ setPageType }) {
   const { status, error } = useSelector((state) => state.user);
+  const { setUser } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,6 +36,8 @@ export default function Login({ setPageType }) {
         console.log("this is the error ", response);
       } else {
         // redirect to the homepage if the user is logged in successfully
+        console.log("this is the response ", response);
+        setUser(response.payload);
         navigate("/", {
           replace: true,
           state: { firstLogin: true },

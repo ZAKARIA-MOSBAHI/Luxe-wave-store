@@ -1,6 +1,16 @@
 import { refreshAccessToken } from "../../admin/utils/utils";
 import api from "../../api/axios";
 
+export const signup = async (payload) => {
+  try {
+    const response = await api.post("/users/signup", payload, {
+      headers: { Accept: "application/json" },
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
 export const login = async (payload) => {
   try {
     const response = await api.post("/users/login", payload);
@@ -30,41 +40,61 @@ export const login = async (payload) => {
 };
 export const fetchLoggingUser = async () => {
   try {
-    const accessToken = JSON.parse(localStorage.getItem("user"))?.accessToken;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user?.accessToken;
+
     if (!accessToken) {
-      throw new Error({
-        name: "accessTokenMissing",
-        message: "No access token found",
-      });
+      const err = new Error("No access token found");
+      err.name = "accessTokenMissing";
+      throw err;
+      // why the code completes executing after this throw?
     }
+
+    // Initial request with existing access token
     const response = await api.get("/users/me", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
-    return response.data;
+    return { accessToken, ...response.data };
   } catch (error) {
-    if (error.response?.data.name === "accessTokenExpired") {
-      console.log("access token expired refreshing token ...");
+    const backendErrorName = error.response?.data?.name;
+
+    if (backendErrorName === "accessTokenExpired") {
+      console.warn("Access token expired. Attempting refresh...");
+
       try {
-        await refreshAccessToken();
-        const newAccessToken = localStorage.getItem("accessToken");
-        const newRefreshToken = localStorage.getItem("refreshToken");
+        await refreshAccessToken(); // Assumes it updates localStorage with new tokens
+
+        const newUser = JSON.parse(localStorage.getItem("user"));
+        const newAccessToken = newUser?.accessToken;
+        const newRefreshToken = newUser?.refreshToken;
+
+        if (!newAccessToken || !newRefreshToken) {
+          throw new Error("Missing new tokens after refresh");
+        }
+
+        // Retry the original request with refreshed token
         const retryResponse = await api.get("/users/me", {
           headers: {
             Authorization: `Bearer ${newAccessToken}`,
-            "x-refresh-token": newRefreshToken,
+            "x-refresh-token": newRefreshToken, // if required by your backend
           },
         });
-        console.log(retryResponse.data);
-        return retryResponse.data;
-      } catch (error) {
-        console.log("error while refreshing token");
-        return error.response.data;
+
+        return { accessToken: newAccessToken, ...retryResponse.data };
+      } catch (refreshError) {
+        console.error("Error during token refresh:", refreshError);
+        console.error("Token refresh failed. Logging out.");
+        window.location.href = "/login"; // force re-auth
+        return null;
       }
     } else {
-      return error.response?.data;
+      // Other errors (not related to token)
+      console.error(error);
+      localStorage.removeItem("user");
+      return null;
     }
   }
 };

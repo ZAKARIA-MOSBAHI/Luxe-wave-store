@@ -10,6 +10,7 @@ import Layout from "./components/Layout/Layout";
 import { Toaster } from "sonner";
 import ErrorPage from "./pages/ErrorPage";
 import { SearchContext } from "./context/SearchContext";
+import { useAuth } from "./context/AuthProvider";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const About = lazy(() => import("./pages/About/About"));
@@ -50,6 +51,7 @@ function App() {
       document.body.style.overflow = "";
     };
   }, [showSearch]);
+
   return (
     <div className="relative overflow-hidden">
       <Toaster />

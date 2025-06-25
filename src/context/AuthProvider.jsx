@@ -1,45 +1,48 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { fetchLoggingUser } from "../app/api/users";
-import { useQuery } from "react-query";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  // Store user in state to react to localStorage changes
-  const [user, setUser] = useState(localStorage.getItem("user"));
+  const [user, setUser] = useState(() => {
+    const localUser = localStorage.getItem("user");
+    return localUser ? JSON.parse(localUser) : null;
+  });
   const [isAdmin, setIsAdmin] = useState(false);
-
-  const { isLoading, data } = useQuery(["fetchLoggingUser"], fetchLoggingUser);
-
-  useEffect(() => {
-    if (data?.user) {
-      const user = data.user;
-      setUser(user); // Update user state if needed
-      setIsAdmin(user.role === "admin");
-    }
-  }, [data]);
+  const [userFetched, setUserFetched] = useState(false);
 
   useEffect(() => {
-    // This will now properly log when `isAdmin` changes
-    console.log("isAdmin", isAdmin);
-  }, [isAdmin]);
-
-  // Optional: Listen for localStorage changes (e.g., if another tab logs in/out)
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setUser(localStorage.getItem("user"));
+    const getUser = async () => {
+      const data = await fetchLoggingUser();
+      if (data) {
+        const formattedUserData = {
+          id: data.user._id,
+          name: data.user.name,
+          email: data.user.email,
+          role: data.user.role,
+          accessToken: data.accessToken,
+          status: data.user.status,
+          currencyPreference: data.user.currencyPreference || "USD",
+          phone: data.user.phone,
+        };
+        setUser(formattedUserData);
+        console.log("User data formatted :", formattedUserData);
+        localStorage.setItem("user", JSON.stringify(formattedUserData));
+        setIsAdmin(data.user.role === "admin");
+      }
+      setUserFetched(true);
     };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+
+    if (!userFetched) getUser();
+  }, [userFetched]);
 
   const contextValue = useMemo(
     () => ({
       isAdmin,
-      isLoading,
       user,
+      setUser,
     }),
-    [isAdmin, isLoading, user]
+    [isAdmin, user, setUser]
   );
 
   return (
