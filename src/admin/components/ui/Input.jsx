@@ -4,7 +4,7 @@ import { cva } from "class-variance-authority";
 import { Slot } from "@radix-ui/react-slot";
 
 const inputVariants = cva(
-  "flex w-full border border-zinc-900 bg-white  ring-offset-background file:border-0 file:bg-transparent file:font-medium file:text-zinc-900 placeholder:text-zinc-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ",
+  "flex w-full border border-zinc-900 bg-white placeholder:text-zinc-300  ring-offset-background file:border-0 file:bg-transparent file:font-medium file:text-zinc-900   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ",
 
   {
     variants: {

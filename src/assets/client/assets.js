@@ -67,6 +67,7 @@ import logoWhite from "./images/logoWhite.png";
 import logoIcon from "./images/logo_icon.png";
 import hero_img from "./images/hero_img.png";
 import banner from "@/assets/client/images/banner.jpg";
+import login_image from "@/assets/client/images/model-female.jpg";
 
 export const assets = {
   banner,
@@ -81,6 +82,7 @@ export const assets = {
   contact_img,
   razorpay_logo,
   stripe_logo,
+  login_image,
 };
 
 export const products = [

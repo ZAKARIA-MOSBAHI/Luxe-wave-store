@@ -10,9 +10,10 @@ import Layout from "./components/Layout/Layout";
 import { Toaster } from "sonner";
 import ErrorPage from "./pages/ErrorPage";
 import { SearchContext } from "./context/SearchContext";
-import { useAuth } from "./context/AuthProvider";
 
 const Home = lazy(() => import("./pages/Home/Home"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const SignUp = lazy(() => import("./pages/SignUp/SignUp"));
 const About = lazy(() => import("./pages/About/About"));
 const Contact = lazy(() => import("./pages/Contact/Contact"));
 const Collections = lazy(() => import("./pages/Collections/Collections"));
@@ -20,7 +21,6 @@ const Product = lazy(() => import("./pages/Product/Product"));
 const PlaceOrder = lazy(() => import("./pages/PlaceOrder/PlaceOrder"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
-const Register = lazy(() => import("./pages/Register"));
 const Order = lazy(() => import("./pages/Order"));
 const Dashboard = lazy(() => import("./admin/pages/Dashboard"));
 const AdminProducts = lazy(() => import("./admin/pages/Products"));
@@ -64,7 +64,6 @@ function App() {
       />
       <div>
         <ScrollToTop />
-
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route element={<Layout />}>
@@ -76,12 +75,14 @@ function App() {
                 element={<Collections />}
               />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/orders" element={<Order />} />
               <Route path="/place-order" element={<PlaceOrder />} />
               <Route path="/product/:productId" element={<Product />} />
             </Route>
+            {/* login routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signin" element={<SignUp />} />
             {/* ADMIN ROUTES  */}
             <Route
               path="/admin/dashboard"

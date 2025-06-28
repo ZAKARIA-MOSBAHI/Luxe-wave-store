@@ -36,11 +36,7 @@ const PhoneInput = React.forwardRef(
 PhoneInput.displayName = "PhoneInput";
 
 const InputComponent = React.forwardRef(({ className, ...props }, ref) => (
-  <Input
-    className={cn("rounded-e-lg rounded-s-none", className)}
-    {...props}
-    ref={ref}
-  />
+  <Input className={cn(" ", className)} {...props} ref={ref} />
 ));
 InputComponent.displayName = "InputComponent";
 

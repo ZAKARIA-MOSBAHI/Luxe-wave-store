@@ -125,7 +125,7 @@ function Navbar() {
               ) : (
                 <UserRound
                   size={24}
-                  onClick={() => navigate("/register")}
+                  onClick={() => navigate("/login")}
                   className="cursor-pointer"
                 />
               )}

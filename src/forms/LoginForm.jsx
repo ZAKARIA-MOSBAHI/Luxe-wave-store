@@ -1,9 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-
-import { signupSchema } from "@/lib/schemas/signup.schema";
-import { signup } from "@/app/api/users";
 import { Button } from "@/admin/components/ui/Button";
 import {
   Form,
@@ -14,89 +8,76 @@ import {
   FormMessage,
 } from "@/admin/components/ui/Form";
 import { Input } from "@/admin/components/ui/Input";
+import { resetRequestResults } from "@/app/slices/userSlice";
+import { loginUser } from "@/app/thunks/userThunks";
+
+import { useAuth } from "@/context/AuthProvider";
+import { loginSchema } from "@/lib/schemas/login.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeClosed, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function SignUpForm() {
-  const [message, setMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const onSubmit = async (data) => {
-    try {
-      const name = data.email.split("@")[0];
-      const formattedData = {
-        name,
-        ...data,
-      };
-      setLoading(true);
-      const response = await signup(formattedData);
-
-      console.log("Signup response:", response);
-      if (response.response.data.success) {
-        setMessage("Signup successful");
-      } else {
-        setMessage(
-          response.response?.data.message ||
-            "An error occurred during signup. Please try again later."
-        );
-      }
-      setLoading(false);
-    } catch (error) {
-      setMessage(
-        error.message ||
-          "An error occurred during signup. Please try again later."
-      );
-      setLoading(false);
-    }
-  };
-  const helo = (data) => console.log(data);
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
+export default function LoginForm() {
   const form = useForm({
-    resolver: zodResolver(signupSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
   });
+  const { status, error } = useSelector((state) => state.user);
+  const { setUser } = useAuth();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const LoginEmailRef = useRef();
+  const LoginPwordRef = useRef();
+  const handleSubmit = (formData) => {
+    console.log(formData);
+  };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    dispatch(resetRequestResults());
+    const formData = {
+      email: LoginEmailRef.current.value,
+      password: LoginPwordRef.current.value,
+    };
+
+    dispatch(loginUser(formData)).then((response) => {
+      if (response?.error) {
+        console.log("this is the error ", response);
+      } else {
+        // redirect to the homepage if the user is logged in successfully
+        console.log("this is the response ", response);
+        setUser(response.payload);
+        navigate("/", {
+          replace: true,
+          state: { firstLogin: true },
+        });
+      }
+    });
+  };
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(helo)}
-        className="flex flex-col  w-full justify-center items-center max-w-[450px]"
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="max-w-[450px]  flex flex-col gap-6 w-full justify-center items-center"
       >
-        <div className="w-full space-y-3">
+        <div className="w-full">
           <FormField
             control={form.control}
-            name={"name"}
+            name="email"
             render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="text-base uppercase">Full Name</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    size="lg"
-                    placeholder="Your Full Name"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={"email"}
-            render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="w-full mb-4">
                 <FormLabel className="text-base uppercase">Email</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
-                    size="lg"
+                    size="xl"
                     placeholder="Your email"
                     {...field}
                   />
@@ -115,7 +96,7 @@ export default function SignUpForm() {
                   <div className="relative">
                     <Input
                       type={showPassword ? "text" : "password"}
-                      size="lg"
+                      size="xl"
                       placeholder="Your password"
                       {...field}
                     />
@@ -138,31 +119,28 @@ export default function SignUpForm() {
               </FormItem>
             )}
           />
+          <p className="text-end text-sm sm:text-base">
+            Don't have an account{" "}
+            <Link to="/signin" className="underline   hover:text-gray-400">
+              Sign in
+            </Link>
+          </p>
         </div>
-
-        <p className="text-end text-sm sm:text-base w-full ">
-          Already have an account{" "}
-          <Link to="/login" className="underlinehover:text-gray-400">
-            Log in
-          </Link>
-        </p>
-        {message && <p className="text-red-500 w-full text-end">{message}</p>}
-
-        <div className="w-full max-w-[450px] mt-4">
+        <div className="w-full max-w-[450px]">
           <Button
             type="submit"
             size="lg"
             variant="sharp"
-            disabled={loading}
+            disabled={status === "loading"}
             className="cursor-pointer w-full "
           >
-            {loading ? (
+            {status === "loading" ? (
               <>
                 <Loader2 className="animate-spin" />
-                <span className="ml-2">signing in...</span>
+                <span className="ml-2">LOGGING...</span>
               </>
             ) : (
-              "SIGN IN"
+              "LOG IN"
             )}
           </Button>
           <div className=" flex justify-center gap-2 my-2 items-center">
