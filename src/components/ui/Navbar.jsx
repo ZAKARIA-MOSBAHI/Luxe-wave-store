@@ -36,7 +36,7 @@ function Navbar() {
   const { showSearch, searchQuery, handleSearch, setSearchResults } =
     useContext(SearchContext);
   const debouncedSearchQuery = useDebounce(searchQuery);
-  const { isAdmin, user } = useAuth();
+  const { user } = useAuth();
 
   const redirectTo = () => {
     if (user !== null) {

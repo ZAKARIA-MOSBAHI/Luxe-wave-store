@@ -15,45 +15,65 @@ import {
 } from "@/admin/components/ui/Form";
 import { Input } from "@/admin/components/ui/Input";
 import { Eye, EyeClosed, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUpForm() {
-  const [message, setMessage] = useState("");
+  const [errorMsg, setErrorMsg] = useState({
+    general: null,
+    email: null,
+    name: null,
+    success: false, // if true it'll show a success errorMsg
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      const name = data.email.split("@")[0];
-      const formattedData = {
-        name,
-        ...data,
-      };
+      setErrorMsg({
+        email: null,
+        name: null,
+        success: false,
+      });
       setLoading(true);
-      const response = await signup(formattedData);
+      const response = await signup(data);
 
       console.log("Signup response:", response);
-      if (response.response.data.success) {
-        setMessage("Signup successful");
+      // if request was succesfull
+      if (response.success) {
+        setErrorMsg((prev) => ({ ...prev, success: true }));
+        navigate("/", {
+          replace: true,
+          state: { signedUp: true },
+        });
       } else {
-        setMessage(
-          response.response?.data.message ||
-            "An error occurred during signup. Please try again later."
-        );
+        setErrorMsg({
+          email:
+            response.response?.data.field === "email"
+              ? response.response.data.message
+              : null,
+          name:
+            response.response?.data.field === "name"
+              ? response.response.data.message
+              : null,
+          success: false,
+        });
       }
       setLoading(false);
     } catch (error) {
-      setMessage(
-        error.message ||
-          "An error occurred during signup. Please try again later."
-      );
+      setErrorMsg((prev) => ({
+        ...prev,
+        general:
+          error.errorMsg ||
+          "An error occurred during signup. Please try again later.",
+      }));
       setLoading(false);
     }
   };
-  const helo = (data) => console.log(data);
+
   useEffect(() => {
-    console.log(message);
-  }, [message]);
+    console.log(errorMsg);
+  }, [errorMsg]);
   const form = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -65,7 +85,7 @@ export default function SignUpForm() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(helo)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col  w-full justify-center items-center max-w-[450px]"
       >
         <div className="w-full space-y-3">
@@ -83,7 +103,9 @@ export default function SignUpForm() {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>
+                  {errorMsg.name ? errorMsg.name : null}
+                </FormMessage>
               </FormItem>
             )}
           />
@@ -101,7 +123,9 @@ export default function SignUpForm() {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>
+                  {errorMsg.email ? errorMsg.email : null}
+                </FormMessage>
               </FormItem>
             )}
           />
@@ -142,11 +166,13 @@ export default function SignUpForm() {
 
         <p className="text-end text-sm sm:text-base w-full ">
           Already have an account{" "}
-          <Link to="/login" className="underlinehover:text-gray-400">
+          <Link to="/login" className="underline hover:text-gray-400">
             Log in
           </Link>
         </p>
-        {message && <p className="text-red-500 w-full text-end">{message}</p>}
+        {errorMsg.general && (
+          <p className="text-red-500 w-full text-center">{errorMsg.general}</p>
+        )}
 
         <div className="w-full max-w-[450px] mt-4">
           <Button

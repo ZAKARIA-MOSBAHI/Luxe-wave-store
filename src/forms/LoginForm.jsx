@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/admin/components/ui/Form";
 import { Input } from "@/admin/components/ui/Input";
+import { login } from "@/app/api/users";
 import { resetRequestResults } from "@/app/slices/userSlice";
 import { loginUser } from "@/app/thunks/userThunks";
 
@@ -15,12 +16,14 @@ import { useAuth } from "@/context/AuthProvider";
 import { loginSchema } from "@/lib/schemas/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeClosed, Loader2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
+  const { setUser, user } = useAuth();
+  const [errorMsg, setErrorMsg] = useState("");
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -28,43 +31,37 @@ export default function LoginForm() {
       password: "",
     },
   });
-  const { status, error } = useSelector((state) => state.user);
-  const { setUser } = useAuth();
+  const { status } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const LoginEmailRef = useRef();
-  const LoginPwordRef = useRef();
-  const handleSubmit = (formData) => {
-    console.log(formData);
-  };
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    dispatch(resetRequestResults());
-    const formData = {
-      email: LoginEmailRef.current.value,
-      password: LoginPwordRef.current.value,
-    };
 
-    dispatch(loginUser(formData)).then((response) => {
-      if (response?.error) {
-        console.log("this is the error ", response);
-      } else {
-        // redirect to the homepage if the user is logged in successfully
-        console.log("this is the response ", response);
-        setUser(response.payload);
+  const handleLogin = async (formData) => {
+    try {
+      const results = await login(formData, setUser);
+      if (results.success) {
+        console.log("user is logged in");
+        console.log(user);
         navigate("/", {
+          state: {
+            firstLogin: true,
+          },
           replace: true,
-          state: { firstLogin: true },
         });
+      } else {
+        console.log("user failed to login");
+        setErrorMsg(results.message);
       }
-    });
+    } catch (e) {
+      console.log("catch block");
+      console.log(e);
+    }
   };
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
+        onSubmit={form.handleSubmit(handleLogin)}
         className="max-w-[450px]  flex flex-col gap-6 w-full justify-center items-center"
       >
         <div className="w-full">
@@ -125,6 +122,7 @@ export default function LoginForm() {
               Sign in
             </Link>
           </p>
+          <p className="text-red-500">{errorMsg}</p>
         </div>
         <div className="w-full max-w-[450px]">
           <Button

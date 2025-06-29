@@ -12,7 +12,4 @@ export const signupSchema = z.object({
       message:
         "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character",
     }),
-  phone: z
-    .string()
-    .min(10, { message: "Phone number should be at least 10 digits" }),
 });

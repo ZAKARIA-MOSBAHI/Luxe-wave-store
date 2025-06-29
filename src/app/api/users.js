@@ -11,26 +11,34 @@ export const signup = async (payload) => {
     return error;
   }
 };
-export const login = async (payload) => {
+export const login = async (payload, setUser) => {
   try {
     const response = await api.post("/users/login", payload);
+    console.log("api response : ", response);
+
     const { accessToken, refreshToken } = response.data;
     if (accessToken) {
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     }
-    const { email, name, role } = response.data.user;
+    const { email, name } = response.data.user;
     const user = {
       email,
       name,
       accessToken,
       refreshToken,
     };
+    setUser(response.data.user);
     localStorage.setItem("user", JSON.stringify(user));
-    // sending the role to the redux store
-    return { ...user, role };
+    // refresh token shouldn't be in local storage
+
+    return { success: true };
   } catch (error) {
+    console.log("api error : ", error);
     if (error.response.data) {
-      return error.response.data;
+      return {
+        success: false,
+        message: error.response.data.message,
+      };
     } else {
       return {
         message: "Failed to login",
