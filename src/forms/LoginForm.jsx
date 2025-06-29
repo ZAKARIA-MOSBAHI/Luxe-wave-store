@@ -9,8 +9,6 @@ import {
 } from "@/admin/components/ui/Form";
 import { Input } from "@/admin/components/ui/Input";
 import { login } from "@/app/api/users";
-import { resetRequestResults } from "@/app/slices/userSlice";
-import { loginUser } from "@/app/thunks/userThunks";
 
 import { useAuth } from "@/context/AuthProvider";
 import { loginSchema } from "@/lib/schemas/login.schema";
@@ -18,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeClosed, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
@@ -32,7 +30,6 @@ export default function LoginForm() {
     },
   });
   const { status } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -118,8 +115,8 @@ export default function LoginForm() {
           />
           <p className="text-end text-sm sm:text-base">
             Don't have an account{" "}
-            <Link to="/signin" className="underline   hover:text-gray-400">
-              Sign in
+            <Link to="/signup" className="underline   hover:text-gray-400">
+              Sign up
             </Link>
           </p>
           <p className="text-red-500">{errorMsg}</p>

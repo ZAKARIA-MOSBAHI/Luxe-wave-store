@@ -1,13 +1,22 @@
 import { refreshAccessToken } from "../../admin/utils/utils";
 import api from "../../api/axios";
 
-export const signup = async (payload) => {
+export const signup = async (payload, setUser) => {
   try {
-    const response = await api.post("/users/signup", payload, {
-      headers: { Accept: "application/json" },
-    });
-    return response.data;
+    const response = await api.post("/users/signup", payload);
+    console.log("response.data is ", response.data); // WHY IS THIS NOT logging?
+    // response structure => response : {data : {user , success , message } }
+    const { accessToken, refreshToken, email, name } = response.data.user;
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ accessToken, refreshToken, email, name })
+    );
+    setUser(response.data.user);
+
+    return { success: true };
   } catch (error) {
+    console.log("error data is ", error);
+    // error structure => error : {response : {data : {field , success , message } }}
     return error;
   }
 };
@@ -27,10 +36,9 @@ export const login = async (payload, setUser) => {
       accessToken,
       refreshToken,
     };
-    setUser(response.data.user);
     localStorage.setItem("user", JSON.stringify(user));
+    setUser(response.data.user);
     // refresh token shouldn't be in local storage
-
     return { success: true };
   } catch (error) {
     console.log("api error : ", error);

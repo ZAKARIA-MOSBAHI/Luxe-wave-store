@@ -82,7 +82,7 @@ function App() {
             </Route>
             {/* login routes */}
             <Route path="/login" element={<Login />} />
-            <Route path="/signin" element={<SignUp />} />
+            <Route path="/signup" element={<SignUp />} />
             {/* ADMIN ROUTES  */}
             <Route
               path="/admin/dashboard"

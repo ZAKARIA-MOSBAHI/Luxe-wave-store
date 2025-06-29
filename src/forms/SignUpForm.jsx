@@ -16,13 +16,14 @@ import {
 import { Input } from "@/admin/components/ui/Input";
 import { Eye, EyeClosed, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function SignUpForm() {
+  const { setUser, user } = useAuth();
   const [errorMsg, setErrorMsg] = useState({
     general: null,
     email: null,
     name: null,
-    success: false, // if true it'll show a success errorMsg
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,12 +37,11 @@ export default function SignUpForm() {
         success: false,
       });
       setLoading(true);
-      const response = await signup(data);
+      const response = await signup(data, setUser);
 
       console.log("Signup response:", response);
       // if request was succesfull
       if (response.success) {
-        setErrorMsg((prev) => ({ ...prev, success: true }));
         navigate("/", {
           replace: true,
           state: { signedUp: true },
@@ -54,6 +54,10 @@ export default function SignUpForm() {
               : null,
           name:
             response.response?.data.field === "name"
+              ? response.response.data.message
+              : null,
+          general:
+            response?.response.data.message && !response.response?.data.field
               ? response.response.data.message
               : null,
           success: false,
@@ -71,9 +75,6 @@ export default function SignUpForm() {
     }
   };
 
-  useEffect(() => {
-    console.log(errorMsg);
-  }, [errorMsg]);
   const form = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {

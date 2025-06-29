@@ -15,18 +15,16 @@ const AuthProvider = ({ children }) => {
     const getUser = async () => {
       const data = await fetchLoggingUser();
       if (data) {
+        // data is coming with this structure {accessToken : val , user {...}}
         const formattedUserData = {
-          id: data.user._id,
           name: data.user.name,
           email: data.user.email,
-          role: data.user.role,
           accessToken: data.accessToken,
           status: data.user.status,
           currencyPreference: data.user.currencyPreference || "USD",
           phone: data.user.phone,
         };
-        setUser(formattedUserData);
-        console.log("User data formatted :", formattedUserData);
+        setUser({ ...data.user, accessToken: data.accessToken });
         localStorage.setItem("user", JSON.stringify(formattedUserData));
         setIsAdmin(data.user.role === "admin");
       }
