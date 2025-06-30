@@ -9,11 +9,10 @@ const AuthProvider = ({ children }) => {
     return localUser ? JSON.parse(localUser) : null;
   });
   const [isAdmin, setIsAdmin] = useState(false);
-  const [userFetched, setUserFetched] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
-      const data = await fetchLoggingUser();
+      const data = await fetchLoggingUser(setUser);
       if (data) {
         // data is coming with this structure {accessToken : val , user {...}}
         const formattedUserData = {
@@ -28,11 +27,9 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(formattedUserData));
         setIsAdmin(data.user.role === "admin");
       }
-      setUserFetched(true);
     };
-
-    if (!userFetched) getUser();
-  }, [userFetched]);
+    getUser();
+  }, []);
 
   const contextValue = useMemo(
     () => ({

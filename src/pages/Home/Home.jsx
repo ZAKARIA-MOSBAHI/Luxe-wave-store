@@ -57,7 +57,7 @@ function Home() {
         ),
         {
           duration: 8000, // Longer duration for important message
-          position: "top-center",
+
           style: {
             minWidth: "350px",
           },

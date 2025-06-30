@@ -1,4 +1,4 @@
-import { Archive, Bookmark, Heart, LogOut, Settings } from "lucide-react";
+import { Archive, Heart, LogOut, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/admin/components/ui/Button";
 import { useDeviceType } from "@/hooks/useDeviceType";
@@ -10,9 +10,8 @@ import {
 
 const navItems = [
   { icon: Archive, label: "Order History", path: "/profile/orders" },
-  { icon: Bookmark, label: "Saved Items", path: "/profile/saved" },
   { icon: Heart, label: "Favorite Products", path: "/profile/favorites" },
-  { icon: Settings, label: "Account Settings", path: "/profile/settings" },
+  { icon: Settings, label: "Account Infos", path: "/profile/infos" },
 ];
 
 const ProfileNav = () => {

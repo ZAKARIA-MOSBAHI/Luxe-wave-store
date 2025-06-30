@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export const useDeviceType = () => {
   const [deviceType, setDeviceType] = useState(null);
@@ -25,10 +25,6 @@ export const useDeviceType = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    console.log("Device type is:", deviceType);
-  }, [deviceType]);
 
   return { deviceType, width };
 };

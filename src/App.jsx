@@ -10,6 +10,7 @@ import Layout from "./components/Layout/Layout";
 import { Toaster } from "sonner";
 import ErrorPage from "./pages/ErrorPage";
 import { SearchContext } from "./context/SearchContext";
+import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -75,7 +76,9 @@ function App() {
                 element={<Collections />}
               />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route element={<ProfilePageLayout />}>
+                <Route path="/profile" element={<Profile />} />
+              </Route>
               <Route path="/orders" element={<Order />} />
               <Route path="/place-order" element={<PlaceOrder />} />
               <Route path="/product/:productId" element={<Product />} />

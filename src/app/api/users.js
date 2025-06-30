@@ -54,16 +54,17 @@ export const login = async (payload, setUser) => {
     }
   }
 };
-export const fetchLoggingUser = async () => {
+export const fetchLoggingUser = async (setUser) => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user?.accessToken;
 
     if (!accessToken) {
-      const err = new Error("No access token found");
-      err.name = "accessTokenMissing";
-      throw err;
-      // why the code completes executing after this throw?
+      // const err = new Error("No access token found");
+      // err.name = "accessTokenMissing";
+      // throw err;
+      localStorage.removeItem("user");
+      setUser(null);
     }
 
     // Initial request with existing access token
@@ -78,39 +79,9 @@ export const fetchLoggingUser = async () => {
     const backendErrorName = error.response?.data?.name;
 
     if (backendErrorName === "accessTokenExpired") {
-      console.warn("Access token expired. Attempting refresh...");
-
-      try {
-        await refreshAccessToken(); // Assumes it updates localStorage with new tokens
-
-        const newUser = JSON.parse(localStorage.getItem("user"));
-        const newAccessToken = newUser?.accessToken;
-        const newRefreshToken = newUser?.refreshToken;
-
-        if (!newAccessToken || !newRefreshToken) {
-          throw new Error("Missing new tokens after refresh");
-        }
-
-        // Retry the original request with refreshed token
-        const retryResponse = await api.get("/users/me", {
-          headers: {
-            Authorization: `Bearer ${newAccessToken}`,
-            "x-refresh-token": newRefreshToken, // if required by your backend
-          },
-        });
-
-        return { accessToken: newAccessToken, ...retryResponse.data };
-      } catch (refreshError) {
-        console.error("Error during token refresh:", refreshError);
-        console.error("Token refresh failed. Logging out.");
-        window.location.href = "/login"; // force re-auth
-        return null;
-      }
-    } else {
-      // Other errors (not related to token)
-      console.error(error);
+      console.warn("Access token expired. You need to login again...");
       localStorage.removeItem("user");
-      return null;
+      setUser(null);
     }
   }
 };
