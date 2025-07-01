@@ -7,12 +7,12 @@ import UserInfo from "@/pages/Profile/components/UserInfo";
 function Profile() {
   const { user } = useAuth();
   if (user === null) {
-    window.location.href = "/register";
+    window.location.href = "/login";
     return null;
   }
 
   return (
-    <div>
+    <div className="w-full">
       <UserInfo />
       <UpdateUserForm />
     </div>

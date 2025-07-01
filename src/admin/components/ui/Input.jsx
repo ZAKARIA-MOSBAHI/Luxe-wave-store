@@ -24,6 +24,7 @@ const inputVariants = cva(
 const Input = React.forwardRef(
   ({ className, type, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "input";
+
     return (
       <Comp
         className={cn(inputVariants({ variant, size, className }))}

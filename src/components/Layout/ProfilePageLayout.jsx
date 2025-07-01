@@ -8,8 +8,8 @@ export default function ProfilePageLayout() {
       <ProfileNav />
 
       {/* scroll area appearing in the bottom */}
-      <ScrollArea className="h-full">
-        <div className="px-4 space-y-8 h-[1000px]">
+      <ScrollArea className="h-full w-full">
+        <div className="px-4 ">
           <Outlet />
         </div>
       </ScrollArea>

@@ -18,14 +18,14 @@ import { ScrollArea } from "./ScrollArea";
 import { cn } from "../../utils/clsx";
 
 const PhoneInput = React.forwardRef(
-  ({ className, onChange, ...props }, ref) => {
+  ({ className, onChange, inputProps, ...props }, ref) => {
     return (
       <RPNInput.default
         ref={ref}
         className={cn("flex", className)}
         flagComponent={FlagComponent}
         countrySelectComponent={CountrySelect}
-        inputComponent={InputComponent}
+        inputComponent={() => <InputComponent {...inputProps} />}
         smartCaret={false}
         onChange={(value) => onChange?.(value || "")}
         {...props}
@@ -36,7 +36,7 @@ const PhoneInput = React.forwardRef(
 PhoneInput.displayName = "PhoneInput";
 
 const InputComponent = React.forwardRef(({ className, ...props }, ref) => (
-  <Input className={cn(" ", className)} {...props} ref={ref} />
+  <Input className={cn(" ", className)} {...props} ref={ref} size="lg" />
 ));
 InputComponent.displayName = "InputComponent";
 
@@ -52,7 +52,7 @@ const CountrySelect = ({
         <Button
           type="button"
           variant="outline"
-          className="flex gap-1 rounded-e-none rounded-s-lg border-r-0 px-3 focus:z-10"
+          className="flex gap-1 border border-black rounded-none h-[44px] border-r-0 px-3 focus:z-10"
           disabled={disabled}
         >
           <FlagComponent
