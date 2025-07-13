@@ -9,18 +9,34 @@ import Title from "../../components/Title";
 import CategoryCarousel from "./components/CategoryCarousel";
 import NewsLetter from "./components/NewsLetter";
 import WhyUs from "./components/WhyUs";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "@/app/api/products";
+import { setProducts } from "@/app/slices/productSlice";
 
 function Home() {
+  const ProductsState = useSelector((state) => state.products);
   const [BestSellers, setBestSellers] = useState([]);
   const [LatestCollections, setLatestCollections] = useState([]);
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    setLatestCollections(products.slice(10, 14));
-    const filteredArr = products.filter(
-      (product) => product.bestseller === true
-    );
-    setBestSellers(filteredArr.slice(0, 4));
+    const FetchProducts = async () => {
+      try {
+        const results = await getProducts();
+        dispatch(setProducts(results.products));
+        setBestSellers(results.products.slice(0, 4));
+        setLatestCollections(results.products.slice(0, 4));
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    if (ProductsState.products.length <= 0) {
+      FetchProducts();
+    } else {
+      setBestSellers(ProductsState.products.slice(0, 4));
+      setLatestCollections(ProductsState.products.slice(0, 4));
+    }
   }, []);
   useEffect(() => {
     // check if the user is coming from the login page and if he just logged in

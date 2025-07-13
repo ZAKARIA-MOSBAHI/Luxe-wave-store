@@ -1,54 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addProduct, getProductsToStore } from "../thunks/productThunks";
 
-const productSlice = createSlice({
-  name: "product",
+const productsSlice = createSlice({
+  name: "products",
   initialState: {
-    data: null, // This stores the list of products fetched from the server
-    status: null, // This stores the loading or success/failure status
-    error: null, // This stores any errors during product operations
+    products: [],
   },
   reducers: {
-    setProduct: (state, action) => {
-      state.data = action.payload;
+    setProducts: (state, action) => {
+      state.products = action.payload;
     },
-    resetRequestResults: (state) => {
-      state.status = null;
-      state.error = null;
-    },
-  },
-  extraReducers: (builder) => {
-    // Get products
-    builder
-      .addCase(getProductsToStore.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getProductsToStore.fulfilled, (state, action) => {
-        state.status = "success";
-        state.error = null;
-        state.data = action.payload; // Populate with the list of fetched products
-      })
-      .addCase(getProductsToStore.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload; // Handle the error
-      })
-
-      // Add product (does not affect the product list in `state.data`)
-      .addCase(addProduct.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(addProduct.fulfilled, (state) => {
-        state.status = "success";
-        state.error = null;
-        // You might want to handle the success state here, like showing a success message
-        // No changes to `state.data` as it's not meant to store the single added product
-      })
-      .addCase(addProduct.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload; // Handle the error
-      });
   },
 });
 
-export default productSlice.reducer;
-export const { setProduct, resetRequestResults } = productSlice.actions;
+export default productsSlice.reducer;
+export const { setProducts } = productsSlice.actions;

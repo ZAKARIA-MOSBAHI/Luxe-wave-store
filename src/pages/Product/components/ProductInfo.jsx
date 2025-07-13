@@ -34,7 +34,7 @@ export default function ProductInfo({
         </div>
         <div className="flex flex-col gap-4">
           <p className="text-lg sm:text-xl">SIZES</p>
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             {product.sizes &&
               product.sizes.map((s, i) => {
                 return (
@@ -52,7 +52,7 @@ export default function ProductInfo({
                 );
               })}
             {err && <span className="px-4 text-red-500 text-sm">{err}</span>}
-          </div>
+          </div> */}
         </div>
         <div className="flex gap-4">
           <button

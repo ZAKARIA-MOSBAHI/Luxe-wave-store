@@ -5,13 +5,19 @@ import FilterIcon from "../../assets/client/icons/FilterIcon";
 import Pagination from "./components/Pagination";
 import { useLocation, useParams } from "react-router-dom";
 import ProcuctsList from "./components/ProcuctsList";
+import { useDispatch, useSelector } from "react-redux";
+import { getClientFavoriteProducts, getProducts } from "@/app/api/products";
+import { setProducts } from "@/app/slices/productSlice";
+import { setFavorites } from "@/app/slices/favoritesSlice";
 
 const Collections = () => {
   const { products, setShowFilterMenu, selectedFilterOptions } =
     useContext(ShopContext);
+  const ProductsState = useSelector((state) => state.products);
+  const FavoriteProductsState = useSelector((state) => state.favorites);
+  const dispatch = useDispatch();
   const { pageNumber } = useParams();
   const maxPages = Math.ceil(products.length / 12);
-  const Location = useLocation();
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const sortProducts = (filters) => {
@@ -46,6 +52,20 @@ const Collections = () => {
     }
     setFilteredProducts(productsCopy);
   };
+  useEffect(() => {
+    const FetchProducts = async () => {
+      try {
+        const results = await getProducts();
+        dispatch(setProducts(results.products));
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (ProductsState.products.length <= 0) {
+      FetchProducts();
+    }
+  }, []);
 
   useEffect(() => {
     sortProducts(selectedFilterOptions);
@@ -71,7 +91,7 @@ const Collections = () => {
           </button>
         </div>
         {pageNumber > 0 && pageNumber < maxPages + 1 ? (
-          <ProcuctsList filteredProducts={filteredProducts} />
+          <ProcuctsList filteredProducts={ProductsState.products} />
         ) : (
           <div>NO PRODUCTS FOUND </div>
         )}

@@ -5,7 +5,7 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
   const [sizeChoosen, setSizeChoosen] = useState(null);
-  const [showSearch, setShowSearch] = useState(false);
+
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -122,8 +122,7 @@ const ShopContextProvider = (props) => {
     currency: "$",
     shipping_fees: 15,
     products,
-    showSearch,
-    setShowSearch,
+
     search,
     searchResults,
     addToCart,
@@ -140,11 +139,6 @@ const ShopContextProvider = (props) => {
     setSearchQuery,
     setSearchResults,
   };
-  useEffect(() => {
-    if (showSearch === false) {
-      setSearchResults([]);
-    }
-  }, [showSearch]);
 
   return (
     <ShopContext.Provider value={value}>{props.children}</ShopContext.Provider>

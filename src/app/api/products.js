@@ -46,3 +46,51 @@ export const deleteProductById = async (productId) => {
     }
   }
 };
+export const getClientFavoriteProducts = async () => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user?.accessToken;
+    const result = await api.get("/favorites", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log(result);
+    return result.data;
+  } catch (e) {
+    console.log(e);
+    return e.response.data;
+  }
+};
+export const removeFavoriteProduct = async (productId) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user?.accessToken;
+    const result = await api.delete(`/favorites/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return result.data;
+  } catch (e) {
+    return e.response.data;
+  }
+};
+export const addFavoriteProduct = async (productId) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user?.accessToken;
+    const result = await api.post(`/favorites/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log("adding favorite product");
+    console.log(result);
+    return result.data;
+  } catch (e) {
+    console.log("error adding favorite product");
+    console.log(e);
+    return e.response.data;
+  }
+};

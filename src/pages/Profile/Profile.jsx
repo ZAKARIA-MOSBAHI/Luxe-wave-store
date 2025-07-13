@@ -1,13 +1,14 @@
 import { useAuth } from "@/context/AuthProvider";
 import UpdateUserForm from "@/forms/UpdateUserForm";
-import FavoriteProducts from "@/pages/Profile/components/FavoriteProducts";
 
 import UserInfo from "@/pages/Profile/components/UserInfo";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   if (user === null) {
-    window.location.href = "/login";
+    navigate("/login", { replace: true });
     return null;
   }
 

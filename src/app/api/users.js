@@ -1,4 +1,3 @@
-import { refreshAccessToken } from "../../admin/utils/utils";
 import api from "../../api/axios";
 
 export const signup = async (payload, setUser) => {
