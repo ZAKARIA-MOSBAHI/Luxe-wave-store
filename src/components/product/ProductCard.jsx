@@ -5,7 +5,11 @@ import HeartIcon from "../../assets/client/icons/HeartIcon";
 import CardBadge from "../ui/CardBadge";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
-import { getClientFavoriteProducts } from "@/app/api/products";
+import {
+  addFavoriteProduct,
+  getClientFavoriteProducts,
+  removeFavoriteProduct,
+} from "@/app/api/products";
 import { setFavorites } from "@/app/slices/favoritesSlice";
 
 export default function ProductCard({
@@ -22,14 +26,22 @@ export default function ProductCard({
   const FavoriteProductsState = useSelector((state) => state.favorites);
   const navigate = useNavigate();
 
-  const handleFavorite = (e) => {
+  const handleFavorite = async (e) => {
     e.stopPropagation();
     if (!user) {
-      console.log("You cannot favor this !");
+      console.log("login to favor this !");
       return;
     }
 
-    setIsFavorite(!isFavorite);
+    if (!isFavorite) {
+      const result = await addFavoriteProduct(product._id);
+      dispatch(setFavorites(result.newFavoriteList));
+      setIsFavorite(true);
+    } else {
+      const result = await removeFavoriteProduct(product._id);
+      dispatch(setFavorites(result.newFavoriteList));
+      setIsFavorite(false);
+    }
   };
   useEffect(() => {
     const FetchFavoriteProducts = async () => {
@@ -70,7 +82,6 @@ export default function ProductCard({
       {/* Image Container with Overlay Effect */}
       <div className="relative overflow-hidden  max-h-[400px]  bg-gray-100">
         <img
-          loading="lazy"
           src={product.mainImage.url}
           alt={product.mainImage.altText}
           className="h-full w-full object-cover   transition-transform duration-500 ease-in-out group-hover:scale-105"
@@ -101,6 +112,7 @@ export default function ProductCard({
       {withHeart && (
         <button
           onClick={handleFavorite}
+          role="button"
           aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
           className="absolute top-3 right-3 p-2 rounded-full bg-white bg-opacity-70 backdrop-blur-sm shadow-sm transition-all duration-300 hover:bg-opacity-100"
         >

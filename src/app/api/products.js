@@ -10,6 +10,22 @@ export const getProducts = async () => {
     console.log(error);
   }
 };
+export const getFilteredProducts = async (filterOptions) => {
+  console.log("hello there from getFilteredProducts", filterOptions);
+
+  try {
+    const response = await api.post("/products/filter", filterOptions);
+    console.log("📦 Response from backend:", response);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "🔥 Backend call failed:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
 export const getProductById = async (productId) => {
   try {
     const response = await api.get(`/products/${productId}`);
@@ -80,13 +96,17 @@ export const addFavoriteProduct = async (productId) => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user?.accessToken;
-    const result = await api.post(`/favorites/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const result = await api.post(
+      `/favorites/${productId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
     console.log("adding favorite product");
-    console.log(result);
     return result.data;
   } catch (e) {
     console.log("error adding favorite product");

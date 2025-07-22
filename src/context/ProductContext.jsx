@@ -7,7 +7,6 @@ const ShopContextProvider = (props) => {
   const [sizeChoosen, setSizeChoosen] = useState(null);
 
   const [showFilterMenu, setShowFilterMenu] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   // options for filter menu
   const filterOptions = {
@@ -102,18 +101,6 @@ const ShopContextProvider = (props) => {
     }));
   };
 
-  const search = (e) => {
-    const value = e.target.value.toLowerCase().split(" ");
-    const ProductsCopy = products.slice();
-    const searchedProducts = ProductsCopy.filter((p) => {
-      const productNameWords = p.name.toLowerCase().split(" ");
-      // Check if any word from user input matches a word in the product name
-      return value.some((val) => productNameWords.includes(val));
-    });
-
-    setSearchResults(searchedProducts);
-  };
-  const handleSearch = async (e) => {};
   const value = {
     sizeChoosen,
     setSizeChoosen,
@@ -123,8 +110,6 @@ const ShopContextProvider = (props) => {
     shipping_fees: 15,
     products,
 
-    search,
-    searchResults,
     addToCart,
     cart,
     setCart,
@@ -137,7 +122,6 @@ const ShopContextProvider = (props) => {
     handleSearch,
     searchQuery,
     setSearchQuery,
-    setSearchResults,
   };
 
   return (

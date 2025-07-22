@@ -1,78 +1,42 @@
 import { useContext, useEffect, useState } from "react";
 import Title from "../../components/Title";
 import { ShopContext } from "../../context/ProductContext";
-import FilterIcon from "../../assets/client/icons/FilterIcon";
 import Pagination from "./components/Pagination";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ProcuctsList from "./components/ProcuctsList";
 import { useDispatch, useSelector } from "react-redux";
-import { getClientFavoriteProducts, getProducts } from "@/app/api/products";
-import { setProducts } from "@/app/slices/productSlice";
-import { setFavorites } from "@/app/slices/favoritesSlice";
+import { getFilteredProducts, getProducts } from "@/app/api/products";
+import {
+  setFilteredProducts,
+  setFilterOptions,
+  setProducts,
+} from "@/app/slices/productSlice";
+import { SlidersHorizontal } from "lucide-react";
 
 const Collections = () => {
-  const { products, setShowFilterMenu, selectedFilterOptions } =
-    useContext(ShopContext);
+  const { products, setShowFilterMenu } = useContext(ShopContext);
   const ProductsState = useSelector((state) => state.products);
-  const FavoriteProductsState = useSelector((state) => state.favorites);
   const dispatch = useDispatch();
   const { pageNumber } = useParams();
   const maxPages = Math.ceil(products.length / 12);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
-  const sortProducts = (filters) => {
-    let productsCopy = products.slice();
-    if (filters.category) {
-      // filter method returns a new array but it doesn't affect the original array
-      productsCopy = productsCopy.filter(
-        (p) => p.category.toLowerCase() === filters.category
-      );
-    }
-    if (filters.price) {
-      if (filters.price === "low to high") {
-        productsCopy = productsCopy.sort((a, b) => {
-          return a.price - b.price;
-        });
-      } else if (filters.price === "high to low") {
-        productsCopy = productsCopy.sort((a, b) => {
-          return b.price - a.price;
-        });
-      }
-    }
-    if (filters.weartype) {
-      productsCopy = productsCopy.filter((p) => {
-        const lowerCase = p.subCategory.toLowerCase();
-        return lowerCase === filters.weartype;
-      });
-    }
-    if (filters.size) {
-      productsCopy = productsCopy.filter(
-        (p) => p.sizes.includes(filters.size) === true
-      );
-    }
-    setFilteredProducts(productsCopy);
-  };
   useEffect(() => {
     const FetchProducts = async () => {
       try {
         const results = await getProducts();
         dispatch(setProducts(results.products));
+        dispatch(setFilteredProducts(results.products));
       } catch (e) {
         console.log(e);
       }
     };
 
-    if (ProductsState.products.length <= 0) {
+    if (ProductsState.products.length) {
       FetchProducts();
     }
   }, []);
 
   useEffect(() => {
-    sortProducts(selectedFilterOptions);
-  }, [selectedFilterOptions]);
-  useEffect(() => {
     const productPage = products.slice((pageNumber - 1) * 12, pageNumber * 12);
-    setFilteredProducts(productPage);
   }, [pageNumber]);
 
   return (
@@ -87,11 +51,11 @@ const Collections = () => {
             onClick={() => setShowFilterMenu((prevState) => !prevState)}
           >
             <span className="hidden sm:inline">SORT & FILTER</span>
-            <FilterIcon />
+            <SlidersHorizontal />
           </button>
         </div>
         {pageNumber > 0 && pageNumber < maxPages + 1 ? (
-          <ProcuctsList filteredProducts={ProductsState.products} />
+          <ProcuctsList filteredProducts={ProductsState.filteredProducts} />
         ) : (
           <div>NO PRODUCTS FOUND </div>
         )}
