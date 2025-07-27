@@ -23,7 +23,6 @@ const productsSlice = createSlice({
       state.filteredProducts = action.payload;
     },
     filterProducts: (state, action) => {
-      console.log(action.payload);
       state.options = { ...state.options, ...action.payload };
       const { gender, category, price, size } = state.options;
       let filtered = [...state.products];

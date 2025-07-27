@@ -107,6 +107,7 @@ export const addFavoriteProduct = async (productId) => {
     );
 
     console.log("adding favorite product");
+
     return result.data;
   } catch (e) {
     console.log("error adding favorite product");

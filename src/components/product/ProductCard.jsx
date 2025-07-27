@@ -35,12 +35,16 @@ export default function ProductCard({
 
     if (!isFavorite) {
       const result = await addFavoriteProduct(product._id);
-      dispatch(setFavorites(result.newFavoriteList));
-      setIsFavorite(true);
+      if (result.success) {
+        dispatch(setFavorites(result.newFavoriteList));
+        setIsFavorite(true);
+      }
     } else {
       const result = await removeFavoriteProduct(product._id);
-      dispatch(setFavorites(result.newFavoriteList));
-      setIsFavorite(false);
+      if (result.success) {
+        dispatch(setFavorites(result.newFavoriteList));
+        setIsFavorite(false);
+      }
     }
   };
   useEffect(() => {
