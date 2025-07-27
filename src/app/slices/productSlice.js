@@ -23,8 +23,9 @@ const productsSlice = createSlice({
       state.filteredProducts = action.payload;
     },
     filterProducts: (state, action) => {
-      const { gender, category, price, size } = action.payload;
       console.log(action.payload);
+      state.options = { ...state.options, ...action.payload };
+      const { gender, category, price, size } = state.options;
       let filtered = [...state.products];
 
       if (gender !== null) {
@@ -32,15 +33,22 @@ const productsSlice = createSlice({
       }
 
       if (category !== null) {
-        filtered = filtered.filter((product) => product.category === category);
+        filtered = filtered.filter(
+          (product) => product.categoryId.name.toLowerCase() === category
+        );
       }
 
       if (price !== null) {
-        filtered = filtered.filter((product) => product.price <= price);
+        if (price === "low to high") {
+          filtered = [...filtered].sort((a, b) => a.price - b.price);
+        } else if (price === "high to low") {
+          filtered = [...filtered].sort((a, b) => b.price - a.price);
+        }
       }
-
       if (size !== null) {
-        filtered = filtered.filter((product) => product.size.includes(size));
+        filtered = filtered.filter((product) =>
+          Object.keys(product.sizes).includes(size)
+        );
       }
 
       state.filteredProducts = filtered;

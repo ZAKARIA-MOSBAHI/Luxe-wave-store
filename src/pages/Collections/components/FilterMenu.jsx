@@ -32,8 +32,11 @@ function FilterMenu({
   const ProductsState = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const handleFilterChange = (key, value) => {
-    dispatch(filterProducts({ ...ProductsState.options, [key]: value }));
-    console.log(ProductsState.filteredProducts);
+    if (ProductsState.options[key] === value) {
+      dispatch(filterProducts({ [key]: null }));
+    } else {
+      dispatch(filterProducts({ [key]: value }));
+    }
   };
   const resetFilters = () => {
     dispatch(setFilteredProducts(ProductsState.products));
