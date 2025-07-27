@@ -119,7 +119,6 @@ const ShopContextProvider = (props) => {
     selectedFilterOptions,
     setSelectedFilterOptions,
     filterOptions,
-    handleSearch,
     searchQuery,
     setSearchQuery,
   };

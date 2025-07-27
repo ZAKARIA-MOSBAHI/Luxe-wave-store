@@ -30,9 +30,7 @@ const Collections = () => {
       }
     };
 
-    if (ProductsState.products.length) {
-      FetchProducts();
-    }
+    FetchProducts();
   }, []);
 
   useEffect(() => {
