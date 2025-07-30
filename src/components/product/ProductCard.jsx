@@ -59,7 +59,6 @@ export default function ProductCard({
         );
 
         setIsFavorite(isProductInFavorites ? true : false);
-        console.log("this is teh response ", response);
       } catch (error) {
         console.error("Error fetching favorite products:", error);
       }

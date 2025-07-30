@@ -106,3 +106,25 @@ export const getUsers = async () => {
     }
   }
 };
+export const updateUser = async (payload, setUser) => {
+  try {
+    const accessToken = JSON.parse(localStorage.getItem("user")).accessToken;
+    const response = await api.put("/users/update", payload, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log("response", response.data);
+    setUser(response.data.user);
+    return { success: true };
+  } catch (error) {
+    console.log("error", error);
+    if (error.response.data) {
+      return error.response.data;
+    } else {
+      return {
+        message: "Failed to update user",
+      };
+    }
+  }
+};

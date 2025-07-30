@@ -50,9 +50,9 @@ export default function UpdateUserForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handle)}
-        className="flex justify-end items-end my-8 w-fit mx-auto g flex-col gap-y-12"
+        className="flex justify-end items-end my-8 w-fit mx-auto  flex-col gap-y-12"
       >
-        <div className="grid grid-cols-1 gap-y-8   gap-x-12  md:grid-cols-2 w-fit">
+        <div className="grid grid-cols-1 gap-y-8   w-fit">
           <FormField
             control={form.control}
             name={"name"}
