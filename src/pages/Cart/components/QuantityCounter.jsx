@@ -1,79 +1,67 @@
-import { useContext } from "react";
-import { ShopContext } from "../../../context/ProductContext";
+import { useDispatch } from "react-redux";
+import { addProductToCart, decrementCartItemQuantity } from "@/app/api/carts";
+import { setCart } from "@/app/slices/cartSlice";
+import { Minus, Plus } from "lucide-react";
+import { toast } from "sonner";
 
-export default function QuantityCounter({ quantity = 1, product }) {
-  const { incrementProductQuantity, decrementProductQuantity } =
-    useContext(ShopContext);
-  // const handleIncrement = async () => {
-  //     try {
-  //       if (sizeChoosen) {
-  //         const h = { productId, sizeChoosen };
-  //         console.log("Adding product to cart with size:", h);
-  //         const response = await addProductToCart(productId, sizeChoosen);
-  //         if (response.success === true) {
-  //           dispatch(setCart(response.cart));
-  //           setErr("");
-  //         } else {
-  //           setErr(response.message || "Failed to add product to cart");
-  //         }
-  //       } else {
-  //         setErr("Please select a size");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error adding product to cart:", error);
-  //     }
-  //   };
+export default function QuantityCounter({ product }) {
+  const dispatch = useDispatch();
+
+  const handleIncrement = async () => {
+    try {
+      const productId = product?.productId._id;
+      const response = await addProductToCart(productId, product?.itemSize);
+      console.log(response);
+      if (response.success === true) {
+        dispatch(setCart(response.cart));
+      } else {
+        toast.error(response.message || "Failed to add product to cart");
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
+  };
+  const handleDecrement = async () => {
+    try {
+      const productId = product?.productId._id;
+      const response = await decrementCartItemQuantity(
+        productId,
+        product?.itemSize
+      );
+      console.log(response);
+      if (response.success === true) {
+        dispatch(setCart(response.cart));
+      } else {
+        toast.error(response.message || "Failed to add product to cart");
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
+  };
+
   return (
     <form className="max-w-sm ">
       <div className="relative flex items-center">
         <button
           type="button"
           id="decrement-button"
-          onClick={() => decrementProductQuantity(product)}
+          onClick={handleDecrement}
           data-input-counter-decrement="counter-input"
           className="shrink-0 bg-gray-100 cursor-pointer hover:bg-gray-200 inline-flex items-center justify-center   rounded-md p-1 focus:ring-gray-100   focus:ring-2 focus:outline-none"
         >
-          <svg
-            className="w-4 h-4 text-gray-900 "
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 2"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h16"
-            />
-          </svg>
+          <Minus strokeWidth={3} className="size-4  text-gray-900" />
         </button>
         <span className="shrink-0 text-gray-900   font-medium   max-w-[2.5rem]  px-2 text-center">
-          {quantity}
+          {product?.quantity || 1}
         </span>
         <button
-          onClick={() => incrementProductQuantity(product)}
+          onClick={handleIncrement}
           type="button"
           id="increment-button"
           data-input-counter-increment="counter-input"
           className="shrink-0 bg-gray-100  cursor-pointer hover:bg-gray-200 inline-flex items-center justify-center rounded-md p-1 focus:ring-gray-100   focus:ring-2 focus:outline-none"
         >
-          <svg
-            className="w-4 h-4 text-gray-900"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
+          <Plus strokeWidth={3} className="size-4  text-gray-900" />
         </button>
       </div>
     </form>

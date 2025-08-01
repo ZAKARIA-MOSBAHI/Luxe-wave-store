@@ -44,10 +44,13 @@ export default function ProductInfo({
     const FetchFavoriteProducts = async () => {
       try {
         const response = await getClientFavoriteProducts();
+        console.log("response from fetch favorite products", response);
 
-        const isProductInFavorites = response.favorites.find(
-          (item) => item.productId._id === product?._id
-        );
+        const isProductInFavorites = response.favorites.find((item) => {
+          console.log(item);
+          return item.productId._id === product?._id;
+        });
+        console.log(isProductInFavorites ? true : false);
 
         setIsFavorite(isProductInFavorites ? true : false);
         console.log("this is teh response ", response);
@@ -63,7 +66,7 @@ export default function ProductInfo({
       );
       setIsFavorite(isProductInFavorites ? true : false);
     }
-  }, []);
+  }, [product?._id, FavoriteProductsState]);
 
   return (
     <div className="p-4">

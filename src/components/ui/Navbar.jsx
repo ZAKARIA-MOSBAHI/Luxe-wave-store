@@ -27,12 +27,13 @@ import SearchInput from "./SearchInput";
 import SearchResults from "./SearchResults";
 import useDebounce from "@/hooks/useDebounce";
 import { SearchContext } from "@/context/SearchContext";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const { logo } = assets;
+  const cartState = useSelector((state) => state.cart.data);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { cart } = useContext(ShopContext);
   const { showSearch, searchQuery, handleSearch, setSearchResults } =
     useContext(SearchContext);
   const debouncedSearchQuery = useDebounce(searchQuery);
@@ -45,7 +46,6 @@ function Navbar() {
       navigate("/register");
     }
   };
-
   useEffect(() => {
     setSearchResults([]);
     if (debouncedSearchQuery.length === 0) {
@@ -132,10 +132,12 @@ function Navbar() {
 
               <p
                 className={`${
-                  cart.items.length === 0 ? "hidden" : ""
+                  cartState?.items && cartState?.items?.length > 0
+                    ? ""
+                    : "hidden"
                 } absolute right-[-5px] top-[-5px] rounded-full w-4 text-center leading-4 bg-red-500  text-white aspect-square  text-[8px]`}
               >
-                {cart.items.length}
+                {cartState?.items?.length}
               </p>
             </Link>
 

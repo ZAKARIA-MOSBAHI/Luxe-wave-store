@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import CartItem from "./components/CartItem";
 import OrderSummary from "./components/OrderSummary";
@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "@/app/slices/cartSlice";
 
 function Cart() {
-  const prevCartRef = useRef(null);
   const cartState = useSelector((state) => state.cart.data);
   const dispatch = useDispatch();
   useEffect(() => {

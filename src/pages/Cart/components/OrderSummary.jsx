@@ -24,7 +24,9 @@ export default function OrderSummary() {
 
         <div className="flex  justify-between py-4 border-t  border-gray-400">
           <p className="text-lg font-medium">TOTAL :</p>
-          <p className="text-lg ">${cartState?.total + shipping_fees}</p>
+          <p className="text-lg ">
+            ${cartState?.total + shipping_fees || shipping_fees}
+          </p>
         </div>
       </div>
       <Link to={"/place-order"}>
