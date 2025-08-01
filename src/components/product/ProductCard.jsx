@@ -48,30 +48,11 @@ export default function ProductCard({
     }
   };
   useEffect(() => {
-    const FetchFavoriteProducts = async () => {
-      try {
-        const response = await getClientFavoriteProducts();
-        if (response.success) {
-          dispatch(setFavorites(response.favorites));
-        }
-        const isProductInFavorites = response.favorites.find(
-          (item) => item.productId._id === product._id
-        );
-
-        setIsFavorite(isProductInFavorites ? true : false);
-      } catch (error) {
-        console.error("Error fetching favorite products:", error);
-      }
-    };
-    if (FavoriteProductsState.favoriteProducts.length <= 0) {
-      FetchFavoriteProducts();
-    } else {
-      const isProductInFavorites = FavoriteProductsState.favoriteProducts.find(
-        (item) => item.productId._id === product._id
-      );
-      setIsFavorite(isProductInFavorites ? true : false);
-    }
-  }, []);
+    const isProductInFavorites = FavoriteProductsState.favoriteProducts.find(
+      (item) => item.productId._id === product._id
+    );
+    setIsFavorite(!!isProductInFavorites);
+  }, [FavoriteProductsState]);
 
   const handleProductClick = () => {
     navigate(`/product/${product._id}`);

@@ -29,12 +29,12 @@ export default function ProductInfo({
     }
 
     if (!isFavorite) {
-      const result = await addFavoriteProduct(product._id);
+      const result = await addFavoriteProduct(product?._id);
       if (result.success) {
         setIsFavorite(true);
       }
     } else {
-      const result = await removeFavoriteProduct(product._id);
+      const result = await removeFavoriteProduct(product?._id);
       if (result.success) {
         setIsFavorite(false);
       }
@@ -46,7 +46,7 @@ export default function ProductInfo({
         const response = await getClientFavoriteProducts();
 
         const isProductInFavorites = response.favorites.find(
-          (item) => item.productId._id === product._id
+          (item) => item.productId._id === product?._id
         );
 
         setIsFavorite(isProductInFavorites ? true : false);
@@ -59,7 +59,7 @@ export default function ProductInfo({
       FetchFavoriteProducts();
     } else {
       const isProductInFavorites = FavoriteProductsState.favoriteProducts.find(
-        (item) => item.productId._id === product._id
+        (item) => item.productId._id === product?._id
       );
       setIsFavorite(isProductInFavorites ? true : false);
     }
@@ -69,17 +69,17 @@ export default function ProductInfo({
     <div className="p-4">
       <h1 className="text-2xl mb-4 underline w-fit">Details</h1>
       <div className="flex gap-8 flex-col">
-        <h1 className="font-medium text-3xl ">{product.name}</h1>
-        <p className=" text-gray-700">{product.description}</p>
+        <h1 className="font-medium text-3xl ">{product?.name}</h1>
+        <p className=" text-gray-700">{product?.description}</p>
         <div className="flex flex-wrap  gap-y-8 justify-between items-center">
-          <div className="flex text-lg md:text-xl gap-4 items-center">
-            <h2 className="  text-gray-500">Price </h2>
-            <p className="font-medium">{product.price} MAD</p>
+          <div className="flex text-lg md:text-xl gap-2 items-center">
+            <h2 className=" text-base text-gray-500">Price </h2>
+            <p className="font-medium">{product?.price} MAD</p>
           </div>
-          <div className="flex items-center gap-4">
-            <h2 className=" text-lg  text-gray-500">Sizes </h2>
+          <div className="flex items-center gap-2">
+            <h2 className=" text-base  text-gray-500">Sizes </h2>
 
-            {Object.keys(product.sizes).map((key, i) => (
+            {Object.keys(product?.sizes ?? {}).map((key, i) => (
               <button
                 key={i}
                 className={`${
@@ -89,11 +89,9 @@ export default function ProductInfo({
                   setSizeChoosen(key);
                 }}
               >
-                {key} ({product.sizes[key]})
+                {key} ({product?.sizes[key]})
               </button>
             ))}
-
-            {err && <span className="px-4 text-red-500 text-sm">{err}</span>}
           </div>
         </div>
 
@@ -114,6 +112,7 @@ export default function ProductInfo({
             />
           </button>
         </div>
+        {err && <span className="px-4 text-red-500 text-sm">{err}</span>}
       </div>
     </div>
   );

@@ -4,6 +4,25 @@ import { ShopContext } from "../../../context/ProductContext";
 export default function QuantityCounter({ quantity = 1, product }) {
   const { incrementProductQuantity, decrementProductQuantity } =
     useContext(ShopContext);
+  // const handleIncrement = async () => {
+  //     try {
+  //       if (sizeChoosen) {
+  //         const h = { productId, sizeChoosen };
+  //         console.log("Adding product to cart with size:", h);
+  //         const response = await addProductToCart(productId, sizeChoosen);
+  //         if (response.success === true) {
+  //           dispatch(setCart(response.cart));
+  //           setErr("");
+  //         } else {
+  //           setErr(response.message || "Failed to add product to cart");
+  //         }
+  //       } else {
+  //         setErr("Please select a size");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error adding product to cart:", error);
+  //     }
+  //   };
   return (
     <form className="max-w-sm ">
       <div className="relative flex items-center">

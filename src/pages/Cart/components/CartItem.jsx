@@ -9,17 +9,14 @@ export default function CartItem({ item }) {
     <>
       <div className="flex w-full gap-4 relative my-2 p-4">
         <img
-          src={item.image[0]}
+          src={item.productId.mainImage.url}
           alt=""
           className="w-36 rounded-lg h-auto object-cover"
         />
         <div className="w-full flex-col flex gap-4 ">
           <div className="flex justify-between items-center flex-wrap text-lg sm:text-xl">
-            <h1 className=" text-gray-600 my-2">{item.name}</h1>
-            <p className="font-medium">
-              {currency}
-              {item.price}
-            </p>
+            <h1 className=" text-gray-600 my-2">{item.productId.name}</h1>
+            <p className="font-medium">${item.productId.price}</p>
           </div>
           <div className="flex gap-4 md:gap-8 flex-wrap items-center">
             <div className="flex flex-wrap gap-4 items-center">

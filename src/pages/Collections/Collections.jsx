@@ -1,24 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Title from "../../components/Title";
 import { ShopContext } from "../../context/ProductContext";
-import Pagination from "./components/Pagination";
 import { useParams } from "react-router-dom";
 import ProcuctsList from "./components/ProcuctsList";
 import { useDispatch, useSelector } from "react-redux";
-import { getFilteredProducts, getProducts } from "@/app/api/products";
-import {
-  setFilteredProducts,
-  setFilterOptions,
-  setProducts,
-} from "@/app/slices/productSlice";
+import { getProducts } from "@/app/api/products";
+import { setFilteredProducts, setProducts } from "@/app/slices/productSlice";
 import { SlidersHorizontal } from "lucide-react";
 
 const Collections = () => {
-  const { products, setShowFilterMenu } = useContext(ShopContext);
+  const { setShowFilterMenu } = useContext(ShopContext);
   const ProductsState = useSelector((state) => state.products);
   const dispatch = useDispatch();
-  const { pageNumber } = useParams();
-  const maxPages = Math.ceil(products.length / 12);
+
   useEffect(() => {
     const FetchProducts = async () => {
       try {
@@ -33,12 +27,8 @@ const Collections = () => {
     FetchProducts();
   }, []);
 
-  useEffect(() => {
-    const productPage = products.slice((pageNumber - 1) * 12, pageNumber * 12);
-  }, [pageNumber]);
-
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10  relative max-w-[1152px] w-full mx-auto xl:px-0 px-4">
+    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 mb-8  relative max-w-[1152px] w-full mx-auto xl:px-0 px-4">
       <div className="flex-1">
         <div className="flex flex-row justify-between items-center  mb-4">
           <Title title={"COLLECTIONS"} />
@@ -52,12 +42,8 @@ const Collections = () => {
             <SlidersHorizontal />
           </button>
         </div>
-        {pageNumber > 0 && pageNumber < maxPages + 1 ? (
-          <ProcuctsList filteredProducts={ProductsState.filteredProducts} />
-        ) : (
-          <div>NO PRODUCTS FOUND </div>
-        )}
-        <Pagination pageIndex={pageNumber} maxPages={maxPages} />
+
+        <ProcuctsList filteredProducts={ProductsState.filteredProducts} />
       </div>
     </div>
   );

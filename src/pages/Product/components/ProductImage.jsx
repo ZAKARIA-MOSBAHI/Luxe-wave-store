@@ -1,9 +1,14 @@
+import { useEffect } from "react";
+
 export default function ProductImage({ mainImg, setMainImg, product }) {
+  useEffect(() => {
+    console.log("the product is ", product);
+  }, []);
   return (
     <div className="flex max-h-[500px] flex-col-reverse gap-4 justify-center lg:flex-row">
       <div className="flex lg:flex-col overflow-x-auto gap-2">
-        {product.mainImage && product.additionalImages.length > 0
-          ? product.additionalImages.map((img) => {
+        {product?.mainImage && product?.additionalImages.length > 0
+          ? product?.additionalImages.map((img) => {
               return img === mainImg ? null : (
                 <img
                   key={img._id}

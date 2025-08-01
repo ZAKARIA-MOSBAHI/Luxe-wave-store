@@ -4,7 +4,7 @@ import { ShopContext } from "../../../context/ProductContext";
 
 export default function SelectMenu({ product }) {
   const { cart, setCart, setSizeChoosen } = useContext(ShopContext);
-  const [selected, setSelected] = useState(product.sizeChoosen);
+  const [selected, setSelected] = useState(product.itemSize);
   const [isopen, setIsOpen] = useState(false);
   const [optionList, setOptionList] = useState(product.sizes);
   const handleSizeChange = (size) => {
