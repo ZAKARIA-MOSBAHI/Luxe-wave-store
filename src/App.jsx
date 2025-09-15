@@ -24,7 +24,6 @@ const PlaceOrder = lazy(() => import("./pages/PlaceOrder/PlaceOrder"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
 const Order = lazy(() => import("./pages/Order"));
-const Dashboard = lazy(() => import("./admin/pages/Dashboard"));
 const AdminProducts = lazy(() => import("./admin/pages/Products"));
 const AdminCategories = lazy(() => import("./admin/pages/Categories"));
 const AdminUsers = lazy(() => import("./admin/pages/Users"));
@@ -89,14 +88,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             {/* ADMIN ROUTES  */}
-            <Route
-              path="/admin/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+
             <Route
               path="/admin/products"
               element={

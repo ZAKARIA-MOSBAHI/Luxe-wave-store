@@ -11,9 +11,12 @@ import {
 } from "../ui/DropdownMenu";
 import { useNavigate } from "react-router-dom";
 import { Logout } from "@/lib/utils";
+import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
+import { useAuth } from "@/context/AuthProvider";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function Header() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   return (
     <header className="flex h-16 items-center justify-end gap-8 md:justify-between border-b bg-background px-2 md:px-6">
       {/* Search Bar */}
@@ -43,16 +46,11 @@ export function Header() {
         {/* User Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="relative h-8 w-8 rounded-full bg-gray-400"
-            >
-              <div className="w-8 h-8 rounded-full bg-gray-200"></div>
-              {/* <Avatar className="h-8 w-8">
-                <AvatarImage src="/avatar.png" alt="Admin" />
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar> */}
-            </Button>
+            <Avatar className="h-8 w-8 cursor-pointer bg-gray-100 text-lg flex justify-center items-center">
+              <AvatarFallback className="">
+                {user?.name?.charAt(0)?.toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -61,7 +59,7 @@ export function Header() {
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-500" onClick={() => Logout()}>
               Log out

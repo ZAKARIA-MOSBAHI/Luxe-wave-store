@@ -20,13 +20,11 @@ import {
   SelectValue,
 } from "../ui/Select";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { DialogClose } from "../ui/Dialog";
-import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "../../../app/thunks/productThunks";
 import { productSchema } from "../../../lib/schemas/product.schema";
-import { resetRequestResults } from "../../../app/slices/productSlice";
 import { MultiSelect } from "../ui/MultiSelect";
+import { createProduct } from "@/app/api/products";
+import { useDispatch, useSelector } from "react-redux";
 
 // Sample data - in a real application, this would come from an API
 const categories = [
@@ -98,7 +96,6 @@ export function ProductForm({ initialData, setDialogOpen }) {
   };
 
   const handleSubmit = async (values) => {
-    await dispatch(resetRequestResults());
     const formData = new FormData();
 
     // destructuring the sizes value to an array because it comes like this "XS,S,L"
@@ -131,26 +128,11 @@ export function ProductForm({ initialData, setDialogOpen }) {
     }
 
     // Log the FormData content
-    for (let pair of formData.entries()) {
-      console.log(pair);
-      console.log(pair[0] + ": " + pair[1]);
-    }
-
-    // Dispatch the request
-    try {
-      await dispatch(addProduct(formData)).then((response) => {
-        const { success } = response.payload;
-        if (success) {
-          toast.success("Product saved successfully!");
-          setDialogOpen(false);
-        } else {
-          toast.error("Failed to save product. Please try again.");
-        }
-      });
-    } catch (error) {
-      console.error("Error saving product:", error);
-      toast.error("Failed to save product. Please try again.");
-    }
+    // for (let pair of formData.entries()) {
+    //   console.log(pair);
+    //   console.log(pair[0] + ": " + pair[1]);
+    // }
+    const results = await createProduct(formData);
   };
 
   useEffect(() => {

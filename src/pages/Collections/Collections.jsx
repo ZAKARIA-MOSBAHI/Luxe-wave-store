@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
 import Title from "../../components/Title";
 import { ShopContext } from "../../context/ProductContext";
-import { useParams } from "react-router-dom";
 import ProcuctsList from "./components/ProcuctsList";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "@/app/api/products";

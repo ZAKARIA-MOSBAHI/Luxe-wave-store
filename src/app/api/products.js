@@ -115,3 +115,25 @@ export const addFavoriteProduct = async (productId) => {
     return e.response.data;
   }
 };
+
+// ADMIN API CALLS
+export const createProduct = async (payload) => {
+  try {
+    console.log("hello from createProduct api");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user?.accessToken;
+    const result = await api.post("/products", payload, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log("result " + result);
+
+    return result;
+  } catch (e) {
+    console.log("error adding   product");
+    console.log(e);
+    return e.response.data;
+  }
+};

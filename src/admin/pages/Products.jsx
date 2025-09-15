@@ -44,84 +44,17 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsToStore } from "../../app/thunks/productThunks";
-
-// // Sample data - in a real application, this would come from an API
-// const products = [
-//   {
-//     id: "prod-1",
-//     name: "Wireless Headphones",
-//     category: "Electronics",
-//     price: "$129.99",
-//     stock: 45,
-//     status: "In Stock",
-//   },
-//   {
-//     id: "prod-2",
-//     name: "Cotton T-Shirt",
-//     category: "Clothing",
-//     price: "$24.99",
-//     stock: 150,
-//     status: "In Stock",
-//   },
-//   {
-//     id: "prod-3",
-//     name: "Blender",
-//     category: "Home & Kitchen",
-//     price: "$79.99",
-//     stock: 23,
-//     status: "In Stock",
-//   },
-//   {
-//     id: "prod-4",
-//     name: "Mystery Novel",
-//     category: "Books",
-//     price: "$14.99",
-//     stock: 67,
-//     status: "In Stock",
-//   },
-//   {
-//     id: "prod-5",
-//     name: "Board Game",
-//     category: "Toys & Games",
-//     price: "$49.99",
-//     stock: 12,
-//     status: "Low Stock",
-//   },
-//   {
-//     id: "prod-6",
-//     name: "Smart Watch",
-//     category: "Electronics",
-//     price: "$199.99",
-//     stock: 0,
-//     status: "Out of Stock",
-//   },
-//   {
-//     id: "prod-7",
-//     name: "Denim Jeans",
-//     category: "Clothing",
-//     price: "$59.99",
-//     stock: 78,
-//     status: "In Stock",
-//   },
-//   {
-//     id: "prod-8",
-//     name: "Coffee Maker",
-//     category: "Home & Kitchen",
-//     price: "$89.99",
-//     stock: 15,
-//     status: "Low Stock",
-//   },
-// ];
+import { getProducts } from "@/app/api/products";
+import { setProducts } from "@/app/slices/productSlice";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const { data } = useSelector((state) => state.products);
+  const ProductsState = useSelector((state) => state.products);
+
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const filteredProducts = products.filter(
+  const filteredProducts = ProductsState.products.filter(
     (product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.category.toLowerCase().includes(searchTerm.toLowerCase())
@@ -132,15 +65,17 @@ const Products = () => {
     console.log("Delete product:", id);
   };
   useEffect(() => {
-    if (data) {
-      // the data will always be empty because we didn't persist the data in the redux store
-      console.log("data is fetched");
-      setProducts(data);
-    } else {
-      console.log("data is not fetched");
-      dispatch(getProductsToStore());
-    }
-  }, [data]);
+    const FetchProducts = async () => {
+      try {
+        const results = await getProducts();
+        dispatch(setProducts(results.products));
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    FetchProducts();
+  }, []);
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-4 md:gap-6">

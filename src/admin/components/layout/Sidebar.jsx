@@ -22,11 +22,6 @@ import { useDeviceType } from "../../../hooks/useDeviceType";
 
 const navItems = [
   {
-    title: "Dashboard",
-    href: "/admin/dashboard",
-    icon: BarChart3,
-  },
-  {
     title: "Products",
     href: "/admin/products",
     icon: Package,
