@@ -25,6 +25,7 @@ import { productSchema } from "../../../lib/schemas/product.schema";
 import { MultiSelect } from "../ui/MultiSelect";
 import { createProduct } from "@/app/api/products";
 import { useDispatch, useSelector } from "react-redux";
+import SizeSelector from "./SizeSelector";
 
 // Sample data - in a real application, this would come from an API
 const categories = [
@@ -77,7 +78,7 @@ export function ProductForm({ initialData, setDialogOpen }) {
       price: 0,
       categoryId: "",
       stock: 0,
-      sizes: [],
+      sizes: "",
       mainImage: undefined,
       additionalImages: [],
     },
@@ -134,6 +135,26 @@ export function ProductForm({ initialData, setDialogOpen }) {
     // }
     const results = await createProduct(formData);
   };
+  const [sizeValues, setSizeValues] = useState({
+    S: 0,
+    M: 0,
+    L: 0,
+    XL: 0,
+    XXL: 0,
+  });
+  const [sizeErrorMsgs, setSizeErrorMsgs] = useState({
+    S: "",
+    M: "",
+    L: "",
+    XL: "",
+    XXL: "",
+  });
+  const handleSizeChange = (size, value) => {
+    setSizeValues((prevValues) => ({
+      ...prevValues,
+      [size]: Number(value),
+    }));
+  };
 
   useEffect(() => {
     return () => {
@@ -160,56 +181,30 @@ export function ProductForm({ initialData, setDialogOpen }) {
             </FormItem>
           )}
         />
-        <div className="grid gap-6 md:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="categoryId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="sizes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sizes</FormLabel>
+        <FormField
+          control={form.control}
+          name="categoryId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <MultiSelect
-                    options={sizes}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    placeholder="Select size"
-                    variant="inverted"
-                    maxCount={3}
-                  />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
                 </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
@@ -229,6 +224,11 @@ export function ProductForm({ initialData, setDialogOpen }) {
           )}
         />
 
+        <SizeSelector
+          sizeValues={sizeValues}
+          handleSizeChange={handleSizeChange}
+          sizeErrorMsgs={sizeErrorMsgs}
+        />
         <div className="grid gap-6 md:grid-cols-2">
           <FormField
             control={form.control}

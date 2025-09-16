@@ -99,7 +99,7 @@ function Navbar() {
 
                     {user.role === "admin" && (
                       <DropdownMenuItem
-                        onClick={() => navigate("/admin/dashboard")}
+                        onClick={() => navigate("/admin/products")}
                       >
                         <LayoutDashboard className="mr-2 h-4 w-4" />
 
