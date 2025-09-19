@@ -97,16 +97,15 @@ export function ProductForm({ initialData, setDialogOpen }) {
   };
 
   const handleSubmit = async (values) => {
+    setSizeErrorMsg("");
+    if (Object.values(sizeValues).every((qty) => qty === 0)) {
+      setSizeErrorMsg("At least one size must have quantity greater than 0");
+      return;
+    }
     const formData = new FormData();
 
     // destructuring the sizes value to an array because it comes like this "XS,S,L"
-    if (Array.isArray(values.sizes)) {
-      values.sizes.forEach((size) => {
-        formData.append("sizes", size);
-      });
-    } else {
-      formData.append("sizes", values.sizes);
-    }
+    formData.append("sizes", JSON.stringify(sizeValues));
 
     // Append text-based values
     for (const key in values) {
@@ -129,11 +128,11 @@ export function ProductForm({ initialData, setDialogOpen }) {
     }
 
     // Log the FormData content
-    // for (let pair of formData.entries()) {
-    //   console.log(pair);
-    //   console.log(pair[0] + ": " + pair[1]);
-    // }
-    const results = await createProduct(formData);
+    for (let pair of formData.entries()) {
+      console.log(pair);
+      console.log(pair[0] + ": " + pair[1]);
+    }
+    // const results = await createProduct(formData);
   };
   const [sizeValues, setSizeValues] = useState({
     S: 0,
@@ -142,13 +141,7 @@ export function ProductForm({ initialData, setDialogOpen }) {
     XL: 0,
     XXL: 0,
   });
-  const [sizeErrorMsgs, setSizeErrorMsgs] = useState({
-    S: "",
-    M: "",
-    L: "",
-    XL: "",
-    XXL: "",
-  });
+  const [sizeErrorMsg, setSizeErrorMsg] = useState("");
   const handleSizeChange = (size, value) => {
     setSizeValues((prevValues) => ({
       ...prevValues,
@@ -227,7 +220,7 @@ export function ProductForm({ initialData, setDialogOpen }) {
         <SizeSelector
           sizeValues={sizeValues}
           handleSizeChange={handleSizeChange}
-          sizeErrorMsgs={sizeErrorMsgs}
+          sizeErrorMsg={sizeErrorMsg}
         />
         <div className="grid gap-6 md:grid-cols-2">
           <FormField

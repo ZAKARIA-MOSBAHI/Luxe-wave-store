@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "../ui/Input";
 const sizeOptions = ["S", "M", "L", "XL", "XXL"];
-function SizeSelector({ sizeValues, handleSizeChange, sizeErrorMsgs }) {
+function SizeSelector({ sizeValues, handleSizeChange, sizeErrorMsg }) {
   return (
     <div className="grid gap-6 grid-cols-5">
       {sizeOptions.map((size) => (
@@ -17,11 +17,13 @@ function SizeSelector({ sizeValues, handleSizeChange, sizeErrorMsgs }) {
             step="1"
             min="0"
           />
-          {sizeErrorMsgs && sizeErrorMsgs[size] && (
-            <p className="text-xs text-red-500 mt-1">{sizeErrorMsgs[size]}</p>
-          )}
         </div>
       ))}
+      {sizeErrorMsg && (
+        <p className="text-sm font-medium col-span-5 text-red-500 mt-1">
+          {sizeErrorMsg}
+        </p>
+      )}
     </div>
   );
 }
