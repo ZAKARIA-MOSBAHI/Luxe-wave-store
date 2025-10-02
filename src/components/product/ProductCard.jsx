@@ -61,21 +61,21 @@ export default function ProductCard({
   return (
     <button
       onClick={handleProductClick}
-      className="group relative w-full max-w-[350px] overflow-hidden  transition-all duration-300 "
+      className="group rounded-[12px] relative w-full max-w-[350px] overflow-hidden  transition-all duration-300 "
     >
       {/* Image Container with Overlay Effect */}
-      <div className="relative overflow-hidden  max-h-[400px]  bg-gray-100">
+      <div className="relative overflow-hidden  max-h-[400px]  ">
         <img
           src={product.mainImage.url}
           alt={product.mainImage.altText}
-          className="h-full w-full object-cover   transition-transform duration-500 ease-in-out group-hover:scale-105"
+          className="h-full w-full object-cover rounded-[12px]  transition-transform duration-500 ease-in-out group-hover:scale-105"
         />
       </div>
 
       {/* Product Info Section */}
-      <div className="py-4 px-2 flex flex-col items-start text-left gap-2 bg-white">
+      <div className="py-4 px-2 flex flex-col items-start text-left gap-2 ">
         <p className="text-xs uppercase tracking-wider text-gray-400">
-          {product.gender}'s Wear / {product.categoryId.name}
+          {product.gender}'s Wear / {product.categoryId?.name}
         </p>
         <p
           className="group-hover:underline  group-hover:text-gray-400 transition-all duration-300 font-medium w-full text-gray-800 truncate text-lg"

@@ -145,7 +145,7 @@ const Products = () => {
                           {product.name}
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
-                          {product.categoryId.name}
+                          {product.categoryId?.name}
                         </TableCell>
                         <TableCell>{product.price}</TableCell>
                         <TableCell className="hidden md:table-cell">

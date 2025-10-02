@@ -2,7 +2,8 @@ import { useEffect } from "react";
 
 export default function ProductImage({ mainImg, setMainImg, product }) {
   useEffect(() => {
-    console.log("the product is ", product);
+    console.log("the product is ");
+    console.log(product);
   }, []);
   return (
     <div className="flex max-h-[500px] flex-col-reverse gap-4 justify-center lg:flex-row">

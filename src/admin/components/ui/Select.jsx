@@ -28,7 +28,7 @@ const SelectScrollUpButton = forwardRef(({ className, ...props }, ref) => (
   <SelectPrimitive.ScrollUpButton
     ref={ref}
     className={cn(
-      "flex cursor-default items-center justify-center py-1",
+      "flex cursor-default  items-center justify-center py-1",
       className
     )}
     {...props}

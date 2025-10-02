@@ -128,9 +128,7 @@ export const createProduct = async (payload) => {
       },
     });
 
-    console.log("result " + result);
-
-    return result;
+    return result.data;
   } catch (e) {
     console.log("error adding   product");
     console.log(e);

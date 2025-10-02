@@ -9,15 +9,15 @@ export const productSchema = z.object({
     .number()
     .positive({ message: "Price must be a positive number." }),
   categoryId: z.string().min(1, { message: "Please select a category." }),
-  stock: z.coerce
-    .number({
-      required_error: "Stock is required.", // If the field is missing
-      invalid_type_error: "Stock must be a number.", // If the input can't be coerced to a number
-    })
-    .int({ message: "Stock quantity must be an integer." })
-    .positive({ message: "Stock quantity  must be a positive number." })
-    .min(0, { message: "Stock cannot be negative." }),
-  // sizes: z.string().min(1, { message: "Please enter at least one size." }), i will handle it manually
+  gender: z.enum(["men", "women", "kids"], {
+    errorMap: () => ({ message: "Please select a gender." }),
+  }),
+
+  badge: z
+    .string()
+    .min(3, { message: "Badge must be at least 3 characters." })
+    .optional()
+    .default(null),
   mainImage: z.any({
     required_error: "Main image is required.",
   }),

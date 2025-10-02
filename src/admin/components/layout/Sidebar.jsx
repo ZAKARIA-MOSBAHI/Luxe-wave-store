@@ -100,12 +100,14 @@ export function Sidebar() {
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-5">
             <div className="flex items-center space-x-2">
-              <img
-                src={logoWhite}
-                alt="store logo"
-                loading="lazy"
-                className="w-36  "
-              />
+              <Link to="/">
+                <img
+                  src={logoWhite}
+                  alt="store logo"
+                  loading="lazy"
+                  className="w-36  "
+                />
+              </Link>
             </div>
             {deviceType === "tablet" && (
               <Button

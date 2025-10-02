@@ -26,15 +26,12 @@ import { MultiSelect } from "../ui/MultiSelect";
 import { createProduct } from "@/app/api/products";
 import { useDispatch, useSelector } from "react-redux";
 import SizeSelector from "./SizeSelector";
+import { toast } from "sonner";
+import { getCategories } from "@/app/api/categories";
+import { setCategories } from "@/app/slices/categorySlice";
 
 // Sample data - in a real application, this would come from an API
-const categories = [
-  { id: "cat-1", name: "Electronics" },
-  { id: "67e98f8444ca874bee1c81ee", name: "Clothing" },
-  { id: "cat-3", name: "Home & Kitchen" },
-  { id: "cat-4", name: "Books" },
-  { id: "cat-5", name: "Toys & Games" },
-];
+
 const sizes = [
   {
     value: "XS",
@@ -63,13 +60,15 @@ const sizes = [
 ];
 
 export function ProductForm({ initialData, setDialogOpen }) {
-  const { status, error } = useSelector((state) => state.products);
-
+  const { status } = useSelector((state) => state.products);
+  const CategoriesState = useSelector(
+    (state) => state.categoriesState.categories
+  );
+  const dispatch = useDispatch();
   const [mainImage, setMainImage] = useState(null);
   const [additionalImages, setAdditionalImages] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [additionalImagesPreviews, setAdditionalImagesPreviews] = useState([]);
-  const dispatch = useDispatch();
   const form = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: initialData || {
@@ -77,7 +76,7 @@ export function ProductForm({ initialData, setDialogOpen }) {
       description: "",
       price: 0,
       categoryId: "",
-      stock: 0,
+
       sizes: "",
       mainImage: undefined,
       additionalImages: [],
@@ -127,12 +126,19 @@ export function ProductForm({ initialData, setDialogOpen }) {
       });
     }
 
-    // Log the FormData content
-    for (let pair of formData.entries()) {
-      console.log(pair);
-      console.log(pair[0] + ": " + pair[1]);
+    const results = await createProduct(formData);
+    console.log(results);
+    if (results.success === true) {
+      setDialogOpen(false);
+      form.reset();
+      setImagePreview(null);
+      setAdditionalImagesPreviews([]);
+      setSizeValues({ S: 0, M: 0, L: 0, XL: 0, XXL: 0 });
+      setSizeErrorMsg("");
+      toast.success("Product created successfully");
+    } else {
+      toast.error(results.message || "Failed to create product");
     }
-    // const results = await createProduct(formData);
   };
   const [sizeValues, setSizeValues] = useState({
     S: 0,
@@ -157,6 +163,18 @@ export function ProductForm({ initialData, setDialogOpen }) {
       );
     };
   }, [imagePreview, additionalImagesPreviews]);
+  useEffect(() => {
+    const fn = async () => {
+      try {
+        const categories = await getCategories();
+        console.log("categrories fetched", categories);
+        dispatch(setCategories(categories));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fn();
+  }, []);
 
   return (
     <Form {...form} enctype="multipart/form-data">
@@ -170,30 +188,6 @@ export function ProductForm({ initialData, setDialogOpen }) {
               <FormControl>
                 <Input placeholder="Enter product name" {...field} />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="categoryId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -216,52 +210,120 @@ export function ProductForm({ initialData, setDialogOpen }) {
             </FormItem>
           )}
         />
+        <div className="grid gap-6 md:grid-cols-3">
+          <FormField
+            control={form.control}
+            name="categoryId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Category</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {CategoriesState.map((category) => (
+                      <SelectItem key={category._id} value={category._id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {["men", "women", "kids"].map((g) => (
+                      <SelectItem key={g} value={g}>
+                        {g}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="badge"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Badge</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a badge" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {["Latest Collections", "New Arrivals"].map((b) => (
+                      <SelectItem key={b} value={b}>
+                        {b}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <SizeSelector
           sizeValues={sizeValues}
           handleSizeChange={handleSizeChange}
           sizeErrorMsg={sizeErrorMsg}
         />
-        <div className="grid gap-6 md:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                      $
-                    </span>
-                    <Input
-                      className="pl-7"
-                      {...field}
-                      type="number"
-                      step="0.01"
-                      min="0"
-                    />
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
-          <FormField
-            control={form.control}
-            name="stock"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Stock Quantity</FormLabel>
-                <FormControl>
-                  <Input {...field} type="number" min="0" step="1" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                    $
+                  </span>
+                  <Input
+                    className="pl-7"
+                    {...field}
+                    type="number"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
@@ -274,7 +336,7 @@ export function ProductForm({ initialData, setDialogOpen }) {
                   <Input
                     {...field}
                     type="file"
-                    accept="image/jpg,image/png"
+                    accept="image/*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
