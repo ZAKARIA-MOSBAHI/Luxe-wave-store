@@ -1,14 +1,10 @@
 import { Archive, Heart, LogOut, Settings } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/admin/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../../../components/ui/Tooltip";
+
 import { useEffect, useState } from "react";
-import { cn } from "@/admin/utils/clsx";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { icon: Settings, label: "Account Infos", path: "/profile" },

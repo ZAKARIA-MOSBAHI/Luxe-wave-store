@@ -1,7 +1,7 @@
 import SectionTitle from "../../../components/SectionTitle";
 import ProductCard from "../../../components/product/ProductCard";
 import Title from "../../../components/Title";
-import { Button } from "../../../admin/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
 import Carousel from "../../../components/ui/Carousel";
 

@@ -1,4 +1,4 @@
-import { Button } from "@/admin/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { assets } from "@/assets/client/assets";
 import { ArrowUpRight } from "lucide-react";
 

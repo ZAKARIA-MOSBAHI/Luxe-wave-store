@@ -1,13 +1,8 @@
-import { Button } from "../../admin/components/ui/Button";
-import { Input } from "../../admin/components/ui/Input";
-import { Textarea } from "../../components/ui/TextArea";
-import { Separator } from "../../admin/components/ui/Separator";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../admin/components/ui/Tabs";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/TextArea";
+import { Separator } from "@/components/ui/Separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import {
   Clock,
   Globe,

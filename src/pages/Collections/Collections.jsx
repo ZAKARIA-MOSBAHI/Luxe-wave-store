@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import Title from "../../components/Title";
 import { ShopContext } from "../../context/ProductContext";
-import ProcuctsList from "./components/ProcuctsList";
+import ProductsList from "./components/ProductsList";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "@/app/api/products";
 import { setFilteredProducts, setProducts } from "@/app/slices/productSlice";
@@ -42,7 +42,7 @@ const Collections = () => {
           </button>
         </div>
 
-        <ProcuctsList filteredProducts={ProductsState.filteredProducts} />
+        <ProductsList filteredProducts={ProductsState.filteredProducts} />
       </div>
     </div>
   );

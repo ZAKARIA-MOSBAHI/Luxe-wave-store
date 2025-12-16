@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
-import DropdownIcon from "../../../assets/client/icons/DropdownIcon";
+import DropdownIcon from "../../assets/client/icons/DropdownIcon";
 function Accordion({ children, title, openAccordion, toggleAccordion }) {
   return (
     <div>

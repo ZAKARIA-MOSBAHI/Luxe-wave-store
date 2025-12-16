@@ -1,4 +1,4 @@
-import { ScrollArea } from "@/admin/components/ui/ScrollArea";
+import { ScrollArea } from "../ui/ScrollArea";
 import ProfileNav from "@/pages/Profile/components/ProfileNav";
 import { Outlet } from "react-router-dom";
 

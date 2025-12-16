@@ -1,5 +1,5 @@
-import { Input } from "../../../admin/components/ui/Input";
-import { Button } from "../../../admin/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
 
 export default function NewsLetter() {
   return (

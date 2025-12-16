@@ -5,7 +5,7 @@ import { setFavorites } from "@/app/slices/favoritesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
 
-export default function ProcuctsList({ filteredProducts }) {
+export default function ProductsList({ filteredProducts }) {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const FavoriteProductsState = useSelector((state) => state.favorites);

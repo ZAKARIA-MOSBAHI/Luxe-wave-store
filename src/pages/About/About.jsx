@@ -8,7 +8,7 @@ import {
   Shirt,
   User,
 } from "lucide-react";
-import { Separator } from "../../admin/components/ui/Separator";
+import { Separator } from "@/components/ui/Separator";
 import aboutUsImg from "../../assets/client/images/about_us.jpg";
 import JuliaChen from "../../assets/client/images/team_member_2.jpg";
 import MarcusBlackwood from "../../assets/client/images/team_member_3.jpg";

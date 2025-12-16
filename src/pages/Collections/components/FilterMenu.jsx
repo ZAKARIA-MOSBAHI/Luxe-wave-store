@@ -1,7 +1,6 @@
 import { useState } from "react";
-import Accordion from "./Accordion";
-import CrossIcon from "../../../assets/client/icons/CrossIcon";
-import CheckmarkIcon from "../../../assets/client/icons/CheckmarkIcon";
+import Accordion from "@/components/ui/Accordion";
+
 import { Check, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {

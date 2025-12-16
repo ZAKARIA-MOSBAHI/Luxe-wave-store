@@ -1,4 +1,4 @@
-import { cn } from "@/admin/utils/clsx";
+import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "./ui/Avatar";
 import { useAuth } from "@/context/AuthProvider";
 
