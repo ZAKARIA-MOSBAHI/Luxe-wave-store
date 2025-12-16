@@ -5,15 +5,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/Table";
-import { Badge } from "../ui/Badge";
+} from "@/components/ui/Table";
+import { Badge } from "@/components/ui/Badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/Card";
+} from "@/components/ui/Card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,8 +21,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/DropdownMenu";
-import { Button } from "../ui/Button";
+} from "@/components/ui/DropdownMenu";
+import { Button } from "@/components/ui/Button";
 import { MoreHorizontal, Eye } from "lucide-react";
 import { cn } from "../../utils/clsx";
 // Sample data - in a real application, this would come from an API

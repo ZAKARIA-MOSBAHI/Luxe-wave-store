@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
 import {
   Form,
   FormControl,
@@ -10,10 +10,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/Form";
-import { Input } from "../ui/Input";
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import { toast } from "sonner";
-import { DialogClose } from "../ui/Dialog";
+import { DialogClose } from "@/components/ui/Dialog";
 import { categorySchema } from "../../../lib/schemas/category.schema";
 export function CategoryForm({ initialData, onSubmit }) {
   const form = useForm({

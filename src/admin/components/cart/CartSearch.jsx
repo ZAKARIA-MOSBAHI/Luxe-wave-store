@@ -1,4 +1,4 @@
-import { Input } from "../ui/Input";
+import { Input } from "@/components/ui/Input";
 import { Search } from "lucide-react";
 
 const CartSearch = ({ searchTerm, setSearchTerm }) => {

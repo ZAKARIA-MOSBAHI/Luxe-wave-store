@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/Card";
+} from "@/components/ui/Card";
 import {
   carts,
   getTimeDifference,

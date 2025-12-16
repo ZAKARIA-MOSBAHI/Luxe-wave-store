@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "../ui/Input";
+import { Input } from "@/components/ui/Input";
 const sizeOptions = ["S", "M", "L", "XL", "XXL"];
 function SizeSelector({ sizeValues, handleSizeChange, sizeErrorMsg }) {
   return (

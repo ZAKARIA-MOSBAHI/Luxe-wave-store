@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/layout/DashboardLayout";
-import { Button } from "../components/ui/Button";
-import { Input } from "../components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/Card";
+} from "@/components/ui/Card";
 import {
   Table,
   TableBody,
@@ -16,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../components/ui/Table";
+} from "@/components/ui/Table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,8 +24,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../components/ui/DropdownMenu";
-import { Badge } from "../components/ui/Badge";
+} from "@/components/ui/DropdownMenu";
+import { Badge } from "@/components/ui/Badge";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Search,
@@ -36,7 +36,6 @@ import {
   ShoppingBag,
   UserX,
   UserPlus,
-  PlusCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -48,7 +47,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../components/ui/Dialog";
+} from "@/components/ui/Dialog";
 import { UserForm } from "../components/forms/UserForm";
 import { getUsers } from "../../app/api/users";
 

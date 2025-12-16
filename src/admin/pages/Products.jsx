@@ -7,17 +7,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../components/ui/Table";
-import { Input } from "../components/ui/Input";
-import { Button } from "../components/ui/Button";
-import { Badge } from "../components/ui/Badge";
+} from "@/components/ui/Table";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/Card";
+} from "@/components/ui/Card";
 import {
   Dialog,
   DialogContent,
@@ -25,7 +25,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../components/ui/Dialog";
+} from "@/components/ui/Dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +33,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../components/ui/DropdownMenu";
+} from "@/components/ui/DropdownMenu";
 import { ProductForm } from "../components/forms/ProductForm";
 import {
   PlusCircle,

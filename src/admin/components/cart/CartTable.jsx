@@ -1,4 +1,4 @@
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
 import {
   Table,
   TableBody,
@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/Table";
+} from "@/components/ui/Table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +14,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/DropdownMenu";
+} from "@/components/ui/DropdownMenu";
 import {
   MoreHorizontal,
   Eye,

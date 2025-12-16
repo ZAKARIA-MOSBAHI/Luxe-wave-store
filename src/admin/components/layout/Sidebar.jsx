@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { cn } from "../../utils/clsx";
-import { Button } from "../ui/Button";
-import { Separator } from "../ui/Separator";
-import { ScrollArea } from "../ui/ScrollArea";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
+import { Separator } from "@/components/ui/Separator";
+import { ScrollArea } from "@/components/ui/ScrollArea";
 import {
   BarChart3,
   Package,

@@ -19,12 +19,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../admin/components/ui/DropdownMenu";
+} from "@/components/ui/DropdownMenu";
 import { useAuth } from "../../context/AuthProvider";
-import { Avatar, AvatarFallback } from "./Avatar";
+import { Avatar, AvatarFallback } from "../ui/Avatar";
 import { Logout } from "@/lib/utils";
-import SearchInput from "./SearchInput";
-import SearchResults from "./SearchResults";
+import SearchInput from "../ui/SearchInput";
+import SearchResults from "../ui/SearchResults";
 import useDebounce from "@/hooks/useDebounce";
 import { SearchContext } from "@/context/SearchContext";
 import { useSelector } from "react-redux";

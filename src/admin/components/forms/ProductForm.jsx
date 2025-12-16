@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
 import {
   Form,
   FormControl,
@@ -9,8 +9,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/Form";
-import { Input } from "../ui/Input";
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import { Textarea } from "../../../components/ui/TextArea";
 import {
   Select,
@@ -18,11 +18,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/Select";
+} from "@/components/ui/Select";
 import { useEffect, useState } from "react";
-import { DialogClose } from "../ui/Dialog";
+import { DialogClose } from "@/components/ui/Dialog";
 import { productSchema } from "../../../lib/schemas/product.schema";
-import { MultiSelect } from "../ui/MultiSelect";
+import { MultiSelect } from "@/components/ui/MultiSelect";
 import { createProduct } from "@/app/api/products";
 import { useDispatch, useSelector } from "react-redux";
 import SizeSelector from "./SizeSelector";

@@ -4,8 +4,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/Card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/Tabs";
+} from "@/components/ui/Card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import {
   AreaChart,
   Area,

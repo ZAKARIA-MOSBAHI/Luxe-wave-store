@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
 import {
   Form,
   FormControl,
@@ -10,20 +10,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/Form";
-import { Input } from "../ui/Input";
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/Select";
+} from "@/components/ui/Select";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Eye, EyeClosed } from "lucide-react";
-import { DialogClose } from "../ui/Dialog";
-import { PhoneInput } from "../ui/PhoneInput";
+import { DialogClose } from "@/components/ui/Dialog";
+import { PhoneInput } from "@/components/ui/PhoneInput";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { userSchema } from "../../../lib/schemas/user.schema";
 

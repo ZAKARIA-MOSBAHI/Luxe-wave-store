@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { DashboardLayout } from "../components/layout/DashboardLayout";
-import { Button } from "../components/ui/Button";
-import { Input } from "../components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/Card";
+} from "@/components/ui/Card";
 import {
   Table,
   TableBody,
@@ -16,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../components/ui/Table";
+} from "@/components/ui/Table";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +24,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../components/ui/Dialog";
+} from "@/components/ui/Dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,8 +32,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../components/ui/DropdownMenu";
-import { Badge } from "../components/ui/Badge";
+} from "@/components/ui/DropdownMenu";
+import { Badge } from "@/components/ui/Badge";
 import { CategoryForm } from "../components/forms/CategoryForm";
 import {
   FolderPlus,

@@ -7,20 +7,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/Form";
-import { Input } from "../ui/Input";
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { DialogClose, DialogFooter } from "../ui/Dialog";
-import { Button } from "../ui/Button";
+import { DialogClose, DialogFooter } from "@/components/ui/Dialog";
+import { Button } from "@/components/ui/Button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/Select";
-import DatePicker from "../ui/DatePicker";
+} from "@/components/ui/Select";
+import DatePicker from "@/components/ui/DatePicker";
 import { format } from "date-fns";
 import { discountSchema } from "../../../lib/schemas/discount.schema";
 

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { DashboardLayout } from "../components/layout/DashboardLayout";
-import { Button } from "../components/ui/Button";
-import { Input } from "../components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/Card";
+} from "@/components/ui/Card";
 import {
   Table,
   TableBody,
@@ -16,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../components/ui/Table";
+} from "@/components/ui/Table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,8 +26,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-} from "../components/ui/DropdownMenu";
-import { Badge } from "../components/ui/Badge";
+} from "@/components/ui/DropdownMenu";
+import { Badge } from "@/components/ui/Badge";
 // import {
 //   Dialog,
 //   DialogContent,

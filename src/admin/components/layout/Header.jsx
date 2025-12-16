@@ -1,6 +1,6 @@
 import { Bell, Search, User } from "lucide-react";
-import { Button } from "../ui/Button";
-import { Input } from "../ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/DropdownMenu";
+} from "@/components/ui/DropdownMenu";
 import { useNavigate } from "react-router-dom";
 import { Logout } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
