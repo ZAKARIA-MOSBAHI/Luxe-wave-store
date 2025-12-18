@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { products } from "../../../assets/client/assets";
-import { ShopContext } from "../../../context/ProductContext";
+import { ShopContext } from "../../../context/FilterMenuProvider";
 
 export default function SelectMenu({ product }) {
   const { cart, setCart, setSizeChoosen } = useContext(ShopContext);

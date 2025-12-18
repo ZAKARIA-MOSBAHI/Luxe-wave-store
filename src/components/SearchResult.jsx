@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { ShopContext } from "../context/ProductContext";
+import { ShopContext } from "../context/FilterMenuProvider";
 
 export default function SearchResult({ result }) {
   const { setShowSearch } = useContext(ShopContext);

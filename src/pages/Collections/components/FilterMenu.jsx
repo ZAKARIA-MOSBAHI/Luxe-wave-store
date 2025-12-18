@@ -8,13 +8,16 @@ import {
   setFilteredProducts,
   setFilterOptions,
 } from "@/app/slices/productSlice";
+import { useFilterMenu } from "@/context/FilterMenuProvider";
 
-function FilterMenu({
-  selectedFilterOptions,
-  setSelectedFilterOptions,
-  showFilterMenu,
-  setShowFilterMenu,
-}) {
+function FilterMenu() {
+  const {
+    selectedFilterOptions,
+    setSelectedFilterOptions,
+    showFilterMenu,
+    setShowFilterMenu,
+  } = useFilterMenu();
+
   const filterOptions = {
     gender: ["men", "women", "kids"],
     category: ["topwear", "shorts"],

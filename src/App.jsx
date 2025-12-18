@@ -2,7 +2,6 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import FilterMenu from "./pages/Collections/components/FilterMenu";
 import { lazy, Suspense, useContext, useEffect } from "react";
-import { ShopContext } from "./context/ProductContext";
 import Loading from "./components/ui/Loading";
 import ScrollToTop from "./components/ScrollTop";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -32,13 +31,6 @@ const AdminCarts = lazy(() => import("./admin/pages/Carts"));
 const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
 
 function App() {
-  const {
-    showFilterMenu,
-    setShowFilterMenu,
-    selectedFilterOptions,
-    setSelectedFilterOptions,
-    filterOptions,
-  } = useContext(ShopContext);
   const { showSearch } = useContext(SearchContext);
   useEffect(() => {
     /* this use effect is used to disable scroll if the 
@@ -56,13 +48,7 @@ function App() {
   return (
     <div className="relative overflow-hidden">
       <Toaster />
-      <FilterMenu
-        showFilterMenu={showFilterMenu}
-        setShowFilterMenu={setShowFilterMenu}
-        selectedFilterOptions={selectedFilterOptions}
-        setSelectedFilterOptions={setSelectedFilterOptions}
-        filterOptions={filterOptions}
-      />
+      <FilterMenu />
       <div>
         <ScrollToTop />
         <Suspense fallback={<Loading />}>

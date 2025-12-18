@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { ShopContext } from "../../context/ProductContext";
 import { useNavigate } from "react-router-dom";
 import HeartIcon from "../../assets/client/icons/HeartIcon";
 import CardBadge from "../ui/CardBadge";
@@ -19,7 +18,6 @@ export default function ProductCard({
   badgeText = "",
   badgeColor = "",
 }) {
-  const { currency } = useContext(ShopContext);
   const { user } = useAuth();
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useDispatch();
@@ -84,7 +82,7 @@ export default function ProductCard({
           {product.name}
         </p>
         <p className="font-bold text-lg">
-          <span className="text-sm font-normal">{currency}</span>
+          <span className="text-sm font-normal">$</span>
           {product.price}
         </p>
       </div>

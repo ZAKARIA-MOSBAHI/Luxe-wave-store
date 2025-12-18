@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import Title from "../../components/Title";
-import { ShopContext } from "../../context/ProductContext";
+import { FilterMenuContext } from "../../context/FilterMenuProvider";
 import ProductsList from "./components/ProductsList";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "@/app/api/products";
@@ -8,7 +8,7 @@ import { setFilteredProducts, setProducts } from "@/app/slices/productSlice";
 import { SlidersHorizontal } from "lucide-react";
 
 const Collections = () => {
-  const { setShowFilterMenu } = useContext(ShopContext);
+  const { setShowFilterMenu } = useContext(FilterMenuContext);
   const ProductsState = useSelector((state) => state.products);
   const dispatch = useDispatch();
 

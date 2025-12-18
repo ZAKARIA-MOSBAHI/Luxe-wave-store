@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from "react";
-import { ShopContext } from "../context/ProductContext";
+import { ShopContext } from "../context/FilterMenuProvider";
 import { assets } from "../assets/client/assets";
 import SearchResult from "./SearchResult";
 import CrossIcon from "../assets/client/icons/CrossIcon";

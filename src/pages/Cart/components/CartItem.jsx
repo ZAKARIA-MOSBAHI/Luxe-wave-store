@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import QuantityCounter from "./QuantityCounter";
 import SelectMenu from "./SelectMenu";
-import { ShopContext } from "../../../context/ProductContext";
+import { ShopContext } from "../../../context/FilterMenuProvider";
 import { useDispatch } from "react-redux";
 import { deleteCartItem } from "@/app/api/carts";
 import { setCart } from "@/app/slices/cartSlice";

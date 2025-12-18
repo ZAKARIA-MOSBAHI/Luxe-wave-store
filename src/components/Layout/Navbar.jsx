@@ -1,7 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/client/assets";
 import { useContext, useEffect, useState } from "react";
-import { ShopContext } from "../../context/ProductContext";
 import MenuIcon from "../../assets/client/icons/MenuIcon";
 import Headroom from "react-headroom";
 import MobileNavbar from "../MobileNavbar";

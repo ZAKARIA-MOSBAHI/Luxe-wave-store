@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import StartIcon from "../../../assets/client/icons/StartIcon";
-import { ShopContext } from "../../../context/ProductContext";
+import { useEffect, useState } from "react";
+
 import HeartIcon from "../../../assets/client/icons/HeartIcon";
 import { useAuth } from "@/context/AuthProvider";
 import {
@@ -8,7 +7,7 @@ import {
   getClientFavoriteProducts,
   removeFavoriteProduct,
 } from "@/app/api/products";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function ProductInfo({
   product,
@@ -18,7 +17,6 @@ export default function ProductInfo({
   handleClick,
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const dispatch = useDispatch();
   const FavoriteProductsState = useSelector((state) => state.favorites);
 
   const { user } = useAuth();

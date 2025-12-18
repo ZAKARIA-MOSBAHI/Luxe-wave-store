@@ -1,17 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShopContext } from "../context/ProductContext";
-import { useContext } from "react";
 import DropdownIcon from "../assets/client/icons/DropdownIcon";
 import HomeIcon from "../assets/client/icons/HomeIcon";
 import CollectionsIcon from "../assets/client/icons/CollectionsIcon";
 import AboutUsIcon from "../assets/client/icons/AboutUsIcon";
 import ContactUsIcon from "../assets/client/icons/ContactUsIcon";
 import ProfileIcon from "../assets/client/icons/ProfileIcon";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function MobileNavbar({ isOpen, setIsOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { LoggedIn } = useContext(ShopContext);
+  const { user } = useAuth();
   const links = [
     {
       name: "Home",
@@ -70,7 +69,7 @@ export default function MobileNavbar({ isOpen, setIsOpen }) {
         <div
           onClick={() => {
             setIsOpen(false);
-            LoggedIn ? navigate("/profile") : navigate("/register");
+            user !== null ? navigate("/profile") : navigate("/register");
           }}
           className="cursor-pointer text-gray-600 absolute bottom-10 right-10 w-14 flex justify-center items-center shadow-[0_0_40px_rgba(0,0,0,1)] shadow-gray-200  h-14 rounded-full "
         >
