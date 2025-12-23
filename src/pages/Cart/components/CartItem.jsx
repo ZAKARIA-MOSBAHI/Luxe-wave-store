@@ -1,12 +1,12 @@
-import { useContext, useEffect } from "react";
-import QuantityCounter from "./QuantityCounter";
+ import QuantityCounter from "./QuantityCounter";
 import SelectMenu from "./SelectMenu";
-import { ShopContext } from "../../../context/FilterMenuProvider";
-import { useDispatch } from "react-redux";
-import { deleteCartItem } from "@/app/api/carts";
+ import { useDispatch } from "react-redux";
+import { addProductToCart, deleteCartItem } from "@/app/api/carts";
 import { setCart } from "@/app/slices/cartSlice";
+import { returnImgUrl } from "@/lib/utils";
 
 export default function CartItem({ item }) {
+  console.log("item passed is " , item);
   const dispatch = useDispatch();
   const handleDelete = async () => {
     try {
@@ -20,11 +20,12 @@ export default function CartItem({ item }) {
       console.error("Error adding product to cart:", error);
     }
   };
+  
   return (
     <>
       <div className="flex w-full gap-4 relative my-2 p-4">
         <img
-          src={item.productId.mainImage?.url}
+          src={returnImgUrl(item?.productId.mainImage.url)}
           alt=""
           className="w-36 rounded-lg h-auto object-cover"
         />

@@ -1,11 +1,8 @@
-import { useEffect } from "react";
+import { returnImgUrl } from "@/lib/utils";
+
 
 export default function ProductImage({ mainImg, setMainImg, product }) {
-  useEffect(() => {
-    console.log("the product is ");
-    console.log(product);
-  }, []);
-  return (
+   return (
     <div className="flex max-h-[500px] flex-col-reverse gap-4 justify-center lg:flex-row">
       <div className="flex lg:flex-col overflow-x-auto gap-2">
         {product?.mainImage && product?.additionalImages.length > 0
@@ -13,9 +10,9 @@ export default function ProductImage({ mainImg, setMainImg, product }) {
               return img === mainImg ? null : (
                 <img
                   key={img._id}
-                  src={img.url}
+                  src={returnImgUrl(img.url)}
                   onClick={() => {
-                    setMainImg(img.url);
+                    setMainImg(returnImgUrl(img.url));
                   }}
                   alt={img.altText}
                   className="w-[24%] lg:w-full sm:mb-3 shrink-0 cursor-pointer h-auto"
@@ -25,7 +22,7 @@ export default function ProductImage({ mainImg, setMainImg, product }) {
           : null}
       </div>
       {mainImg && (
-        <img src={mainImg} alt="" className="w-full lg:w-4/5 h-auto" />
+        <img src={returnImgUrl(mainImg)} alt="" className="w-full lg:w-4/5 h-auto" />
       )}
     </div>
   );

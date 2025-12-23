@@ -1,14 +1,8 @@
-import { Button } from "@/admin/components/ui/Button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/admin/components/ui/Form";
-import { Input } from "@/admin/components/ui/Input";
+
 import { login } from "@/app/api/users";
+import { Button } from "@/components/ui/Button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 
 import { useAuth } from "@/context/AuthProvider";
 import { loginSchema } from "@/lib/schemas/login.schema";

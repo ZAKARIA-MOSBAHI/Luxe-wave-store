@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { signupSchema } from "@/lib/schemas/signup.schema";
 import { signup } from "@/app/api/users";
-import { Button } from "@/admin/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import {
   Form,
   FormControl,
@@ -12,8 +12,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/admin/components/ui/Form";
-import { Input } from "@/admin/components/ui/Input";
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import { Eye, EyeClosed, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";

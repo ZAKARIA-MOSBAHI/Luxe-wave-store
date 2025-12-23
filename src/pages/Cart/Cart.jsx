@@ -8,12 +8,12 @@ import { setCart } from "@/app/slices/cartSlice";
 
 function Cart() {
   const cartState = useSelector((state) => state.cart.data);
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
   useEffect(() => {
     const fetchLoggingUserCart = async () => {
       try {
         const response = await getClientCart();
-        console.log(response);
+        console.log("cart fetched " , response.cart);
 
         dispatch(setCart(response.cart));
       } catch (error) {

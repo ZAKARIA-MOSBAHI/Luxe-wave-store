@@ -10,4 +10,8 @@ function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-export { Logout, cn };
+const returnImgUrl = (path)=> {
+  const api_url = import.meta.env.VITE_REACT_APP_API_URL;
+  return `${api_url}${path}`;
+}
+export { Logout, cn, returnImgUrl };

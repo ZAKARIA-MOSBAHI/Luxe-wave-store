@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HeartIcon from "../../assets/client/icons/HeartIcon";
 import CardBadge from "../ui/CardBadge";
@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
 import {
   addFavoriteProduct,
-  getClientFavoriteProducts,
-  removeFavoriteProduct,
+   removeFavoriteProduct,
 } from "@/app/api/products";
 import { setFavorites } from "@/app/slices/favoritesSlice";
+import { returnImgUrl } from "@/lib/utils";
 
 export default function ProductCard({
   product,
@@ -64,7 +64,7 @@ export default function ProductCard({
       {/* Image Container with Overlay Effect */}
       <div className="relative overflow-hidden  max-h-[400px]  ">
         <img
-          src={product.mainImage.url}
+          src={returnImgUrl(product.mainImage.url)}
           alt={product.mainImage.altText}
           className="h-full w-full object-cover rounded-[12px]  transition-transform duration-500 ease-in-out group-hover:scale-105"
         />

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { products } from "../../../assets/client/assets";
-import { ShopContext } from "../../../context/FilterMenuProvider";
+import {  useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 
 export default function SelectMenu({ product }) {
-  const { cart, setCart, setSizeChoosen } = useContext(ShopContext);
-  const [selected, setSelected] = useState(product.itemSize);
+  const cart = useSelector((state) => state.cart.data);
+   const [selected, setSelected] = useState(product.itemSize);
   const [isopen, setIsOpen] = useState(false);
   const [optionList, setOptionList] = useState(product.sizes);
   const handleSizeChange = (size) => {
@@ -13,45 +13,14 @@ export default function SelectMenu({ product }) {
       return;
     }
     setSelected(size);
-    console.log("product");
-    console.log(product);
     // check for similar sizes
-    const similarSizes = cart.items.filter(
-      (item) => product._id === item._id && size === item.sizeChoosen
-    );
-    console.log("simalar Items");
-    console.log(similarSizes);
-    if (similarSizes.length === 0) {
-      const updatedCart = cart.items.map((item) =>
-        product._id === item._id && product.sizeChoosen === item.sizeChoosen
-          ? { ...item, sizeChoosen: size }
-          : item
-      );
-      setCart((prevCart) => ({
-        items: updatedCart,
-        total: prevCart.total,
-      }));
-    } else {
-      const updatedCart = cart.items
-        .map((item) =>
-          product._id === item._id && size === item.sizeChoosen
-            ? { ...item, quantity: item.quantity + product.quantity }
-            : product._id === item._id &&
-              product.sizeChoosen === item.sizeChoosen
-            ? undefined
-            : item
-        ) // remove item if it's similar
-        .filter((item) => item !== undefined);
-      console.log(updatedCart);
-      setCart((prevCart) => ({
-        items: updatedCart,
-        total: prevCart.total,
-      }));
-    }
+    console.log("size changed in cart item")
+    //NEXT : send backend request to update size in cart
   };
-  // useEffect(() => {
-  //   setOptionList(Product.sizes);
-  // }, []);
+   useEffect(() => {
+    const productSizes = Object.keys(product.productId.sizes);
+    setOptionList(productSizes);
+    }, []);
   return (
     <div className="relative w-20">
       <button

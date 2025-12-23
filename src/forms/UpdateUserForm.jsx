@@ -1,4 +1,4 @@
-import { Button } from "@/admin/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import {
   Form,
   FormControl,
@@ -6,8 +6,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/admin/components/ui/Form";
-import { Input } from "@/admin/components/ui/Input";
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/context/AuthProvider";
 import { updateUserSchema } from "@/lib/schemas/updateUser.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
