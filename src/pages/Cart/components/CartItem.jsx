@@ -1,7 +1,7 @@
  import QuantityCounter from "./QuantityCounter";
 import SelectMenu from "./SelectMenu";
  import { useDispatch } from "react-redux";
-import { addProductToCart, deleteCartItem } from "@/app/api/carts";
+import {  deleteCartItem } from "@/app/api/carts";
 import { setCart } from "@/app/slices/cartSlice";
 import { returnImgUrl } from "@/lib/utils";
 

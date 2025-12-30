@@ -19,8 +19,8 @@ function FilterMenu() {
   } = useFilterMenu();
 
   const filterOptions = {
-    gender: ["men", "women", "kids"],
-    category: ["topwear", "shorts"],
+    gender: ["men", "women", "unisex"],
+    category: ["t-shirts" , "sweatshirts" ,"shorts" , "trousers"],
     price: ["low to high", "high to low"],
     size: ["S", "M", "L", "XL", "XXL"],
   };

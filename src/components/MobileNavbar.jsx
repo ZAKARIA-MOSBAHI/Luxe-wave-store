@@ -19,7 +19,7 @@ export default function MobileNavbar({ isOpen, setIsOpen }) {
     },
     {
       name: "Collections",
-      path: "/collections/1",
+      path: "/collections",
       icon: CollectionsIcon,
     },
     {

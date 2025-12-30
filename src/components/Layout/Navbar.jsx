@@ -2,13 +2,11 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/client/assets";
 import { useContext, useEffect, useState } from "react";
 import MenuIcon from "../../assets/client/icons/MenuIcon";
-import Headroom from "react-headroom";
-import MobileNavbar from "../MobileNavbar";
+ import MobileNavbar from "../MobileNavbar";
 import {
   LayoutDashboard,
   LogOut,
-  Settings,
-  ShoppingCart,
+   ShoppingCart,
   UserRound,
 } from "lucide-react";
 import {
@@ -57,9 +55,7 @@ function Navbar() {
   }, [debouncedSearchQuery]);
 
   return (
-    <Headroom className="z-10 relative">
-      {/* THE HEADER START HERE  */}
-      <div className="flex items-center bg-white text-sm h-[70px] border-b relative border-gray-200">
+       <div className="fixed top-0 left-0 w-full z-50 flex items-center bg-white text-sm h-[70px] border-b border-gray-200">
         <div
           className={`max-w-[1152px]  px-4  w-full mx-auto  flex items-center justify-between font-medium `}
         >
@@ -69,7 +65,7 @@ function Navbar() {
             </Link>
             <ul className="hidden md:flex items-center  gap-6 text-gray-900 text-sm px-4 border-l border-gray-200">
               <NavLink to="/">HOME</NavLink>
-              <NavLink to="/collections/1">COLLECTIONS</NavLink>
+              <NavLink to="/collections">COLLECTIONS</NavLink>
               <NavLink to="/about">ABOUT</NavLink>
               <NavLink to="/contact">CONTACT</NavLink>
             </ul>
@@ -155,8 +151,7 @@ function Navbar() {
 
         {showSearch && searchQuery.trim().length > 0 && <SearchResults />}
       </div>
-    </Headroom>
-  );
+   );
 }
 
 export default Navbar;

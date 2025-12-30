@@ -12,7 +12,7 @@ export default function ProductImage({ mainImg, setMainImg, product }) {
                   key={img._id}
                   src={returnImgUrl(img.url)}
                   onClick={() => {
-                    setMainImg(returnImgUrl(img.url));
+                    setMainImg(img.url);
                   }}
                   alt={img.altText}
                   className="w-[24%] lg:w-full sm:mb-3 shrink-0 cursor-pointer h-auto"

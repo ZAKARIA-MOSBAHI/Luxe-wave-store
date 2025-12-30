@@ -66,6 +66,7 @@ export default function ProductCard({
         <img
           src={returnImgUrl(product.mainImage.url)}
           alt={product.mainImage.altText}
+          title={product.mainImage.altText}
           className="h-full w-full object-cover rounded-[12px]  transition-transform duration-500 ease-in-out group-hover:scale-105"
         />
       </div>
