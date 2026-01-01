@@ -14,4 +14,12 @@ const returnImgUrl = (path)=> {
   const api_url = import.meta.env.VITE_REACT_APP_API_URL;
   return `${api_url}${path}`;
 }
-export { Logout, cn, returnImgUrl };
+
+const redirectTo = (user , navigationfn) => {
+    if (user !== null) {
+      navigationfn("/profile");
+    } else {
+      navigationfn("/login");
+    }
+  };
+export { Logout, cn, returnImgUrl , redirectTo };

@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import FilterMenu from "./pages/Collections/components/FilterMenu";
-import { lazy, Suspense, useContext, useEffect } from "react";
+import { lazy, Suspense, useContext, useEffect, useState } from "react";
 import Loading from "./components/ui/Loading";
 import ScrollToTop from "./components/ScrollTop";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -11,6 +11,7 @@ import ErrorPage from "./pages/ErrorPage";
 import { SearchContext } from "./context/SearchContext";
 import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 import Favorites from "./pages/Favorites/Favorites";
+import MobileNavbar from "./components/MobileNavbar";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -32,6 +33,7 @@ const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
 
 function App() {
   const { showSearch } = useContext(SearchContext);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   useEffect(() => {
     /* this use effect is used to disable scroll if the 
     search input is open */
@@ -49,11 +51,15 @@ function App() {
     <div className="relative overflow-hidden">
       <Toaster />
       <FilterMenu />
+       <MobileNavbar
+                   isOpen={isMobileNavOpen}
+                   setIsOpen={setIsMobileNavOpen}
+                  />
       <div>
         <ScrollToTop />
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route element={<Layout />}>
+            <Route element={<Layout  setIsMobileNavOpen={setIsMobileNavOpen}/>}>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />

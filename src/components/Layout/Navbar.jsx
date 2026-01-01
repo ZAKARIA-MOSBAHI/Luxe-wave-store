@@ -1,11 +1,10 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/client/assets";
-import { useContext, useEffect, useState } from "react";
-import MenuIcon from "../../assets/client/icons/MenuIcon";
- import MobileNavbar from "../MobileNavbar";
+import { useContext, useEffect } from "react"; 
 import {
   LayoutDashboard,
   LogOut,
+   Menu,
    ShoppingCart,
   UserRound,
 } from "lucide-react";
@@ -25,24 +24,18 @@ import SearchResults from "../ui/SearchResults";
 import useDebounce from "@/hooks/useDebounce";
 import { SearchContext } from "@/context/SearchContext";
 import { useSelector } from "react-redux";
+import { NavLinks } from "@/constants/NavLinks";
 
-function Navbar() {
+function Navbar({ setIsMobileNavOpen}) {
   const { logo } = assets;
   const cartState = useSelector((state) => state.cart.data);
-  const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+   const navigate = useNavigate();
   const { showSearch, searchQuery, handleSearch, setSearchResults } =
     useContext(SearchContext);
   const debouncedSearchQuery = useDebounce(searchQuery);
   const { user } = useAuth();
 
-  const redirectTo = () => {
-    if (user !== null) {
-      navigate("/profile");
-    } else {
-      navigate("/register");
-    }
-  };
+  
   useEffect(() => {
     setSearchResults([]);
     if (debouncedSearchQuery.length === 0) {
@@ -55,7 +48,7 @@ function Navbar() {
   }, [debouncedSearchQuery]);
 
   return (
-       <div className="fixed top-0 left-0 w-full z-50 flex items-center bg-white text-sm h-[70px] border-b border-gray-200">
+        <nav  className="fixed top-0 left-0 w-full z-50 flex items-center bg-white text-sm h-[70px] border-b border-gray-200">
         <div
           className={`max-w-[1152px]  px-4  w-full mx-auto  flex items-center justify-between font-medium `}
         >
@@ -64,10 +57,13 @@ function Navbar() {
               <img src={logo} className="w-36 cursor-pointer" alt="" />
             </Link>
             <ul className="hidden md:flex items-center  gap-6 text-gray-900 text-sm px-4 border-l border-gray-200">
-              <NavLink to="/">HOME</NavLink>
-              <NavLink to="/collections">COLLECTIONS</NavLink>
-              <NavLink to="/about">ABOUT</NavLink>
-              <NavLink to="/contact">CONTACT</NavLink>
+              {
+                NavLinks.map((link)=>(
+                  <NavLink key={link.name} to={link.path}>{link.name.toUpperCase()}</NavLink>
+
+                ))
+              }
+              
             </ul>
           </div>
 
@@ -136,22 +132,18 @@ function Navbar() {
               </p>
             </Link>
 
-            <MenuIcon
-              onClick={() => setIsOpen(true)}
+            <Menu
+              onClick={() => setIsMobileNavOpen(prev => !prev )}
               className={"md:hidden cursor-pointer"}
             />
           </div>
-          {/* side bar for smaller screens  */}
-          <MobileNavbar
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            redirectTo={redirectTo}
-          />
+          
         </div>
 
         {showSearch && searchQuery.trim().length > 0 && <SearchResults />}
-      </div>
-   );
+      </nav>
+  
+    );
 }
 
 export default Navbar;
