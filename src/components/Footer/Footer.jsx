@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { assets } from "../../assets/client/assets";
 import IconsRow from "./components/IconsRow";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { NavLinks } from "@/constants/NavLinks";
 function Footer() {
   const { logoWhite } = assets;
   return (
@@ -18,18 +19,12 @@ function Footer() {
         <div className="flex flex-col gap-4  text-center md:text-left ">
           <p className="text-xl font-medium text-white">Quick Links</p>
           <ul className="flex flex-col gap-2 text-gray-400">
-            <Link to={"/"} className="hover:underline">
-              Home
+            
+           {NavLinks.map((link) => (
+            <Link to={link.path} key={link.name} className="hover:underline">
+              {link.name}
             </Link>
-            <Link to={"/collections/1"} className="hover:underline">
-              Collections
-            </Link>
-            <Link to={"/about"} className="hover:underline">
-              About
-            </Link>
-            <Link to={"/contact"} className="hover:underline">
-              Contact
-            </Link>
+           ))}
           </ul>
         </div>
         <div className="flex flex-col gap-4 text-center md:text-left">

@@ -12,6 +12,7 @@ import { SearchContext } from "./context/SearchContext";
 import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 import Favorites from "./pages/Favorites/Favorites";
 import MobileNavbar from "./components/MobileNavbar";
+import { DisableScroll, EnableScroll } from "./lib/utils";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -35,26 +36,25 @@ function App() {
   const { showSearch } = useContext(SearchContext);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   useEffect(() => {
-    /* this use effect is used to disable scroll if the 
-    search input is open */
-    if (showSearch) {
-      document.body.style.overflow = "hidden";
+    
+    if (showSearch || isMobileNavOpen) {
+      DisableScroll()
     } else {
-      document.body.style.overflow = "";
+      EnableScroll();
     }
     return () => {
-      document.body.style.overflow = "";
+      EnableScroll();
     };
-  }, [showSearch]);
+  }, [showSearch , isMobileNavOpen]);
 
   return (
     <div className="relative overflow-hidden">
       <Toaster />
       <FilterMenu />
        <MobileNavbar
-                   isOpen={isMobileNavOpen}
-                   setIsOpen={setIsMobileNavOpen}
-                  />
+          isOpen={isMobileNavOpen}
+          setIsOpen={setIsMobileNavOpen}
+        />
       <div>
         <ScrollToTop />
         <Suspense fallback={<Loading />}>

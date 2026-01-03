@@ -18,10 +18,11 @@ export default function CategoryCarousel() {
   const { deviceType } = useDeviceType();
   return (
     <Carousel
+    
       items={categories}
       spaceBetween={deviceType === "cellphone" ? 0 : 8}
       renderItem={(item) => (
-        <CategoryCard categoryImage={item.image} categoryName={item.name} />
+        <CategoryCard key={item.name} categoryImage={item.image} categoryName={item.name} />
       )}
     />
   );

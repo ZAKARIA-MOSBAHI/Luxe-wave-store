@@ -15,11 +15,12 @@ const returnImgUrl = (path)=> {
   return `${api_url}${path}`;
 }
 
-const redirectTo = (user , navigationfn) => {
-    if (user !== null) {
-      navigationfn("/profile");
-    } else {
-      navigationfn("/login");
-    }
-  };
-export { Logout, cn, returnImgUrl , redirectTo };
+
+const DisableScroll = () => {
+  document.body.style.overflow = "hidden";
+}
+const EnableScroll = () => {
+  document.body.style.overflow = "";
+}
+
+export { Logout, cn, returnImgUrl ,  DisableScroll , EnableScroll };
