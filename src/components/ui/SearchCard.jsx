@@ -1,9 +1,8 @@
-import { SearchContext } from "@/context/SearchContext";
-import { useContext } from "react";
+import { useSearch } from "@/context/SearchContext";
 import { Link } from "react-router-dom";
 
 export default function SearchCard({ image, name, price, id, description }) {
-  const { setShowSearch } = useContext(SearchContext);
+  const { setShowSearch } = useSearch()
   return (
     <Link
       to={`/product/${id}`}

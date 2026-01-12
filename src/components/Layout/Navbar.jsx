@@ -22,16 +22,15 @@ import { Logout } from "@/lib/utils";
 import SearchInput from "../ui/SearchInput";
 import SearchResults from "../ui/SearchResults";
 import useDebounce from "@/hooks/useDebounce";
-import { SearchContext } from "@/context/SearchContext";
-import { useSelector } from "react-redux";
+ import { useSelector } from "react-redux";
 import { NavLinks } from "@/constants/NavLinks";
+import { useSearch } from "@/context/SearchContext";
 
 function Navbar({ setIsMobileNavOpen}) {
   const { logo } = assets;
   const cartState = useSelector((state) => state.cart.data);
    const navigate = useNavigate();
-  const { showSearch, searchQuery, handleSearch, setSearchResults } =
-    useContext(SearchContext);
+  const { showSearch, searchQuery, searchProduct, setSearchResults } =useSearch()
   const debouncedSearchQuery = useDebounce(searchQuery);
   const { user } = useAuth();
 
@@ -43,7 +42,7 @@ function Navbar({ setIsMobileNavOpen}) {
       return;
     } else {
       console.log("time has ended , making the api call ");
-      handleSearch(debouncedSearchQuery);
+      searchProduct(debouncedSearchQuery);
     }
   }, [debouncedSearchQuery]);
 

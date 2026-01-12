@@ -57,7 +57,7 @@ export default function ProductCard({
   };
 
   return (
-    <button
+    <div
       onClick={handleProductClick}
       className="group rounded-[12px] relative w-full max-w-[350px] overflow-hidden  transition-all duration-300 "
     >
@@ -106,6 +106,6 @@ export default function ProductCard({
           />
         </button>
       )}
-    </button>
+    </div>
   );
 }

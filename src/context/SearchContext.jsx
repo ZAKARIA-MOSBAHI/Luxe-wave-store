@@ -1,27 +1,22 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import api from "../api/axios";
 export const SearchContext = createContext();
 
 export function SearchContextProvider({ children }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+ 
   const [showSearch, setShowSearch] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const handleSearch = async (value) => {
-    setError(null);
-    setIsLoading(true);
+  const searchProduct = async (value) => {
     try {
       const response = await api.post("/search", {
         query: value,
       });
-      console.log("Search result:", response.data);
+      console.log("Search result:", response.data.results);
       setSearchResults(response.data.results);
     } catch (err) {
       console.error("Search error:", err);
-      setError(err.response.data.message);
-    } finally {
-      setIsLoading(false);
+     
     }
   };
 
@@ -29,14 +24,11 @@ export function SearchContextProvider({ children }) {
     showSearch,
     setShowSearch,
     searchResults,
-    handleSearch,
+    searchProduct,
     searchQuery,
     setSearchQuery,
     setSearchResults,
-    isLoading,
-    setIsLoading,
-    error,
-    setError,
+    
   };
   useEffect(() => {
     if (showSearch === false) {
@@ -48,3 +40,10 @@ export function SearchContextProvider({ children }) {
     <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
   );
 }
+export const useSearch = () => {
+  const context = useContext(SearchContext);
+  if (!context) {
+    throw new Error("useSearch must be used within an SearchContextProvider");
+  }
+  return context;
+};
