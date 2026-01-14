@@ -6,7 +6,6 @@ import { setCart } from "@/app/slices/cartSlice";
 import { returnImgUrl } from "@/lib/utils";
 
 export default function CartItem({ item }) {
-  console.log("item passed is " , item);
   const dispatch = useDispatch();
   const handleDelete = async () => {
     try {

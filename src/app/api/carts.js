@@ -1,5 +1,5 @@
 import api from "@/api/axios";
-export async function getClientCart() {
+ export async function getClientCart() {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user?.accessToken;
@@ -38,7 +38,6 @@ export async function addProductToCart(productId, size) {
         },
       }
     );
-
     return result.data;
   } catch (e) {
     console.log("error getting client cart");

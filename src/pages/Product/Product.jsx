@@ -12,8 +12,7 @@ export default function Product() {
   const [product, setProduct] = useState(null);
   const [mainImg, setMainImg] = useState("");
   const [sizeChoosen, setSizeChoosen] = useState("");
-  const [loading, setLoading] = useState(true);
-  const { productId } = useParams();
+   const { productId } = useParams();
   const ProductsState = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [err, setErr] = useState("");
@@ -40,8 +39,7 @@ export default function Product() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        setLoading(true);
-        setErr("");
+         setErr("");
 
         // First try to find product in Redux store
         if (ProductsState.length > 0) {
@@ -53,8 +51,7 @@ export default function Product() {
             setMainImg(
               foundProduct.mainImage?.url || foundProduct.image?.[0] || ""
             );
-            setLoading(false);
-            return;
+             return;
           }
         }
 
@@ -65,9 +62,7 @@ export default function Product() {
       } catch (error) {
         console.error("Error fetching product:", error);
         setErr("Failed to load product");
-      } finally {
-        setLoading(false);
-      }
+      }  
     };
 
     if (productId) {

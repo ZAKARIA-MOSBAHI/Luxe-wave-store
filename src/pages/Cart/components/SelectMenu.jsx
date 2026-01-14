@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function SelectMenu({ product }) {
   const cart = useSelector((state) => state.cart.data);
-   const [selected, setSelected] = useState(product.itemSize);
+  const [selected, setSelected] = useState(product.itemSize);
   const [isopen, setIsOpen] = useState(false);
   const [optionList, setOptionList] = useState(product.sizes);
   const handleSizeChange = (size) => {
@@ -18,6 +18,8 @@ export default function SelectMenu({ product }) {
     //NEXT : send backend request to update size in cart
   };
    useEffect(() => {
+    console.warn("product entering ");
+    console.log(product);
     const productSizes = Object.keys(product.productId.sizes);
     setOptionList(productSizes);
     }, []);
