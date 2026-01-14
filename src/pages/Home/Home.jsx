@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import Hero from "./components/Hero";
-import { products } from "../../assets/client/assets";
-import ProductsCollection from "./components/ProductsCollection";
+
+ import ProductsCollection from "./components/ProductsCollection";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import SectionTitle from "../../components/SectionTitle";
@@ -12,8 +11,12 @@ import WhyUs from "./components/WhyUs";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "@/app/api/products";
 import { setProducts } from "@/app/slices/productSlice";
+import CategoriesGrid from "./components/CategoriesGrid";
+import { assets } from "@/assets/client/assets";
+import Hero from "./components/Hero";
 
 function Home() {
+  const {Denim_category , Shorts_category , Sweatshirt_category , Tshirt_category} = assets;
   const ProductsState = useSelector((state) => state.products);
   const [BestSellers, setBestSellers] = useState([]);
   const [LatestCollections, setLatestCollections] = useState([]);
@@ -103,6 +106,21 @@ function Home() {
         badgeColor={"green"}
         badgeText={"New Arrival"}
       />
+      <div className="px-4 sm:px-6 lg:px-8 py-16 bg-[#000]">
+         <div className="flex items-center gap-2  md:gap-4 mb-8">
+              <h1 className="tracking-tighter font-bold text-mobile-h2 md:text-desktop-h2 text-white">
+                Browse Our Categories
+              </h1>
+              <p className="w-10  hidden md:block lg:w-14 h-[2px] bg-white"></p>
+             </div>
+         
+ <div className="flex flex-col gap-6 justify-center items-center">
+      <CategoriesGrid firstColSpan="col-span-5" secondColSpan="col-span-7" firstImg={Tshirt_category} secondImg={Shorts_category} />
+    <CategoriesGrid firstColSpan="col-span-7" secondColSpan="col-span-5" firstImg={Sweatshirt_category} secondImg={Denim_category} />
+
+</div>
+      </div>
+
       <WhyUs />
       <NewsLetter />
     </div>

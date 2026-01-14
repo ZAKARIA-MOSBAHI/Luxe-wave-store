@@ -1,19 +1,14 @@
 import {
   ArrowRight,
   Award,
-  Heart,
-  HeartHandshake,
-  Mail,
-  MapPin,
+   HeartHandshake,
+ 
   Shirt,
-  User,
-} from "lucide-react";
+ } from "lucide-react";
 import { Separator } from "@/components/ui/Separator";
-import aboutUsImg from "../../assets/client/images/about_us.jpg";
-import JuliaChen from "../../assets/client/images/team_member_2.jpg";
-import MarcusBlackwood from "../../assets/client/images/team_member_3.jpg";
-import JamesKim from "../../assets/client/images/team_member_1.jpg";
-import ElenaMartinez from "../../assets/client/images/team_member_4.jpg";
+import { assets } from "@/assets/client/assets";
+
+const {JuliaChen , MarcusBlackwood,JamesKim, ElenaMartinez , aboutUsImg} = assets;
 const Team = [
   {
     name: "Julia Chen",

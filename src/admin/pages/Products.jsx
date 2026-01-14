@@ -65,9 +65,12 @@ const Products = () => {
     console.log("Delete product:", id);
   };
   useEffect(() => {
+
     const FetchProducts = async () => {
       try {
         const results = await getProducts();
+        console.log("%c Products : " , "color : green; background: lightgreen;");
+        console.log(results.products);
         dispatch(setProducts(results.products));
       } catch (e) {
         console.error(e);

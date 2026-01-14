@@ -72,10 +72,8 @@ export default function ProductCard({
       </div>
 
       {/* Product Info Section */}
-      <div className="py-4 px-2 flex flex-col items-start text-left gap-2 ">
-        <p className="text-xs uppercase tracking-wider text-gray-400">
-          {product.gender}'s Wear / {product.categoryId?.name}
-        </p>
+      <div className="pt-2 px-2 flex flex-col items-start text-left ">
+        
         <p
           className="group-hover:underline  group-hover:text-gray-400 transition-all duration-300 font-medium w-full text-gray-800 truncate text-lg"
           title={product.name}
@@ -83,7 +81,7 @@ export default function ProductCard({
           {product.name}
         </p>
         <p className="font-bold text-lg">
-          <span className="text-sm font-normal">$</span>
+          <span className="text-lg font-normal">$</span>
           {product.price}
         </p>
       </div>
