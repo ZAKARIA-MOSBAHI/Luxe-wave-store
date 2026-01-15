@@ -12,8 +12,8 @@ export default function ProductsCollection({
   badgeColor,
 }) {
   return (
-    <div className="mx-auto w-full lg:px-0 px-8">
-      <SectionTitle className={"mt-10 md:px-4"}>
+    <section className="mx-auto w-full">
+      <SectionTitle className={"md:px-4"}>
         <Title title={CollectionName} />
 
         <Button
@@ -55,6 +55,6 @@ export default function ProductsCollection({
           />
         )}
       />
-    </div>
+    </section>
   );
 }

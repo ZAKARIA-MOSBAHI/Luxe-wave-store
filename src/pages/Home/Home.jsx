@@ -90,10 +90,10 @@ function Home() {
   return (
     <div className="">
       <Hero />
-      <SectionTitle className={"mt-10 px-4"}>
+      {/* <SectionTitle className={"mt-10 px-4"}>
         <Title title={"Shop By Category"} />
-      </SectionTitle>
-      <CategoryCarousel />
+      </SectionTitle> */}
+      {/* <CategoryCarousel /> */}
       <ProductsCollection
         CollectionName={"Best Sellers"}
         products={BestSellers}
@@ -106,7 +106,8 @@ function Home() {
         badgeColor={"green"}
         badgeText={"New Arrival"}
       />
-      <div className="px-4 sm:px-6 lg:px-8 py-16 bg-[#000]">
+      {/* Categories display */}
+      <section className="py-16 mb-0 bg-[#000]">
          <div className="flex items-center gap-2  md:gap-4 mb-8">
               <h1 className="tracking-tighter font-bold text-mobile-h2 md:text-desktop-h2 text-white">
                 Browse Our Categories
@@ -119,7 +120,7 @@ function Home() {
     <CategoriesGrid firstColSpan="col-span-7" secondColSpan="col-span-5" firstImg={Sweatshirt_category} secondImg={Denim_category} />
 
 </div>
-      </div>
+      </section>
 
       <WhyUs />
       <NewsLetter />

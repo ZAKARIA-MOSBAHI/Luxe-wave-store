@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/Button";
 
 export default function NewsLetter() {
   return (
-    <section className="pb-16 text-center mx-4 ">
+    <section className="text-center">
       <div className="space-y-6 max-w-2xl mx-auto">
         <h2 className="text-3xl font-bold tracking-tight">Stay Connected.</h2>
         <p className="text-zinc-400 text-lg">

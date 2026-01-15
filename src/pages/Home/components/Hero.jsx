@@ -5,7 +5,8 @@ import { ArrowUpRight } from "lucide-react";
 function Hero() {
   const { banner } = assets;
   return (
-    <div className="relative overflow-hidden rounded-4xl mx-2 md:mx-6 mt-4">
+    <section>
+    <div className="relative overflow-hidden rounded-4xl">
       <img
         src={banner}
         className="w-full h-[calc(100vh-75px)] object-cover "
@@ -26,6 +27,7 @@ function Hero() {
         </Button>
       </div>
     </div>
+    </section>
   );
 }
 

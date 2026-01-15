@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 
 function Title({ title }) {
   return (
-    <div className="flex items-center gap-2  md:gap-4  pt-8 pb-4 justify-center text-center mb-3">
+    <div className="flex items-center gap-2  md:gap-4  pb-4 md:pb-8 justify-center text-center">
       <h1 className="tracking-tighter font-bold text-mobile-h2 md:text-desktop-h2">
         {title}
       </h1>

@@ -23,7 +23,7 @@ const benefits = [
 ];
 export default function WhyUs() {
   return (
-    <div className="space-y-12 my-20 px-4 md:px-6 text-center py-20 bg-black text-white">
+    <section className="space-y-12 md:px-6 text-center mt-10 md:mt-14 lg:mt-16">
       <h2 className="text-3xl font-bold tracking-tight">Why Choose Us.</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 place-items-center">
         {benefits.map((benefit, index) => (
@@ -39,6 +39,6 @@ export default function WhyUs() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
