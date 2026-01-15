@@ -13,8 +13,7 @@ import {
   Facebook,
   Twitter,
 } from "lucide-react";
-import NewsLetter from "../Home/components/NewsLetter";
-
+ 
 const Contact = () => {
   return (
     <div className="container mx-auto  max-w-5xl py-12 md:py-20">
@@ -433,8 +432,7 @@ const Contact = () => {
           </div>
         </section>
 
-        {/* Newsletter */}
-        <NewsLetter />
+       
       </div>
     </div>
   );

@@ -3,10 +3,7 @@ import { useEffect, useState } from "react";
  import ProductsCollection from "./components/ProductsCollection";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import SectionTitle from "../../components/SectionTitle";
-import Title from "../../components/Title";
-import CategoryCarousel from "./components/CategoryCarousel";
-import NewsLetter from "./components/NewsLetter";
+
 import WhyUs from "./components/WhyUs";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "@/app/api/products";
@@ -123,7 +120,7 @@ function Home() {
       </section>
 
       <WhyUs />
-      <NewsLetter />
+     
     </div>
   );
 }

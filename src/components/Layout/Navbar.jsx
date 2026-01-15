@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/client/assets";
-import { useContext, useEffect } from "react"; 
+import { useContext, useEffect, useState } from "react"; 
 import {
   LayoutDashboard,
   LogOut,
@@ -25,9 +25,11 @@ import useDebounce from "@/hooks/useDebounce";
  import { useSelector } from "react-redux";
 import { NavLinks } from "@/constants/NavLinks";
 import { useSearch } from "@/context/SearchContext";
+import MobileNavbar from "../MobileNavbar";
 
-function Navbar({ setIsMobileNavOpen}) {
+function Navbar({isMobileNavOpen, setIsMobileNavOpen}) {
   const { logo } = assets;
+  const [hideLogo , setHideLogo] = useState(false);
   const cartState = useSelector((state) => state.cart.data);
    const navigate = useNavigate();
   const { showSearch, searchQuery, searchProduct, setSearchResults } =useSearch()
@@ -45,6 +47,15 @@ function Navbar({ setIsMobileNavOpen}) {
       searchProduct(debouncedSearchQuery);
     }
   }, [debouncedSearchQuery]);
+useEffect(() => {
+  if (showSearch) {
+    const isSmallScreen = window.innerWidth < 900;
+    setHideLogo(isSmallScreen);
+  } else {
+    setHideLogo(false);
+  }
+}, [showSearch]);
+
 
   return (
         <nav  className="fixed top-0 left-0 w-full z-50 flex items-center bg-white text-sm h-[70px] border-b border-gray-200">
@@ -52,9 +63,9 @@ function Navbar({ setIsMobileNavOpen}) {
           className={`max-w-[1152px]  px-4  w-full mx-auto  flex items-center justify-between font-medium `}
         >
           <div className="flex gap-4">
-            <Link to={"/"}>
+            {hideLogo ? null : <Link to={"/"}>
               <img src={logo} className="w-36 cursor-pointer" alt="" />
-            </Link>
+            </Link> }
             <ul className="hidden md:flex items-center  gap-6 text-gray-900 text-sm px-4 border-l border-gray-200">
               {
                 NavLinks.map((link)=>(
@@ -140,6 +151,7 @@ function Navbar({ setIsMobileNavOpen}) {
         </div>
 
         {showSearch && searchQuery.trim().length > 0 && <SearchResults />}
+        <MobileNavbar isOpen={isMobileNavOpen} setIsOpen={setIsMobileNavOpen}/>
       </nav>
   
     );

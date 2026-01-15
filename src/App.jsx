@@ -51,15 +51,12 @@ function App() {
     <div className="relative overflow-hidden">
       <Toaster />
       <FilterMenu />
-       <MobileNavbar
-          isOpen={isMobileNavOpen}
-          setIsOpen={setIsMobileNavOpen}
-        />
+     
       <div>
         <ScrollToTop />
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route element={<Layout  setIsMobileNavOpen={setIsMobileNavOpen}/>}>
+            <Route element={<Layout isMobileNavOpen={isMobileNavOpen}  setIsMobileNavOpen={setIsMobileNavOpen}/>}>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />

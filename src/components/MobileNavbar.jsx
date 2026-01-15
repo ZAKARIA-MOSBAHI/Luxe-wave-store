@@ -2,31 +2,47 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
  import { NavLinks } from "@/constants/NavLinks";
 
+ const delays = [
+  "delay-0",
+  "delay-75",
+  "delay-150",
+  "delay-200",
+  "delay-300",
+];
+
  /*ADD : Logout btn | NavbarFooter*/
 export default function MobileNavbar({ isOpen, setIsOpen }) {
   const location = useLocation();
    const { user } = useAuth();
   
   return (  
-      <div className={`${isOpen ? 'top-[70px]' : "-top-[100%]"} w-full  py-4
-      absolute  left-0 flex flex-col w-[70%] bg-[#f4f4f4]  z-[49] gap-4 transition-all duration-300`}>
+      <div className={`absolute top-full left-0 w-full bg-black z-[49]
+  flex flex-col gap-4 overflow-hidden 
+  transition-all duration-500 ease-in-out
+  ${isOpen ? "max-h-[400px]" : "max-h-0"}
+  `}>
          
-        {NavLinks.map((link) => (
-          <Link
-            key={link.name}
-            className={`font-medium pl-6 p-3 flex items-center justify-center gap-4   ${
-              location.pathname === link.path
-                ? "bg-black text-white"
-                : "text-black "
-            } transition-all duration-200`}
-            onClick={() => {
-              setIsOpen(false);
-            }}
-            to={link.path}
-          >
-             <span>{link.name.toUpperCase()}</span>
-          </Link>
-        ))}
+        {NavLinks.map((link, index) => (
+  <Link
+    key={link.name}
+    className={`
+      font-medium pl-6 p-3 flex items-center justify-center gap-4
+      transition-all duration-300 ease-out
+      ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}
+      ${delays[index] || "delay-300"}
+      ${
+        location.pathname === link.path
+          ? "bg-white text-black"
+          : "text-white"
+      }
+    `}
+    onClick={() => setIsOpen(false)}
+    to={link.path}
+  >
+    <span>{link.name.toUpperCase()}</span>
+  </Link>
+))}
+
 
         {user  ? (
             <Link
@@ -70,9 +86,4 @@ export default function MobileNavbar({ isOpen, setIsOpen }) {
 );
 }
 
-/*<nav
- className={`fixed top-0 h-screen w-full   backdrop:blur-lg  z-10 flex items-center  justify-end  transition-all duration-500 bg-gray-500/50 ${
-   isOpen ? "top-0" : "-top-[100%]"
- }`}
->
-</nav>*/
+ 

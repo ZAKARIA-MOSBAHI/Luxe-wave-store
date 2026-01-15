@@ -46,6 +46,8 @@ export default function ProductCard({
     }
   };
   useEffect(() => {
+    console.log("%c Product :" , "background : green;");
+    console.log(product);
     const isProductInFavorites = FavoriteProductsState.favoriteProducts.find(
       (item) => item.productId._id === product._id
     );
@@ -67,7 +69,15 @@ export default function ProductCard({
           src={returnImgUrl(product.mainImage.url)}
           alt={product.mainImage.altText}
           title={product.mainImage.altText}
-          className="h-full w-full object-cover rounded-[12px]  transition-transform duration-500 ease-in-out group-hover:scale-105"
+          className="h-full w-full object-cover rounded-[12px] absolute top-0 left-0 group-hover:opacity-0 transition-opacity duration-200"
+          loading="lazy"
+        />
+        <img
+          src={returnImgUrl(product.additionalImages[0].url)}
+          alt={product.additionalImages[0].altText}
+          title={product.additionalImages[0].altText}
+          className="h-full w-full object-cover rounded-[12px]"
+          loading="lazy"
         />
       </div>
 
