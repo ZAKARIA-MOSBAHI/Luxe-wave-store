@@ -51,7 +51,7 @@ export default function MobileNavbar({ isOpen, setIsOpen }) {
             onClick={() => {
               setIsOpen(false);
             }}
-            to={"/profile"}
+            to={"/account"}
           >
              <span>{"profile".toUpperCase()}</span>
           </Link>

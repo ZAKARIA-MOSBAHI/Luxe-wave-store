@@ -1,18 +1,15 @@
-import { ScrollArea } from "../ui/ScrollArea";
-import ProfileNav from "@/pages/Profile/components/ProfileNav";
+ import ProfileNav from "@/pages/Profile/components/ProfileNav";
 import { Outlet } from "react-router-dom";
 
 export default function ProfilePageLayout() {
   return (
-    <div className="h-screen flex gap-4 md:gap-8 border-t border-zinc-100 ">
+    <section className="grid grid-cols-12 gap-4 md:gap-10  ">
       <ProfileNav />
 
       {/* scroll area appearing in the bottom */}
-      <ScrollArea className="h-full w-full">
-        <div className="px-4 ">
+         <section className="h-full w-full col-span-12 md:col-span-9">
           <Outlet />
-        </div>
-      </ScrollArea>
-    </div>
+        </section>
+     </section>
   );
 }

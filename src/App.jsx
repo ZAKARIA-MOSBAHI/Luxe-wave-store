@@ -11,7 +11,6 @@ import ErrorPage from "./pages/ErrorPage";
 import { SearchContext } from "./context/SearchContext";
 import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 import Favorites from "./pages/Favorites/Favorites";
-import MobileNavbar from "./components/MobileNavbar";
 import { DisableScroll, EnableScroll } from "./lib/utils";
 
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -66,8 +65,8 @@ function App() {
               />
               <Route path="/cart" element={<Cart />} />
               <Route element={<ProfilePageLayout />}>
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/profile/favorites" element={<Favorites />} />
+                <Route path="/account" element={<Profile />} />
+                <Route path="/account/favorites" element={<Favorites />} />
               </Route>
               <Route path="/orders" element={<Order />} />
               <Route path="/place-order" element={<PlaceOrder />} />

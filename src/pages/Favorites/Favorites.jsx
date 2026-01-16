@@ -34,10 +34,10 @@ export default function Favorites() {
 
   return (
     <>
-      <h1 className="text-2xl tracking-tight my-4 font-bold">
-        Favorite Products
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<h2 className="text-3xl font-bold tracking-tight my-10">Favorite Products</h2>
+
+    
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {FavoriteProductsState.favoriteProducts.length > 0 ? (
           FavoriteProductsState.favoriteProducts.map((p) => (
             <FavoriteProducts key={p._id} item={p} />

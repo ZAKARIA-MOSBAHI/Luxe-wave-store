@@ -1,11 +1,12 @@
-section {
+section:not([aria-label="Notifications alt+T"]) {
+  /*exclude sonner section*/
   padding-left: 1rem;
   padding-right: 1rem;
   margin-bottom: 2.5rem;
 }
 
 @media (min-width: 640px) {
-  section {
+  section:not([aria-label="Notifications alt+T"]) {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
      margin-bottom: 3.5rem;
@@ -13,7 +14,7 @@ section {
 }
 
 @media (min-width: 1024px) {
-  section {
+  section:not([aria-label="Notifications alt+T"]) {
     padding-left: 2rem;
     padding-right: 2rem;
      margin-bottom: 4rem;

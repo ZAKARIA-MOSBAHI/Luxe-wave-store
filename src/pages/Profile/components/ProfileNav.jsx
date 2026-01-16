@@ -5,44 +5,40 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 
 const navItems = [
-  { icon: Settings, label: "Account Infos", path: "/profile" },
-  { icon: Heart, label: "Favorite Products", path: "/profile/favorites" },
-  { icon: Archive, label: "Order History", path: "/profile/orders" },
+  { label: "Details", path: "/account" },
+  { label: "Favorites", path: "/account/favorites" },
+  { label: "Orders", path: "/account/orders" },
 ];
 
 const ProfileNav = () => {
-  const [activeTab, setActiveTab] = useState(null);
-  const { deviceType } = useDeviceType();
-  const location = useLocation();
-  useEffect(() => {
-    navItems.map((item) => {
-      if (item.path === location.pathname) {
-        setActiveTab(item.path);
-      }
-    });
-  }, []);
+ 
+  // const location = useLocation();
+  // useEffect(() => {
+  //   navItems.map((item) => {
+  //     if (item.path === location.pathname) {
+  //       setActiveTab(item.path);
+  //     }
+  //   });
+  // }, []);
   return (
-    <aside className="overflow-auto space-y-2 flex flex-col sticky items-center top-0 left-0  h-screen z-10 md:max-w-[240px] w-[60px] md:w-full border-r border-r-zinc-100 py-8 md:px-4 text-zinc-400">
+    <aside className="col-span-12 md:col-span-3 mt-10">
+      <Tabs defaultValue="message" className="h-full">
+        <TabsList className=" md:flex-col justify-start h-full w-full bg-transparent ">
       {navItems.map((item) => (
-        <Button
-          key={item.label}
-          variant="ghost"
-          className={cn(
-            "w-fit md:w-full justify-start",
-            activeTab === item.path && "bg-zinc-100 text-zinc-900"
-          )}
-          asChild
-        >
-          <Link to={item.path} className="">
-            <item.icon className="scale-[1.3] md:scale-100  " />
-            {["tablet", "cellphone"].includes(deviceType) ? null : (
-              <p>{item.label}</p>
-            )}
-          </Link>
-        </Button>
-      ))}
+              <TabsTrigger className="p-0 md:w-full md:text-base 
+              data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-none" value={item.label} key={item.label}>
+                <Link className="w-full h-full py-2 mx-4 text-start" to={item.path}>
+                {item.label}
+                </Link>
+              </TabsTrigger>
+             
+              
+            ))}
+            </TabsList>
+      </Tabs>
     </aside>
   );
 };
