@@ -20,6 +20,16 @@ export default function ProductImage({ mainImg, setMainImg, product }) {
               );
             })
           : null}
+          {product?.mainImage && product?.additionalImages.length > 0
+          ?  <img
+                  
+                  src={returnImgUrl(product?.mainImage.url)}
+                  onClick={() => {
+                    setMainImg(product?.mainImage.url);
+                  }}
+                  alt={product?.mainImage.altText}
+                  className="w-[24%] lg:w-full sm:mb-3 shrink-0 cursor-pointer h-auto"
+                /> : null}
       </div>
       {mainImg && (
         <img src={returnImgUrl(mainImg)} alt="" className="w-full lg:w-4/5 h-auto" />

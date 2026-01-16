@@ -7,9 +7,9 @@ export default function ProfilePageLayout() {
       <ProfileNav />
 
       {/* scroll area appearing in the bottom */}
-         <section className="h-full w-full col-span-12 md:col-span-9">
+         <div className="h-full w-full col-span-12 md:col-span-9">
           <Outlet />
-        </section>
+        </div>
      </section>
   );
 }
