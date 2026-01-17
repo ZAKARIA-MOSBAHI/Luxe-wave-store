@@ -1,5 +1,5 @@
 import api from "@/api/axios";
- export async function getClientCart() {
+export async function getClientCart() {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user?.accessToken;
@@ -36,7 +36,7 @@ export async function addProductToCart(productId, size) {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
     return result.data;
   } catch (e) {
@@ -86,7 +86,7 @@ export async function decrementCartItemQuantity(productId, size) {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     return result.data;
@@ -94,5 +94,34 @@ export async function decrementCartItemQuantity(productId, size) {
     console.log("error decrementing  item quantity from client cart");
     console.log(e);
     return e.response?.data || { success: false, message: e.message };
+  }
+}
+
+export async function updateCartItemSize(productId, oldSize, newSize) {
+  try {
+    // Get access token from localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user?.accessToken;
+
+    if (!accessToken) {
+      console.warn("No access token found. Please login again.");
+      localStorage.removeItem("user");
+      return { success: false, message: "User not authenticated" };
+    }
+
+    // Send PUT request
+    const response = await api.put(
+      "/carts/me/items/update-size",
+      { productId, oldSize, newSize },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    return error.response?.data;
   }
 }

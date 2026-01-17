@@ -1,7 +1,13 @@
-
 import { login } from "@/app/api/users";
 import { Button } from "@/components/ui/Button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 
 import { useAuth } from "@/context/AuthProvider";
@@ -32,8 +38,6 @@ export default function LoginForm() {
     try {
       const results = await login(formData, setUser);
       if (results.success) {
-        console.log("user is logged in");
-        console.log(user);
         navigate("/", {
           state: {
             firstLogin: true,

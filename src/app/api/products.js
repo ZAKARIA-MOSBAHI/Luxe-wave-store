@@ -17,7 +17,7 @@ export const getFilteredProducts = async (filterOptions) => {
   } catch (error) {
     console.error(
       "🔥 Backend call failed:",
-      error.response?.data || error.message
+      error.response?.data || error.message,
     );
     throw error;
   }
@@ -64,7 +64,6 @@ export const getClientFavoriteProducts = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(result);
     return result.data;
   } catch (e) {
     console.log(e);
@@ -96,7 +95,7 @@ export const addFavoriteProduct = async (productId) => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     console.log("adding favorite product");

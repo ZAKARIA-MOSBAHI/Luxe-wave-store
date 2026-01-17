@@ -19,7 +19,6 @@ export default function Favorites() {
         if (response.success) {
           dispatch(setFavorites(response.favorites));
         }
-        console.log("this is teh response ", response);
       } catch (error) {
         console.error("Error fetching favorite products:", error);
       }
@@ -34,9 +33,10 @@ export default function Favorites() {
 
   return (
     <>
-<h2 className="text-3xl font-bold tracking-tight my-10">Favorite Products</h2>
+      <h2 className="text-3xl font-bold tracking-tight my-10">
+        Favorite Products
+      </h2>
 
-    
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {FavoriteProductsState.favoriteProducts.length > 0 ? (
           FavoriteProductsState.favoriteProducts.map((p) => (

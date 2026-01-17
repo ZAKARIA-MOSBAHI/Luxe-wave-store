@@ -92,7 +92,7 @@ function Navbar({ isMobileNavOpen, setIsMobileNavOpen }) {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/account")}>
                     <UserRound className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                    <span>Details</span>
                   </DropdownMenuItem>
 
                   {user.role === "admin" && (

@@ -1,9 +1,14 @@
 import { returnImgUrl } from "@/lib/utils";
 import RemoveButton from "./RemoveButton";
+import { useNavigate } from "react-router-dom";
 
 const FavoriteProducts = ({ item }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/product/${item.productId._id}`);
+  };
   return (
-    <div className="relative group cursor-pointer">
+    <div onClick={handleClick} className="relative group cursor-pointer">
       <div className="overflow-hidden  aspect-square mb-3  rounded-lg bg-zinc-100/20">
         <img
           src={returnImgUrl(item.productId.mainImage.url)}

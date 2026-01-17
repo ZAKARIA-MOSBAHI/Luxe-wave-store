@@ -11,7 +11,6 @@ export default function QuantityCounter({ product }) {
     try {
       const productId = product?.productId._id;
       const response = await addProductToCart(productId, product?.itemSize);
-      console.log(response);
       if (response.success === true) {
         dispatch(setCart(response.cart));
       } else {
@@ -26,9 +25,8 @@ export default function QuantityCounter({ product }) {
       const productId = product?.productId._id;
       const response = await decrementCartItemQuantity(
         productId,
-        product?.itemSize
+        product?.itemSize,
       );
-      console.log(response);
       if (response.success === true) {
         dispatch(setCart(response.cart));
       } else {

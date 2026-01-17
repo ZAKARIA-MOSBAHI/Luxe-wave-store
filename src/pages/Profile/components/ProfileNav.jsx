@@ -14,20 +14,17 @@ const navItems = [
 ];
 
 const ProfileNav = () => {
-  // const location = useLocation();
-  // useEffect(() => {
-  //   navItems.map((item) => {
-  //     if (item.path === location.pathname) {
-  //       setActiveTab(item.path);
-  //     }
-  //   });
-  // }, []);
+  const location = useLocation();
+
   return (
     <aside className="col-span-12 md:col-span-3 mt-10">
       <Tabs defaultValue="message" className="h-full">
         <TabsList className=" md:flex-col justify-start h-full w-full bg-transparent ">
           {navItems.map((item) => (
             <TabsTrigger
+              data-state={
+                location.pathname === item.path ? "active" : "inactive"
+              }
               className="p-0 md:w-full md:text-base 
               data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-none"
               value={item.label}

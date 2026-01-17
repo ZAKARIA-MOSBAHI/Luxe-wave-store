@@ -1,28 +1,35 @@
-import {  useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-
+import { updateCartItemSize } from "@/app/api/carts";
+import { setCart } from "@/app/slices/cartSlice";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 export default function SelectMenu({ product }) {
-  const cart = useSelector((state) => state.cart.data);
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState(product.itemSize);
   const [isopen, setIsOpen] = useState(false);
   const [optionList, setOptionList] = useState(product.sizes);
-  const handleSizeChange = (size) => {
+  const handleSizeChange = async (newSize) => {
     setIsOpen(false);
-    if (size === selected) {
+    if (newSize === selected) {
       return;
     }
-    setSelected(size);
-    // check for similar sizes
-    console.log("size changed in cart item")
-    //NEXT : send backend request to update size in cart
+    const result = await updateCartItemSize(
+      product.productId._id,
+      selected,
+      newSize,
+    );
+    if (result.success) {
+      dispatch(setCart(result.cart));
+      setSelected(newSize);
+    } else {
+      toast.error(result.message);
+    }
   };
-   useEffect(() => {
-    console.warn("product entering ");
-    console.log(product);
+  useEffect(() => {
     const productSizes = Object.keys(product.productId.sizes);
     setOptionList(productSizes);
-    }, []);
+  }, []);
   return (
     <div className="relative w-20">
       <button
