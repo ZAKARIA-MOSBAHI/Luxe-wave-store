@@ -1,10 +1,13 @@
 import { useAuth } from "@/context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import ProfileInfosSection from "./components/ProfileInfosSection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileFormsDialog from "./components/ProfileFormsDialog";
 import AddPhoneNumberForm from "./forms/AddNumberForm";
-import AddAddressForm from "./forms/AddAdressForm";
+import AddAddressForm from "./forms/AddAddressForm";
+import { useDispatch, useSelector } from "react-redux";
+import { getClientAddress } from "@/app/api/addresses";
+import { setUserAddress } from "@/app/slices/addressSlice";
 
 function Profile() {
   const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
@@ -12,6 +15,20 @@ function Profile() {
 
   const navigate = useNavigate();
   const { user } = useAuth();
+  const UserAddressState = useSelector((state) => state.userAddress.address);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      try {
+        await getClientAddress((address) => dispatch(setUserAddress(address)));
+      } catch (error) {
+        console.error("Failed to fetch client address:", error);
+      }
+    };
+
+    fetchAddress();
+  }, [dispatch]);
 
   if (user === null) {
     navigate("/login", { replace: true });
@@ -27,7 +44,7 @@ function Profile() {
         dialogOpen={phoneDialogOpen}
         setDialogOpen={setPhoneDialogOpen}
       >
-        <AddPhoneNumberForm />
+        <AddPhoneNumberForm setDialogOpen={setPhoneDialogOpen} />
       </ProfileFormsDialog>
 
       <ProfileFormsDialog
@@ -38,9 +55,14 @@ function Profile() {
         dialogOpen={adressDialogOpen}
         setDialogOpen={setAdressDialogOpen}
       >
-        <AddAddressForm />
+        <AddAddressForm setDialogOpen={setAdressDialogOpen} />
       </ProfileFormsDialog>
       <ProfileInfosSection
+        fallback={user.phone ? null : "No Phone Number is Found."}
+        fallbackActionText={user.phone ? null : "Add One Now"}
+        onFallbackClick={
+          user.phone ? null : () => setPhoneDialogOpen(!phoneDialogOpen)
+        }
         title="Account Details"
         fields={[
           {
@@ -54,22 +76,33 @@ function Profile() {
           {
             label: "Phone",
             value: user.phone,
-            fallback: "No Phone Number is Found.",
-            fallbackActionText: "Add One Now",
-            onFallbackClick: () => setPhoneDialogOpen(!phoneDialogOpen),
           },
         ]}
       />
 
       <ProfileInfosSection
-        title="Addresses"
+        title="Shipping Address"
+        fallback={UserAddressState ? "" : "No Address is Found."}
+        fallbackActionText={UserAddressState ? "" : "Create One Now"}
+        onFallbackClick={
+          UserAddressState ? null : () => setAdressDialogOpen(!adressDialogOpen)
+        }
         fields={[
           {
-            label: "Address Id",
-            value: user.adressId,
-            fallback: "No Address is Found.",
-            fallbackActionText: "Create One Now",
-            onFallbackClick: () => setAdressDialogOpen(!adressDialogOpen),
+            label: "Street",
+            value: UserAddressState?.street,
+          },
+          {
+            label: "City",
+            value: UserAddressState?.city,
+          },
+          {
+            label: "Country",
+            value: UserAddressState?.country,
+          },
+          {
+            label: "Zip Code",
+            value: UserAddressState?.zipCode,
           },
         ]}
       />

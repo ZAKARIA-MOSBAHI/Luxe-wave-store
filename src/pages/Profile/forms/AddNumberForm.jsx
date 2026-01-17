@@ -1,3 +1,4 @@
+import { updateUser } from "@/app/api/users";
 import { Button } from "@/components/ui/Button";
 import {
   Form,
@@ -10,9 +11,11 @@ import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/context/AuthProvider";
 import { addPhoneNumberSchema } from "@/lib/schemas/phoneNumber.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-export default function AddPhoneNumberForm() {
+export default function AddPhoneNumberForm({ setDialogOpen }) {
   const { user, setUser } = useAuth();
 
   const form = useForm({
@@ -23,14 +26,28 @@ export default function AddPhoneNumberForm() {
   });
 
   const handleSubmit = async (formData) => {
-    console.log("%c Phone Added :", "color: green;");
-    console.log(formData);
+    try {
+      const result = await updateUser(formData, setUser);
 
-    // NEXT:
-    // await  UPDATE USER
-    // setUser({ ...user, phone: formData.phone });
+      if (result.success) {
+        console.log(
+          "%c User updated successfully!",
+          "color: green; font-weight: bold;",
+        );
+        toast.success("Your profile has been updated.");
+        setDialogOpen(false);
+      } else {
+        console.warn("Failed to update user:", result.message);
+        toast.error(result.message || "Failed to update user.");
+      }
+    } catch (error) {
+      console.error("Unexpected error updating user:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
   };
-
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   return (
     <Form {...form}>
       <form

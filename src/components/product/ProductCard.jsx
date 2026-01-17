@@ -1,13 +1,10 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HeartIcon from "../../assets/client/icons/HeartIcon";
 import CardBadge from "../ui/CardBadge";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
-import {
-  addFavoriteProduct,
-   removeFavoriteProduct,
-} from "@/app/api/products";
+import { addFavoriteProduct, removeFavoriteProduct } from "@/app/api/products";
 import { setFavorites } from "@/app/slices/favoritesSlice";
 import { returnImgUrl } from "@/lib/utils";
 
@@ -46,10 +43,8 @@ export default function ProductCard({
     }
   };
   useEffect(() => {
-    console.log("%c Product :" , "background : green;");
-    console.log(product);
     const isProductInFavorites = FavoriteProductsState.favoriteProducts.find(
-      (item) => item.productId._id === product._id
+      (item) => item.productId._id === product._id,
     );
     setIsFavorite(!!isProductInFavorites);
   }, [FavoriteProductsState]);
@@ -83,7 +78,6 @@ export default function ProductCard({
 
       {/* Product Info Section */}
       <div className="pt-2 px-2 flex flex-col items-start text-left ">
-        
         <p
           className="font-medium w-full text-gray-800 truncate text-lg"
           title={product.name}

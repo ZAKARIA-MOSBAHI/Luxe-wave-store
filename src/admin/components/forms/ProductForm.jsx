@@ -22,7 +22,6 @@ import {
 import { useEffect, useState } from "react";
 import { DialogClose } from "@/components/ui/Dialog";
 import { productSchema } from "../../../lib/schemas/product.schema";
-import { MultiSelect } from "@/components/ui/MultiSelect";
 import { createProduct } from "@/app/api/products";
 import { useDispatch, useSelector } from "react-redux";
 import SizeSelector from "./SizeSelector";
@@ -62,7 +61,7 @@ const sizes = [
 export function ProductForm({ initialData, setDialogOpen }) {
   const { status } = useSelector((state) => state.products);
   const CategoriesState = useSelector(
-    (state) => state.categoriesState.categories
+    (state) => state.categoriesState.categories,
   );
   const dispatch = useDispatch();
   const [mainImage, setMainImage] = useState(null);
@@ -159,7 +158,7 @@ export function ProductForm({ initialData, setDialogOpen }) {
     return () => {
       if (imagePreview) URL.revokeObjectURL(imagePreview);
       additionalImagesPreviews.forEach((preview) =>
-        URL.revokeObjectURL(preview)
+        URL.revokeObjectURL(preview),
       );
     };
   }, [imagePreview, additionalImagesPreviews]);

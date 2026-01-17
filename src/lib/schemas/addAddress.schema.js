@@ -12,7 +12,7 @@ export const addAddressSchema = z.object({
       message: "Country must be Morocco",
     }),
 
-  postalCode: z
+  zipCode: z
     .string()
     .trim()
     .regex(/^\d{5}$/, "Postal code must be 5 digits"),

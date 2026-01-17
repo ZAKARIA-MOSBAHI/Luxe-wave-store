@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
- import ProductsCollection from "./components/ProductsCollection";
+import ProductsCollection from "./components/ProductsCollection";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -13,7 +13,12 @@ import { assets } from "@/assets/client/assets";
 import Hero from "./components/Hero";
 
 function Home() {
-  const {Denim_category , Shorts_category , Sweatshirt_category , Tshirt_category} = assets;
+  const {
+    Denim_category,
+    Shorts_category,
+    Sweatshirt_category,
+    Tshirt_category,
+  } = assets;
   const ProductsState = useSelector((state) => state.products);
   const [BestSellers, setBestSellers] = useState([]);
   const [LatestCollections, setLatestCollections] = useState([]);
@@ -77,7 +82,7 @@ function Home() {
           style: {
             minWidth: "350px",
           },
-        }
+        },
       );
     }
     // Clear the state after showing the toast
@@ -105,22 +110,30 @@ function Home() {
       />
       {/* Categories display */}
       <section className="py-16 mb-0 bg-[#000]">
-         <div className="flex items-center gap-2  md:gap-4 mb-8">
-              <h1 className="tracking-tighter font-bold text-mobile-h2 md:text-desktop-h2 text-white">
-                Browse Our Categories
-              </h1>
-              <p className="w-10  hidden md:block lg:w-14 h-[2px] bg-white"></p>
-             </div>
-         
- <div className="flex flex-col gap-6 justify-center items-center">
-      <CategoriesGrid firstColSpan="col-span-5" secondColSpan="col-span-7" firstImg={Tshirt_category} secondImg={Shorts_category} />
-    <CategoriesGrid firstColSpan="col-span-7" secondColSpan="col-span-5" firstImg={Sweatshirt_category} secondImg={Denim_category} />
+        <div className="flex items-center gap-2  md:gap-4 mb-8">
+          <h1 className="tracking-tighter font-bold text-mobile-h2 md:text-desktop-h2 text-white">
+            Browse Our Categories
+          </h1>
+          <p className="w-10  hidden md:block lg:w-14 h-[2px] bg-white"></p>
+        </div>
 
-</div>
+        <div className="flex flex-col gap-6 justify-center items-center">
+          <CategoriesGrid
+            firstColSpan="col-span-12 sm:col-span-5"
+            secondColSpan="col-span-12 sm:col-span-7"
+            firstImg={Tshirt_category}
+            secondImg={Shorts_category}
+          />
+          <CategoriesGrid
+            firstColSpan="col-span-12 sm:col-span-7"
+            secondColSpan="col-span-12 sm:col-span-5"
+            firstImg={Sweatshirt_category}
+            secondImg={Denim_category}
+          />
+        </div>
       </section>
 
       <WhyUs />
-     
     </div>
   );
 }

@@ -8,7 +8,7 @@ export const signup = async (payload, setUser) => {
     const { accessToken, refreshToken, email, name } = response.data.user;
     localStorage.setItem(
       "user",
-      JSON.stringify({ accessToken, refreshToken, email, name })
+      JSON.stringify({ accessToken, refreshToken, email, name }),
     );
     setUser(response.data.user);
 
@@ -108,23 +108,29 @@ export const getUsers = async () => {
 };
 export const updateUser = async (payload, setUser) => {
   try {
-    const accessToken = JSON.parse(localStorage.getItem("user")).accessToken;
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user?.accessToken) {
+      setUser(null);
+      return { success: false, message: "No access token found" };
+    }
+
     const response = await api.put("/users/update", payload, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${user.accessToken}`,
       },
     });
-    console.log("response", response.data);
+
+    console.log("%c User updated:", "color: green;", response.data);
     setUser(response.data.user);
-    return { success: true };
+
+    return { success: true, user: response.data.user };
   } catch (error) {
-    console.log("error", error);
-    if (error.response.data) {
-      return error.response.data;
-    } else {
-      return {
+    console.error("%c Update user error:", "color: red;", error);
+    return (
+      error.response?.data || {
+        success: false,
         message: "Failed to update user",
-      };
-    }
+      }
+    );
   }
 };

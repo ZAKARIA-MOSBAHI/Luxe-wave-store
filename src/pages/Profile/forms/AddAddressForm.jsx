@@ -1,3 +1,5 @@
+import { createClientAddress } from "@/app/api/addresses";
+import { setUserAddress } from "@/app/slices/addressSlice";
 import { Button } from "@/components/ui/Button";
 import {
   Form,
@@ -8,9 +10,13 @@ import {
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
+import { useAuth } from "@/context/AuthProvider";
 import { addAddressSchema } from "@/lib/schemas/addAddress.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const formFields = [
   {
@@ -35,7 +41,7 @@ const formFields = [
     inputMode: "",
   },
   {
-    name: "postalCode",
+    name: "zipCode",
     label: "Postal Code",
     placeholder: "10000",
     disabled: false,
@@ -43,20 +49,36 @@ const formFields = [
   },
 ];
 
-export default function AddAddressForm() {
+export default function AddAddressForm({ setDialogOpen }) {
+  const { setUser } = useAuth();
+  const dispatch = useDispatch();
+
   const form = useForm({
     resolver: zodResolver(addAddressSchema),
     defaultValues: {
       street: "",
       city: "",
       country: "Morocco",
-      postalCode: "",
+      zipCode: "",
     },
   });
 
   const handleSubmit = async (data) => {
-    console.log("%c Address submitted:", "color: green;");
-    console.log(data);
+    try {
+      const result = await createClientAddress(data);
+
+      if (!result || result.success === false) {
+        throw new Error(result?.message || "Failed to create address");
+      }
+
+      setUser(result.user);
+      dispatch(setUserAddress(result.newAddress));
+      setDialogOpen(false);
+      toast.success("Address saved successfully!");
+    } catch (error) {
+      console.error("Error creating address:", error);
+      toast.success("Address saved successfully!");
+    }
   };
 
   return (
