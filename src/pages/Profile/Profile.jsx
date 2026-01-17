@@ -1,8 +1,15 @@
 import { useAuth } from "@/context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import ProfileInfosSection from "./components/ProfileInfosSection";
+import { useState } from "react";
+import ProfileFormsDialog from "./components/ProfileFormsDialog";
+import AddPhoneNumberForm from "./forms/AddNumberForm";
+import AddAddressForm from "./forms/AddAdressForm";
 
 function Profile() {
+  const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
+  const [adressDialogOpen, setAdressDialogOpen] = useState(false);
+
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -12,6 +19,27 @@ function Profile() {
   }
   return (
     <div className="w-full">
+      <ProfileFormsDialog
+        dialogTitle={"Add Your Phone Number"}
+        dialogDescription={
+          "Your phone number helps us secure your account and contact you when needed."
+        }
+        dialogOpen={phoneDialogOpen}
+        setDialogOpen={setPhoneDialogOpen}
+      >
+        <AddPhoneNumberForm />
+      </ProfileFormsDialog>
+
+      <ProfileFormsDialog
+        dialogTitle={"Add Your Shipping Adress"}
+        dialogDescription={
+          "This address will be used to deliver your orders accurately and on time."
+        }
+        dialogOpen={adressDialogOpen}
+        setDialogOpen={setAdressDialogOpen}
+      >
+        <AddAddressForm />
+      </ProfileFormsDialog>
       <ProfileInfosSection
         title="Account Details"
         fields={[
@@ -28,7 +56,7 @@ function Profile() {
             value: user.phone,
             fallback: "No Phone Number is Found.",
             fallbackActionText: "Add One Now",
-            onFallbackClick: () => console.log("Open phone form"),
+            onFallbackClick: () => setPhoneDialogOpen(!phoneDialogOpen),
           },
         ]}
       />
@@ -41,7 +69,7 @@ function Profile() {
             value: user.adressId,
             fallback: "No Address is Found.",
             fallbackActionText: "Create One Now",
-            onFallbackClick: () => console.log("Open address form"),
+            onFallbackClick: () => setAdressDialogOpen(!adressDialogOpen),
           },
         ]}
       />

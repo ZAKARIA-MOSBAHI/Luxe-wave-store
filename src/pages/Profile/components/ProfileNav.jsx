@@ -5,7 +5,7 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
- import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 
 const navItems = [
   { label: "Details", path: "/account" },
@@ -14,7 +14,6 @@ const navItems = [
 ];
 
 const ProfileNav = () => {
- 
   // const location = useLocation();
   // useEffect(() => {
   //   navItems.map((item) => {
@@ -27,17 +26,22 @@ const ProfileNav = () => {
     <aside className="col-span-12 md:col-span-3 mt-10">
       <Tabs defaultValue="message" className="h-full">
         <TabsList className=" md:flex-col justify-start h-full w-full bg-transparent ">
-      {navItems.map((item) => (
-              <TabsTrigger className="p-0 md:w-full md:text-base 
-              data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-none" value={item.label} key={item.label}>
-                <Link className="w-full h-full py-2 mx-4 text-start" to={item.path}>
+          {navItems.map((item) => (
+            <TabsTrigger
+              className="p-0 md:w-full md:text-base 
+              data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-none"
+              value={item.label}
+              key={item.label}
+            >
+              <Link
+                className="w-full h-full py-2 mx-4 text-start"
+                to={item.path}
+              >
                 {item.label}
-                </Link>
-              </TabsTrigger>
-             
-              
-            ))}
-            </TabsList>
+              </Link>
+            </TabsTrigger>
+          ))}
+        </TabsList>
       </Tabs>
     </aside>
   );
