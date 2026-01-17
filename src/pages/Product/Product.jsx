@@ -12,7 +12,7 @@ export default function Product() {
   const [product, setProduct] = useState(null);
   const [mainImg, setMainImg] = useState("");
   const [sizeChoosen, setSizeChoosen] = useState("");
-   const { productId } = useParams();
+  const { productId } = useParams();
   const ProductsState = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [err, setErr] = useState("");
@@ -20,8 +20,6 @@ export default function Product() {
   const handleClick = async () => {
     try {
       if (sizeChoosen) {
-        const h = { productId, sizeChoosen };
-        console.log("Adding product to cart with size:", h);
         const response = await addProductToCart(productId, sizeChoosen);
         if (response.success === true) {
           dispatch(setCart(response.cart));
@@ -39,19 +37,19 @@ export default function Product() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-         setErr("");
+        setErr("");
 
         // First try to find product in Redux store
         if (ProductsState.length > 0) {
           const foundProduct = ProductsState.find(
-            (item) => item._id === productId
+            (item) => item._id === productId,
           );
           if (foundProduct) {
             setProduct(foundProduct);
             setMainImg(
-              foundProduct.mainImage?.url || foundProduct.image?.[0] || ""
+              foundProduct.mainImage?.url || foundProduct.image?.[0] || "",
             );
-             return;
+            return;
           }
         }
 
@@ -62,7 +60,7 @@ export default function Product() {
       } catch (error) {
         console.error("Error fetching product:", error);
         setErr("Failed to load product");
-      }  
+      }
     };
 
     if (productId) {

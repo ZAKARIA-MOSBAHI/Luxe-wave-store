@@ -24,7 +24,9 @@ export async function addProductToCart(productId, size) {
     const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user?.accessToken;
     if (!accessToken) {
-      throw new Error("No access token found");
+      const error = new Error("Login to add this product to cart");
+      error.name = "TokenExpiredError";
+      throw error;
     }
     const result = await api.post(
       "/carts/me/items",
@@ -40,8 +42,6 @@ export async function addProductToCart(productId, size) {
     );
     return result.data;
   } catch (e) {
-    console.log("error getting client cart");
-    console.log(e);
     return e.response?.data || { success: false, message: e.message };
   }
 }

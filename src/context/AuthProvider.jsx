@@ -20,7 +20,9 @@ const AuthProvider = ({ children }) => {
           email: data.user.email,
           accessToken: data.accessToken,
           status: data.user.status,
-          currencyPreference: data.user.currencyPreference || "USD",
+          currencyPreference: data.user?.currencyPreference
+            ? user?.currencyPreference
+            : "MAD" || "USD",
           phone: data.user.phone,
         };
         setUser({ ...data.user, accessToken: data.accessToken });
@@ -37,7 +39,7 @@ const AuthProvider = ({ children }) => {
       user,
       setUser,
     }),
-    [isAdmin, user, setUser]
+    [isAdmin, user, setUser],
   );
 
   return (

@@ -86,7 +86,10 @@ export default function ProductCard({
         </p>
         <p className="font-medium text-lg">
           {product.price}
-          <span> {user.currencyPreference}</span>
+          <span>
+            {" "}
+            {user?.currencyPreference ? user?.currencyPreference : "MAD"}
+          </span>
         </p>
       </div>
 

@@ -22,7 +22,6 @@ export default function ProductInfo({
   const { user } = useAuth();
   const handleFavorite = async () => {
     if (!user) {
-      console.log("login to favor this !");
       return;
     }
 
@@ -44,7 +43,6 @@ export default function ProductInfo({
         const response = await getClientFavoriteProducts();
 
         const isProductInFavorites = response.favorites.find((item) => {
-          console.log(item);
           return item.productId._id === product?._id;
         });
 
@@ -57,7 +55,7 @@ export default function ProductInfo({
       FetchFavoriteProducts();
     } else {
       const isProductInFavorites = FavoriteProductsState.favoriteProducts.find(
-        (item) => item.productId._id === product?._id
+        (item) => item.productId._id === product?._id,
       );
       setIsFavorite(isProductInFavorites ? true : false);
     }
@@ -110,7 +108,9 @@ export default function ProductInfo({
             />
           </button>
         </div>
-        {err && <span className="px-4 text-red-500 text-sm">{err}</span>}
+        {err && (
+          <span className="px-4 font-medium text-red-500 text-sm">{err}</span>
+        )}
       </div>
     </div>
   );

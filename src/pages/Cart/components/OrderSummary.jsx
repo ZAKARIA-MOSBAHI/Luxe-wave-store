@@ -15,19 +15,20 @@ export default function OrderSummary() {
           {cartState?.items.length || 0} ITEMS
           <span>
             {cartState?.total ?? 15}
-            {user.currencyPreference}
+            {user?.currencyPreference ? user?.currencyPreference : "MAD"}
           </span>
         </p>
         <p className="flex justify-between text-sm  font-light sm:text-base">
           SALES TAX
           <span>
-            {0} {user.currencyPreference}
+            {0} {user?.currencyPreference ? user?.currencyPreference : "MAD"}
           </span>
         </p>
         <p className="flex justify-between text-sm  font-light sm:text-base">
           DELIVERY
           <span>
-            {shipping_fees} {user.currencyPreference}
+            {shipping_fees}{" "}
+            {user?.currencyPreference ? user?.currencyPreference : "MAD"}
           </span>
         </p>
 
@@ -35,7 +36,7 @@ export default function OrderSummary() {
           <p className="text-lg font-medium">TOTAL :</p>
           <p className="text-lg ">
             {cartState?.total + shipping_fees || shipping_fees}{" "}
-            {user.currencyPreference}
+            {user?.currencyPreference ? user?.currencyPreference : "MAD"}
           </p>
         </div>
       </div>

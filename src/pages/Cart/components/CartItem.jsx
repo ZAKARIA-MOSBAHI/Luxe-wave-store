@@ -34,7 +34,8 @@ export default function CartItem({ item }) {
           <div className="flex justify-between items-center flex-wrap text-lg sm:text-xl">
             <h1 className=" text-gray-600 my-2">{item?.productId.name}</h1>
             <p className="font-medium">
-              {item?.productId.price} {user.currencyPreference}
+              {item?.productId.price}{" "}
+              {user?.currencyPreference ? user?.currencyPreference : "MAD"}
             </p>
           </div>
           <div className="flex gap-4 md:gap-8 flex-wrap items-center">

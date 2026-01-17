@@ -12,7 +12,6 @@ import { SearchContext } from "./context/SearchContext";
 import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 import Favorites from "./pages/Favorites/Favorites";
 import { DisableScroll, EnableScroll } from "./lib/utils";
-import { useAuth } from "./context/AuthProvider";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -33,12 +32,9 @@ const AdminCarts = lazy(() => import("./admin/pages/Carts"));
 const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
 
 function App() {
-  const { user } = useAuth();
   const { showSearch } = useContext(SearchContext);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   useEffect(() => {
-    console.log(user);
-
     if (showSearch || isMobileNavOpen) {
       DisableScroll();
     } else {

@@ -8,12 +8,11 @@ import { setCart } from "@/app/slices/cartSlice";
 
 function Cart() {
   const cartState = useSelector((state) => state.cart.data);
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchLoggingUserCart = async () => {
       try {
         const response = await getClientCart();
-        console.log("cart fetched " , response.cart);
 
         dispatch(setCart(response.cart));
       } catch (error) {
@@ -25,7 +24,7 @@ function Cart() {
   }, []);
 
   return (
-    <div>
+    <section>
       <div className="flex flex-col  md:flex-row justify-between ">
         <div className="flex flex-col w-full md:w-[60%] py-8">
           <h1 className="text-2xl font-medium">CART</h1>
@@ -35,14 +34,14 @@ function Cart() {
               return <CartItem item={item} key={index} />;
             })
           ) : (
-            <p className="text-xl text-center text-gray-300">
+            <p className="text-sm sm:text-base text-center text-gray-300">
               No Product Is In Cart
             </p>
           )}
         </div>
         <OrderSummary />
       </div>
-    </div>
+    </section>
   );
 }
 
