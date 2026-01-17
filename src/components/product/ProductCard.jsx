@@ -84,9 +84,9 @@ export default function ProductCard({
         >
           {product.name}
         </p>
-        <p className="font-bold text-lg">
-          <span className="text-lg font-normal">$</span>
+        <p className="font-medium text-lg">
           {product.price}
+          <span> {user.currencyPreference}</span>
         </p>
       </div>
 

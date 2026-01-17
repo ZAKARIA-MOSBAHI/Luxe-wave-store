@@ -12,6 +12,7 @@ import { SearchContext } from "./context/SearchContext";
 import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 import Favorites from "./pages/Favorites/Favorites";
 import { DisableScroll, EnableScroll } from "./lib/utils";
+import { useAuth } from "./context/AuthProvider";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -32,37 +33,43 @@ const AdminCarts = lazy(() => import("./admin/pages/Carts"));
 const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
 
 function App() {
+  const { user } = useAuth();
   const { showSearch } = useContext(SearchContext);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   useEffect(() => {
-    
+    console.log(user);
+
     if (showSearch || isMobileNavOpen) {
-      DisableScroll()
+      DisableScroll();
     } else {
       EnableScroll();
     }
     return () => {
       EnableScroll();
     };
-  }, [showSearch , isMobileNavOpen]);
+  }, [showSearch, isMobileNavOpen]);
 
   return (
     <div className="relative overflow-hidden">
       <Toaster />
       <FilterMenu />
-     
+
       <div>
         <ScrollToTop />
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route element={<Layout isMobileNavOpen={isMobileNavOpen}  setIsMobileNavOpen={setIsMobileNavOpen}/>}>
+            <Route
+              element={
+                <Layout
+                  isMobileNavOpen={isMobileNavOpen}
+                  setIsMobileNavOpen={setIsMobileNavOpen}
+                />
+              }
+            >
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-              <Route
-                path="/collections"
-                element={<Collections />}
-              />
+              <Route path="/collections" element={<Collections />} />
               <Route path="/cart" element={<Cart />} />
               <Route element={<ProfilePageLayout />}>
                 <Route path="/account" element={<Profile />} />

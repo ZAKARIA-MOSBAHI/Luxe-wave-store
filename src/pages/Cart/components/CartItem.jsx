@@ -1,11 +1,13 @@
- import QuantityCounter from "./QuantityCounter";
+import QuantityCounter from "./QuantityCounter";
 import SelectMenu from "./SelectMenu";
- import { useDispatch } from "react-redux";
-import {  deleteCartItem } from "@/app/api/carts";
+import { useDispatch } from "react-redux";
+import { deleteCartItem } from "@/app/api/carts";
 import { setCart } from "@/app/slices/cartSlice";
 import { returnImgUrl } from "@/lib/utils";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function CartItem({ item }) {
+  const { user } = useAuth();
   const dispatch = useDispatch();
   const handleDelete = async () => {
     try {
@@ -19,7 +21,7 @@ export default function CartItem({ item }) {
       console.error("Error adding product to cart:", error);
     }
   };
-  
+
   return (
     <>
       <div className="flex w-full gap-4 relative my-2 p-4">
@@ -31,7 +33,9 @@ export default function CartItem({ item }) {
         <div className="w-full flex-col flex gap-4 ">
           <div className="flex justify-between items-center flex-wrap text-lg sm:text-xl">
             <h1 className=" text-gray-600 my-2">{item?.productId.name}</h1>
-            <p className="font-medium">${item?.productId.price}</p>
+            <p className="font-medium">
+              {item?.productId.price} {user.currencyPreference}
+            </p>
           </div>
           <div className="flex gap-4 md:gap-8 flex-wrap items-center">
             <div className="flex flex-wrap gap-4 items-center">

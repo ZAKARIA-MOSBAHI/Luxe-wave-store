@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function OrderSummary() {
   const shipping_fees = 15;
+  const { user } = useAuth();
   const cartState = useSelector((state) => state.cart.data);
 
   return (
@@ -11,21 +13,29 @@ export default function OrderSummary() {
       <div className="flex flex-col p-8  border my-2">
         <p className="flex justify-between text-sm  font-light sm:text-base">
           {cartState?.items.length || 0} ITEMS
-          <span>${cartState?.total ?? 15}</span>
+          <span>
+            {cartState?.total ?? 15}
+            {user.currencyPreference}
+          </span>
         </p>
         <p className="flex justify-between text-sm  font-light sm:text-base">
           SALES TAX
-          <span>${0}</span>
+          <span>
+            {0} {user.currencyPreference}
+          </span>
         </p>
         <p className="flex justify-between text-sm  font-light sm:text-base">
           DELIVERY
-          <span>${shipping_fees}</span>
+          <span>
+            {shipping_fees} {user.currencyPreference}
+          </span>
         </p>
 
         <div className="flex  justify-between py-4 border-t  border-gray-400">
           <p className="text-lg font-medium">TOTAL :</p>
           <p className="text-lg ">
-            ${cartState?.total + shipping_fees || shipping_fees}
+            {cartState?.total + shipping_fees || shipping_fees}{" "}
+            {user.currencyPreference}
           </p>
         </div>
       </div>
