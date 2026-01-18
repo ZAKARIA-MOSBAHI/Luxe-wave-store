@@ -8,28 +8,17 @@ import Carousel from "../../../components/ui/Carousel";
 export default function ProductsCollection({
   CollectionName,
   products,
-  badgeText,
-  badgeColor,
+  badgeText = "",
+  badgeColor = "",
+  ...rest
 }) {
   return (
-    <section className="mx-auto w-full">
-      <SectionTitle className={"md:px-4"}>
+    <section className={`mx-auto w-full ${rest.className ?? ""}`} {...rest}>
+      <SectionTitle>
         <Title title={CollectionName} />
-
-        <Button
-          variant="link"
-          size="icon"
-          className="w-fit text-base font-medium cursor-pointer group hidden md:inline-flex"
-        >
-          <span className="uppercase">Shop {CollectionName}</span>
-          <ArrowRight
-            size={20}
-            className="group-hover:translate-x-0.5 transition-all duration-300"
-          />
-        </Button>
       </SectionTitle>
       <Carousel
-        className="max-w-[350px] sm:max-w-full"
+        className="max-w-[350px] mx-0 w-full sm:max-w-full"
         items={products}
         breakpoints={{
           0: {

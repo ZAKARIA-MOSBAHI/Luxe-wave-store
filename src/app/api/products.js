@@ -26,12 +26,15 @@ export const getFilteredProducts = async (filterOptions) => {
 export const getProductById = async (productId) => {
   try {
     const response = await api.get(`/products/${productId}`);
+
     return response.data;
   } catch (error) {
+    console.log("error is : ");
+    console.log(error.response.data);
     if (error.response) {
-      throw new Error(error.response.data.message);
+      return error.response.data.message;
     } else {
-      throw new Error("Failed to fetch product data");
+      return { success: false, message: "Failed to fetch product data" };
     }
   }
 };

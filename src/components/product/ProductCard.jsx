@@ -79,12 +79,12 @@ export default function ProductCard({
       {/* Product Info Section */}
       <div className="pt-2 px-2 flex flex-col items-start text-left ">
         <p
-          className="font-medium w-full text-gray-800 truncate text-lg"
+          className="font-medium w-full text-gray-800 truncate text-sm md:text-base"
           title={product.name}
         >
           {product.name}
         </p>
-        <p className="font-medium text-lg">
+        <p className=" text-sm md:text-base text-gray-600">
           {product.price}
           <span>
             {" "}

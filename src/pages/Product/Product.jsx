@@ -1,21 +1,25 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import SimilarProducts from "./components/SimilarProducts";
 import ProductImage from "./components/ProductImage";
 import ProductInfo from "./components/ProductInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/app/api/carts";
 import { setCart } from "@/app/slices/cartSlice";
 import { getProductById } from "@/app/api/products";
+import ProductsCollection from "../Home/components/ProductsCollection";
+import ErrorPage from "../ErrorPage";
 
 export default function Product() {
+  // next : fetch all products in app component
   const [product, setProduct] = useState(null);
   const [mainImg, setMainImg] = useState("");
   const [sizeChoosen, setSizeChoosen] = useState("");
   const { productId } = useParams();
   const ProductsState = useSelector((state) => state.products);
+  const [similarProducts, setSimilarProducts] = useState([]);
   const dispatch = useDispatch();
   const [err, setErr] = useState("");
+  const [notFound, setNotFound] = useState(false);
 
   const handleClick = async () => {
     try {
@@ -36,43 +40,59 @@ export default function Product() {
   };
   useEffect(() => {
     const fetchProduct = async () => {
-      try {
-        setErr("");
-
-        // First try to find product in Redux store
-        if (ProductsState.length > 0) {
-          const foundProduct = ProductsState.find(
-            (item) => item._id === productId,
+      // First try to find product in Redux store
+      if (ProductsState.products.length > 0) {
+        const foundProduct = ProductsState.products.find(
+          (item) => item._id === productId,
+        );
+        if (foundProduct) {
+          setProduct(foundProduct);
+          setMainImg(
+            foundProduct.mainImage?.url || foundProduct.image?.[0] || "",
           );
-          if (foundProduct) {
-            setProduct(foundProduct);
-            setMainImg(
-              foundProduct.mainImage?.url || foundProduct.image?.[0] || "",
-            );
-            return;
-          }
+          return;
         }
+      }
 
-        // If not found anywhere, fetch from API
-        const result = await getProductById(productId);
+      // If not found anywhere, fetch from API
+      const result = await getProductById(productId);
+
+      if (result.success) {
         setProduct(result.product);
         setMainImg(result.product.mainImage?.url || "");
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        setErr("Failed to load product");
+      } else {
+        setNotFound(true);
       }
     };
 
     if (productId) {
       fetchProduct();
-      setSizeChoosen(null); // Reset size selection when product changes
+      setSizeChoosen("");
     }
-  }, [productId, ProductsState]);
+  }, [productId, ProductsState.products]);
+
+  useEffect(() => {
+    // next : change this into a filtering code
+    if (ProductsState.products.length > 0) {
+      setSimilarProducts(ProductsState.products.slice(0, 4));
+    }
+  }, [ProductsState.products]);
+
+  if (notFound) {
+    return (
+      <ErrorPage
+        statusCode={404}
+        message="this product not found"
+        redirectLink="/collections"
+        redirectText="Go back to collections"
+      />
+    );
+  }
 
   return (
-    <div className="px-4 pt-10 transition-opacity duration-500 opacity-100 relative">
+    <div className=" transition-opacity duration-500 opacity-100 relative">
       {/* PRODUCT DATA */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <ProductImage
           mainImg={mainImg}
           setMainImg={setMainImg}
@@ -85,12 +105,33 @@ export default function Product() {
           err={err}
           handleClick={handleClick}
         />
-      </div>
+      </section>
+
       {/* similar products */}
-      <div className="my-20">
-        <p className="text-2xl font-medium my-6 md:my-12">SIMILAR PRODUCTS</p>
-        <SimilarProducts pCategory={product?.category} pId={product?._id} />
+      <div className="">
+        <ProductsCollection
+          CollectionName={"Similar Items"}
+          products={similarProducts}
+        />
       </div>
+      <section className=" mx-auto max-w-4xl space-y-6 text-center">
+        <p className="text-3xl font-bold tracking-tight">Our Return Policy.</p>
+
+        <p className="text-zinc-400 leading-relaxed">
+          <strong>Delivery fees are 30 MAD</strong> for orders under{" "}
+          <strong>500 MAD</strong>, and{" "}
+          <strong>free for orders above 500 MAD</strong>.
+          <br />
+          Items can be <strong>exchanged within 8 days</strong> of receiving
+          your order. <strong>Additional fees may apply</strong> in case of
+          returns.
+          <br />
+          During <strong>sales or promotional periods</strong>, exchanges are{" "}
+          <strong>free only for size or color changes</strong>, subject to stock
+          availability. If a <strong>different item</strong> is chosen, the{" "}
+          <strong>promotion will no longer apply</strong>.
+        </p>
+      </section>
     </div>
   );
 }

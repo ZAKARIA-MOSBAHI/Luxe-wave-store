@@ -62,55 +62,57 @@ export default function ProductInfo({
   }, [product?._id, FavoriteProductsState]);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl mb-4 underline w-fit">Details</h1>
-      <div className="flex gap-8 flex-col">
-        <h1 className="font-medium text-3xl ">{product?.name}</h1>
-        <p className=" text-gray-700">{product?.description}</p>
-        <div className="flex flex-wrap  gap-y-8 justify-between items-center">
-          <div className="flex text-lg md:text-xl gap-2 items-center">
-            <h2 className=" text-base text-gray-500">Price </h2>
-            <p className="font-medium">{product?.price} MAD</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <h2 className=" text-base  text-gray-500">Sizes </h2>
-
-            {Object.keys(product?.sizes ?? {}).map((key, i) => (
-              <button
-                key={i}
-                className={`${
-                  sizeChoosen === key ? "border border-black" : ""
-                } flex items-center justify-center px-4 py-2 w-fit h-fit  text-sm bg-gray-100 cursor-pointer hover:bg-gray-300 transition-all duration-500`}
-                onClick={() => {
-                  setSizeChoosen(key);
-                }}
-              >
-                {key} ({product?.sizes[key]})
-              </button>
-            ))}
-          </div>
+    <div className="flex gap-6 flex-col justify-center">
+      <h1 className="text-3xl font-bold tracking-tight">{product?.name}</h1>
+      <p className="font-medium text-2xl mb-6">{product?.price} MAD</p>
+      <div className="space-y-4 mb-6">
+        <p className="text-gray-800 w-full  font-bold tracking-tight text-[18px]">
+          Size
+        </p>
+        <div className="flex gap-2">
+          {Object.keys(product?.sizes ?? {}).map((key, i) => (
+            <button
+              key={i}
+              className={`${
+                sizeChoosen === key ? "border border-black" : ""
+              } flex items-center justify-center px-4 py-2 w-fit h-fit  text-sm bg-gray-100 cursor-pointer hover:bg-gray-300 transition-all duration-500`}
+              onClick={() => {
+                setSizeChoosen(key);
+              }}
+            >
+              {key} ({product?.sizes[key]})
+            </button>
+          ))}
         </div>
+      </div>
+      <div className="space-y-4 mb-6">
+        <p className="text-gray-800 w-full font-bold tracking-tight text-[18px]">
+          Product's Description
+        </p>
 
-        <div className="flex gap-4">
-          <button
-            className="px-8 py-2.5 w-fit bg-black text-white cursor-pointer"
-            onClick={handleClick}
-          >
-            ADD TO CART
-          </button>
-          <button
-            onClick={handleFavorite}
-            className="bg-gray-100  flex justify-center items-center px-2"
-          >
-            <HeartIcon
-              fill={isFavorite ? "#fb2c36" : "none"}
-              stroke={isFavorite ? "#fb2c36" : "black"}
-            />
-          </button>
-        </div>
-        {err && (
-          <span className="px-4 font-medium text-red-500 text-sm">{err}</span>
-        )}
+        <p className="text-gray-600">{product?.description}</p>
+      </div>
+      {err && (
+        <span className="px-4 font-medium text-red-500 text-sm mb-2">
+          {err}
+        </span>
+      )}
+      <div className="flex gap-4">
+        <button
+          className="px-8 py-2.5 w-full bg-black text-white cursor-pointer"
+          onClick={handleClick}
+        >
+          ADD TO CART
+        </button>
+        <button
+          onClick={handleFavorite}
+          className="bg-gray-100  flex justify-center items-center px-2"
+        >
+          <HeartIcon
+            fill={isFavorite ? "#fb2c36" : "none"}
+            stroke={isFavorite ? "#fb2c36" : "black"}
+          />
+        </button>
       </div>
     </div>
   );

@@ -5,12 +5,13 @@ const ErrorPage = ({
   statusCode = 500,
   message = "Something went wrong!",
   redirectLink = "/",
+  redirectText = "Go back to Home",
 }) => {
   const location = useLocation();
 
   useEffect(() => {
     console.error(
-      `${statusCode} Error: User attempted to access ${location.pathname}`
+      `${statusCode} Error: User attempted to access ${location.pathname}`,
     );
   }, [location.pathname, statusCode]);
 
@@ -23,7 +24,7 @@ const ErrorPage = ({
           to={redirectLink}
           className="text-blue-500 hover:text-blue-700 underline text-lg"
         >
-          Go back to Home
+          {redirectText}
         </Link>
       </div>
     </div>

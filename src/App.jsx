@@ -12,6 +12,9 @@ import { SearchContext } from "./context/SearchContext";
 import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 import Favorites from "./pages/Favorites/Favorites";
 import { DisableScroll, EnableScroll } from "./lib/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setProducts } from "./app/slices/productSlice";
+import { getProducts } from "./app/api/products";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -33,6 +36,9 @@ const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
 
 function App() {
   const { showSearch } = useContext(SearchContext);
+  const ProductsState = useSelector((state) => state.products);
+
+  const dispatch = useDispatch();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   useEffect(() => {
     if (showSearch || isMobileNavOpen) {
@@ -44,6 +50,17 @@ function App() {
       EnableScroll();
     };
   }, [showSearch, isMobileNavOpen]);
+  useEffect(() => {
+    const FetchProducts = async () => {
+      try {
+        const results = await getProducts();
+        dispatch(setProducts(results.products));
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    FetchProducts();
+  }, []);
 
   return (
     <div className="relative overflow-hidden">
