@@ -6,16 +6,16 @@ import { toast } from "sonner";
 
 export default function SelectMenu({ product }) {
   const dispatch = useDispatch();
-  const [selected, setSelected] = useState(product.itemSize);
+  const [selected, setSelected] = useState(product?.itemSize);
   const [isopen, setIsOpen] = useState(false);
-  const [optionList, setOptionList] = useState(product.sizes);
+  const [optionList, setOptionList] = useState(product?.productId?.sizes);
   const handleSizeChange = async (newSize) => {
     setIsOpen(false);
     if (newSize === selected) {
       return;
     }
     const result = await updateCartItemSize(
-      product.productId._id,
+      product?.productId?._id,
       selected,
       newSize,
     );
@@ -27,7 +27,9 @@ export default function SelectMenu({ product }) {
     }
   };
   useEffect(() => {
-    const productSizes = Object.keys(product.productId.sizes);
+    console.log("product incoming ");
+    console.log(product);
+    const productSizes = Object.keys(product?.productId?.sizes);
     setOptionList(productSizes);
   }, []);
   return (

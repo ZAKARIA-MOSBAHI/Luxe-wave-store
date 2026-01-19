@@ -15,7 +15,7 @@ function Profile() {
 
   const navigate = useNavigate();
   const { user } = useAuth();
-  const UserAddressState = useSelector((state) => state.userAddress.address);
+  const UserAddressState = useSelector((state) => state.userAddress?.address);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,24 +58,24 @@ function Profile() {
         <AddAddressForm setDialogOpen={setAdressDialogOpen} />
       </ProfileFormsDialog>
       <ProfileInfosSection
-        fallback={user.phone ? null : "No Phone Number is Found."}
-        fallbackActionText={user.phone ? null : "Add One Now"}
+        fallback={user?.phone ? null : "No Phone Number is Found."}
+        fallbackActionText={user?.phone ? null : "Add One Now"}
         onFallbackClick={
-          user.phone ? null : () => setPhoneDialogOpen(!phoneDialogOpen)
+          user?.phone ? null : () => setPhoneDialogOpen(!phoneDialogOpen)
         }
         title="Account Details"
         fields={[
           {
             label: "Name",
-            value: user.name,
+            value: user?.name,
           },
           {
             label: "Email",
-            value: user.email,
+            value: user?.email,
           },
           {
             label: "Phone",
-            value: user.phone,
+            value: user?.phone,
           },
         ]}
       />

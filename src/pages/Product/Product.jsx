@@ -115,7 +115,9 @@ export default function Product() {
         />
       </div>
       <section className=" mx-auto max-w-4xl space-y-6 text-center">
-        <p className="text-3xl font-bold tracking-tight">Our Return Policy.</p>
+        <h2 className="text-3xl font-bold tracking-tight">
+          Our Return Policy.
+        </h2>
 
         <p className="text-zinc-400 leading-relaxed">
           <strong>Delivery fees are 30 MAD</strong> for orders under{" "}
