@@ -2,20 +2,26 @@ import InfoGrid from "@/components/shared/InfoGrid";
 import { Alert, AlertAction, AlertContent } from "@/components/ui/Alert";
 import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
 import { useAuth } from "@/context/AuthProvider";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OrderItem from "./components/OrderItem";
+import { useEffect } from "react";
+import { getClientCart } from "@/app/api/carts";
+import { setCart } from "@/app/slices/cartSlice";
+import { getClientAddress } from "@/app/api/addresses";
+import { setUserAddress } from "@/app/slices/addressSlice";
 export default function PlaceOrder() {
   // next : use address redux state and remove type checking for address alert
   const { user } = useAuth();
   const cartState = useSelector((state) => state.cart.data);
-  const addressState = useSelector((state) => state.userAddress.address);
-  console.log(cartState);
+  const userAddressState = useSelector((state) => state.userAddress?.address);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const fields = [
     {
       label: "Country",
-      value: user?.addressId?.country ?? "Not Found",
+      value: userAddressState?.country ?? "Not Found",
     },
     {
       label: "Full Name",
@@ -27,15 +33,15 @@ export default function PlaceOrder() {
     },
     {
       label: "Shipping Address",
-      value: user?.addressId?.street ?? "Not Found",
+      value: userAddressState?.street ?? "Not Found",
     },
     {
       label: "City",
-      value: user?.addressId?.city ?? "Not Found",
+      value: userAddressState?.city ?? "Not Found",
     },
     {
       label: "Zip Code",
-      value: user?.addressId?.zipCode ?? "Not Found",
+      value: userAddressState?.zipCode ?? "Not Found",
     },
     {
       label: "Payment Method",
@@ -48,6 +54,25 @@ export default function PlaceOrder() {
     // the user can add missing data in this page
     navigate("/account");
   };
+  useEffect(() => {
+    const fetchCartAndAddress = async () => {
+      if (!cartState) {
+        const cartResponse = await getClientCart();
+        if (cartResponse.success) {
+          dispatch(setCart(cartResponse.cart));
+        }
+      }
+
+      if (!userAddressState) {
+        const addressResponse = await getClientAddress();
+        if (addressResponse.success) {
+          dispatch(setUserAddress(addressResponse.address));
+        }
+      }
+    };
+    fetchCartAndAddress();
+  }, [cartState, dispatch]);
+
   if (user === null) {
     navigate("/login", { replace: true });
     return null;

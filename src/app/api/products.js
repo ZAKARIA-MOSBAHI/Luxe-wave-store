@@ -4,7 +4,7 @@ export const getProducts = async () => {
     const response = await api.get("/products/");
     return response.data;
   } catch (error) {
-    console.log(error);
+    return { success: false, message: error?.response?.message };
   }
 };
 export const getFilteredProducts = async (filterOptions) => {

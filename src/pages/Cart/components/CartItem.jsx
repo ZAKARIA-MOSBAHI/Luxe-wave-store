@@ -7,8 +7,6 @@ import { returnImgUrl } from "@/lib/utils";
 import { useAuth } from "@/context/AuthProvider";
 
 export default function CartItem({ item }) {
-  console.log("cart item incoming ");
-  console.log(item);
   const { user } = useAuth();
   const dispatch = useDispatch();
   const handleDelete = async () => {

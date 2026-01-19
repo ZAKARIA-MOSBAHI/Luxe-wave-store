@@ -15,6 +15,9 @@ import { DisableScroll, EnableScroll } from "./lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "./app/slices/productSlice";
 import { getProducts } from "./app/api/products";
+import { getClientCart } from "./app/api/carts";
+import { setCart } from "./app/slices/cartSlice";
+import { useAuth } from "./context/AuthProvider";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -36,7 +39,10 @@ const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
 
 function App() {
   const { showSearch } = useContext(SearchContext);
-  const ProductsState = useSelector((state) => state.products);
+  const productsState = useSelector((state) => state.products);
+  const cartState = useSelector((state) => state.cart.data);
+
+  const { user } = useAuth();
 
   const dispatch = useDispatch();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -51,16 +57,22 @@ function App() {
     };
   }, [showSearch, isMobileNavOpen]);
   useEffect(() => {
-    const FetchProducts = async () => {
-      try {
-        const results = await getProducts();
-        dispatch(setProducts(results.products));
-      } catch (e) {
-        console.log(e);
+    const FetchProductsAndCart = async () => {
+      if (!productsState?.products?.length) {
+        const productsResponse = await getProducts();
+        if (productsResponse.success) {
+          dispatch(setProducts(productsResponse.products));
+        }
+      }
+      if (!cartState) {
+        const cartResponse = await getClientCart();
+        if (cartResponse.success) {
+          dispatch(setCart(cartResponse.cart));
+        }
       }
     };
-    FetchProducts();
-  }, []);
+    FetchProductsAndCart();
+  }, [dispatch, user, cartState, productsState]);
 
   return (
     <div className="relative overflow-hidden">

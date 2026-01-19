@@ -27,8 +27,6 @@ export default function SelectMenu({ product }) {
     }
   };
   useEffect(() => {
-    console.log("product incoming ");
-    console.log(product);
     const productSizes = Object.keys(product?.productId?.sizes);
     setOptionList(productSizes);
   }, []);

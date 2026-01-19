@@ -1,6 +1,6 @@
 import api from "@/api/axios";
 
-export async function getClientAddress(setUserAddress) {
+export async function getClientAddress() {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user?.accessToken;
@@ -8,7 +8,6 @@ export async function getClientAddress(setUserAddress) {
     if (!accessToken) {
       console.warn("No access token found, clearing user...");
       localStorage.removeItem("user");
-      setUserAddress(null);
       return null;
     }
 
@@ -18,22 +17,14 @@ export async function getClientAddress(setUserAddress) {
       },
     });
 
-    setUserAddress(response.data || null);
-
     return response.data;
-  } catch (error) {
-    const backendErrorName = error.response?.data?.name;
-
-    if (backendErrorName === "accessTokenExpired") {
-      console.warn("Access token expired. You need to login again...");
-      localStorage.removeItem("user");
-      setUserAddress(null);
-    } else {
-      console.error("Error fetching client address:", error);
-      setUserAddress(null);
-    }
-
-    return null;
+  } catch (e) {
+    return (
+      e.response?.data || {
+        success: false,
+        message: e.message,
+      }
+    );
   }
 }
 
@@ -52,11 +43,8 @@ export async function createClientAddress(payload) {
       },
     });
 
-    return result.data; // { user, newAddress }
+    return result.data;
   } catch (e) {
-    console.log("error creating address");
-    console.log(e);
-
     return (
       e.response?.data || {
         success: false,

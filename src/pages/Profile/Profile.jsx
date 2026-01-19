@@ -21,7 +21,10 @@ function Profile() {
   useEffect(() => {
     const fetchAddress = async () => {
       try {
-        await getClientAddress((address) => dispatch(setUserAddress(address)));
+        const addressResponse = await getClientAddress();
+        if (addressResponse.success) {
+          dispatch(setUserAddress(addressResponse.address));
+        }
       } catch (error) {
         console.error("Failed to fetch client address:", error);
       }

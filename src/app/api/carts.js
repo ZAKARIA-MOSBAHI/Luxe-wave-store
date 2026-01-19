@@ -14,9 +14,7 @@ export async function getClientCart() {
 
     return result.data;
   } catch (e) {
-    console.log("error getting client cart");
-    console.log(e);
-    return e.response?.data || { success: false, message: e.message };
+    return { success: false, message: "error getting client cart" };
   }
 }
 export async function addProductToCart(productId, size) {

@@ -40,7 +40,7 @@ export default function OrderSummary() {
           </p>
         </div>
       </div>
-      <Link to={"/place-order"}>
+      <Link to={cartState?.items?.length > 0 ? "/place-order" : null}>
         <button className="px-8 py-2.5 bg-black w-full text-white my-4">
           CHECKOUT
         </button>
