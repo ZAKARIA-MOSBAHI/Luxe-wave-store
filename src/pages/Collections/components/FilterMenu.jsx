@@ -13,14 +13,14 @@ import { useFilterMenu } from "@/context/FilterMenuProvider";
 function FilterMenu() {
   const {
     selectedFilterOptions,
-    setSelectedFilterOptions,
+
     showFilterMenu,
     setShowFilterMenu,
   } = useFilterMenu();
 
   const filterOptions = {
     gender: ["men", "women", "unisex"],
-    category: ["t-shirts" , "sweatshirts" ,"shorts" , "trousers"],
+    category: ["t-shirts", "sweatshirts", "shorts", "trousers"],
     price: ["low to high", "high to low"],
     size: ["S", "M", "L", "XL", "XXL"],
   };
@@ -48,7 +48,7 @@ function FilterMenu() {
         category: null,
         price: null,
         size: null,
-      })
+      }),
     );
   };
   const toggleAccordion = (key) => {

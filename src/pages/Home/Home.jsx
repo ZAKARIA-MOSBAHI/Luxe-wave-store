@@ -4,10 +4,8 @@ import ProductsCollection from "./components/ProductsCollection";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import WhyUs from "./components/WhyUs";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "@/app/api/products";
-import { setProducts } from "@/app/slices/productSlice";
+import { useSelector } from "react-redux";
+
 import CategoriesGrid from "./components/CategoriesGrid";
 import { assets } from "@/assets/client/assets";
 import Hero from "./components/Hero";
@@ -26,8 +24,15 @@ function Home() {
   const navigate = useNavigate();
   useEffect(() => {
     if (ProductsState.products.length > 0) {
-      setBestSellers(ProductsState.products.slice(0, 4));
-      setLatestCollections(ProductsState.products.slice(0, 4));
+      //next : make a list of tags and filter based on that
+      const bestSellerProducts = ProductsState.products.filter(
+        (product) => product.badge === "Best Seller",
+      );
+      const newArrivalProducts = ProductsState.products.filter(
+        (product) => product.badge === "New Arrivals",
+      );
+      setBestSellers(bestSellerProducts ?? []);
+      setLatestCollections(newArrivalProducts ?? []);
     }
   }, []);
   useEffect(() => {
@@ -79,10 +84,7 @@ function Home() {
   return (
     <div className="">
       <Hero />
-      {/* <SectionTitle className={"mt-10 px-4"}>
-        <Title title={"Shop By Category"} />
-      </SectionTitle> */}
-      {/* <CategoryCarousel /> */}
+
       <ProductsCollection
         CollectionName={"Best Sellers"}
         products={BestSellers}
@@ -119,8 +121,6 @@ function Home() {
           />
         </div>
       </section>
-
-      <WhyUs />
     </div>
   );
 }

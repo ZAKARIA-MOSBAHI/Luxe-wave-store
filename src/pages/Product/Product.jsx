@@ -8,6 +8,7 @@ import { setCart } from "@/app/slices/cartSlice";
 import { getProductById } from "@/app/api/products";
 import ProductsCollection from "../Home/components/ProductsCollection";
 import ErrorPage from "../ErrorPage";
+import { toast } from "sonner";
 
 export default function Product() {
   // next : fetch all products in app component
@@ -25,9 +26,10 @@ export default function Product() {
     try {
       if (sizeChoosen) {
         const response = await addProductToCart(productId, sizeChoosen);
-        if (response.success === true) {
+        if (response.success) {
           dispatch(setCart(response.cart));
           setErr("");
+          toast.success("Product added to cart");
         } else {
           setErr(response.message || "Failed to add product to cart");
         }

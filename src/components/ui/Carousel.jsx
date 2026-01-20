@@ -76,7 +76,7 @@ export default function Carousel({
       className={cn(`flex justify-center relative  w-[95%] mx-auto`, className)}
     >
       <Swiper
-        className={`my-4`}
+        className={`my-4 w-full`}
         spaceBetween={spaceBetween}
         breakpoints={breakpoints}
         onSwiper={setSliderController}

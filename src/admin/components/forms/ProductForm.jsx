@@ -95,6 +95,7 @@ export function ProductForm({ initialData, setDialogOpen }) {
   };
 
   const handleSubmit = async (values) => {
+    // make sure the text values (name , description, etc.) are before the image values
     setSizeErrorMsg("");
     if (Object.values(sizeValues).every((qty) => qty === 0)) {
       setSizeErrorMsg("At least one size must have quantity greater than 0");
