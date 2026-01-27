@@ -28,12 +28,12 @@ export default function CartItem({ item }) {
         <img
           src={returnImgUrl(item?.productId.mainImage.url)}
           alt=""
-          className="w-36 rounded-lg h-auto object-cover"
+          className="w-36 rounded-lg h-[130px] object-cover"
         />
         <div className="w-full flex-col flex gap-4 ">
-          <div className="flex justify-between items-center flex-wrap text-lg sm:text-xl">
-            <h1 className=" text-gray-600 my-2">{item?.productId.name}</h1>
-            <p className="font-medium">
+          <div className="flex justify-between items-center flex-wrap text-base font-medium">
+            <h1 className="">{item?.productId.name}</h1>
+            <p className="">
               {item?.productId.price}{" "}
               {user?.currencyPreference ? user?.currencyPreference : "MAD"}
             </p>
@@ -49,7 +49,7 @@ export default function CartItem({ item }) {
             </div>
           </div>
           <button
-            className=" w-fit bg-gray-100 px-2 sm:px-4 gap-2 sm:gap-4 py-2.5  text-sm sm:text-base border-gray-800 rounded-md border-[1px]   text-gray-900  items-center hover:font-medium cursor-pointer hover:bg-gray-900 hover:text-white transition-colors duration-300"
+            className="w-fit text-sm sm:text-base text-gray-600 hover:text-gray-900 cursor-pointer underline "
             onClick={handleDelete}
           >
             DELETE PRODUCT

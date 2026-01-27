@@ -7,11 +7,11 @@ export default function OrderItem({ item }) {
         <img
           src={returnImgUrl(item?.productId.mainImage.url)}
           alt=""
-          className="w-36 rounded-lg h-[150px] object-cover"
+          className="w-36 rounded-lg h-[100px] object-cover"
         />
-        <div className="w-full flex-col flex gap-4 ">
+        <div className="w-full flex-col flex gap-2 ">
           <div className="flex font-medium justify-between items-center flex-wrap text-sm sm:text-base">
-            <h1 className="my-2">{item?.productId.name}</h1>
+            <h1>{item?.productId.name}</h1>
             <p className="">{item?.productId.price} MAD</p>
           </div>
 

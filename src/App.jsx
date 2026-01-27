@@ -29,7 +29,7 @@ const Product = lazy(() => import("./pages/Product/Product"));
 const PlaceOrder = lazy(() => import("./pages/PlaceOrder/PlaceOrder"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
-const Order = lazy(() => import("./pages/Order"));
+const Order = lazy(() => import("./pages/PlaceOrder/PlaceOrder"));
 const AdminProducts = lazy(() => import("./admin/pages/Products"));
 const AdminCategories = lazy(() => import("./admin/pages/Categories"));
 const AdminUsers = lazy(() => import("./admin/pages/Users"));

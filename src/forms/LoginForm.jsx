@@ -13,10 +13,9 @@ import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/context/AuthProvider";
 import { loginSchema } from "@/lib/schemas/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeClosed, Loader2 } from "lucide-react";
+import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
@@ -29,7 +28,6 @@ export default function LoginForm() {
       password: "",
     },
   });
-  const { status } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -111,13 +109,13 @@ export default function LoginForm() {
               </FormItem>
             )}
           />
-          <p className="text-end text-sm sm:text-base">
+          <p className="text-end text-sm ">
             Don't have an account{" "}
             <Link to="/signup" className="underline   hover:text-gray-400">
               Sign up
             </Link>
           </p>
-          <p className="text-red-500">{errorMsg}</p>
+          <p className="text-red-500 font-medium text-sm">{errorMsg}</p>
         </div>
         <div className="w-full max-w-[450px]">
           <Button
@@ -127,18 +125,11 @@ export default function LoginForm() {
             disabled={status === "loading"}
             className="cursor-pointer w-full "
           >
-            {status === "loading" ? (
-              <>
-                <Loader2 className="animate-spin" />
-                <span className="ml-2">LOGGING...</span>
-              </>
-            ) : (
-              "LOG IN"
-            )}
+            LOG IN
           </Button>
-          <div className=" flex justify-center gap-2 my-2 items-center">
+          <div className="flex justify-center gap-2 my-2 items-center">
             <p className="w-4 h-[1px] bg-zinc-600 "></p>
-            <p className="text-zinc-600 leading-normal">or</p>
+            <p className="text-zinc-600 leading-normal font-medium">or</p>
             <p className="w-4 h-[1px] bg-zinc-600 "></p>
           </div>
           <Button
