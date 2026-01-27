@@ -1,12 +1,37 @@
+import {
+  deleteNotification,
+  markNotificationAsRead,
+} from "@/app/api/notifications";
+import { markAsRead, removeNotification } from "@/app/slices/notificationSlice";
 import { Button } from "@/components/ui/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
-import { Check } from "lucide-react";
+import { Check, MoreVertical, Trash2 } from "lucide-react";
+import { useDispatch } from "react-redux";
 
-const NotificationItem = ({ notification, onMarkAsRead }) => {
+const NotificationItem = ({ notification }) => {
+  const dispatch = useDispatch();
   const formattedDate = formatDistanceToNow(new Date(notification.createdAt), {
     addSuffix: true,
   });
+  const onMarkAsRead = async () => {
+    const response = await markNotificationAsRead(notification._id);
+    if (response.success) {
+      dispatch(markAsRead(notification._id));
+    }
+  };
+  const onDelete = async () => {
+    const response = await deleteNotification(notification._id);
+    if (response.success) {
+      dispatch(removeNotification(notification._id));
+    }
+  };
 
   return (
     <div
@@ -39,17 +64,35 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
       </div>
 
       {/* Mark as read button */}
-      {!notification.isRead && (
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => onMarkAsRead(notification.id)}
-          aria-label="Mark as read"
-        >
-          <Check className="h-4 w-4 hover:bg-red-500" />
-        </Button>
-      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 hover:bg-gray-200"
+            aria-label="Notification actions"
+          >
+            <MoreVertical className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end" className="w-44">
+          {!notification.isRead && (
+            <DropdownMenuItem onClick={onMarkAsRead} className="cursor-pointer">
+              <Check className="mr-2 h-4 w-4" />
+              Mark as read
+            </DropdownMenuItem>
+          )}
+
+          <DropdownMenuItem
+            onClick={onDelete}
+            className="cursor-pointer text-red-600 focus:text-red-600"
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 };
