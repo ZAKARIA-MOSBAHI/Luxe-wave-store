@@ -1,6 +1,5 @@
-import { Bell, Search, User } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { User } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,35 +12,37 @@ import { useNavigate } from "react-router-dom";
 import { Logout } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
 import { useAuth } from "@/context/AuthProvider";
+import NotificationMenu from "../NotificationMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getNotifications } from "@/app/api/notifications";
+import { setNotification } from "@/app/slices/notificationSlice";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function Header() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const notificationsState = useSelector((state) => state.notificationState);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const response = await getNotifications();
+      if (response.success) {
+        dispatch(setNotification(response.notifications));
+      }
+    };
+    if (!notificationsState.notifications) {
+      fetchNotifications();
+    }
+  }, []);
   return (
     <header className="flex h-16 items-center justify-end gap-8 md:justify-between border-b bg-background px-2 md:px-6">
       {/* Search Bar */}
-      <div className="flex md:w-1/3"></div>
+      <div className="flex bg-red-500 md:w-1/3"></div>
 
       {/* Right Side Icons */}
       <div className="flex items-center gap-4">
         {/* Notifications Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="relative">
-              <Bell className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[10px] text-white">
-                3
-              </span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>New order placed #1234</DropdownMenuItem>
-            <DropdownMenuItem>Low stock alert: Product XYZ</DropdownMenuItem>
-            <DropdownMenuItem>New user registered</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <NotificationMenu />
 
         {/* User Profile Dropdown */}
         <DropdownMenu>
