@@ -29,6 +29,8 @@ const Product = lazy(() => import("./pages/Product/Product"));
 const PlaceOrder = lazy(() => import("./pages/PlaceOrder/PlaceOrder"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
+const OrderHistory = lazy(() => import("./pages/OrderHistory/OrderHistory"));
+const OrderDetails = lazy(() => import("./pages/OrderDetails/OrderDetails"));
 const Order = lazy(() => import("./pages/PlaceOrder/PlaceOrder"));
 const AdminProducts = lazy(() => import("./admin/pages/Products"));
 const AdminCategories = lazy(() => import("./admin/pages/Categories"));
@@ -96,9 +98,18 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/collections" element={<Collections />} />
               <Route path="/cart" element={<Cart />} />
+
               <Route element={<ProfilePageLayout />}>
                 <Route path="/account" element={<Profile />} />
                 <Route path="/account/favorites" element={<Favorites />} />
+                <Route
+                  path="/account/order-history"
+                  element={<OrderHistory />}
+                />
+                <Route
+                  path="/account/order-history/:orderId"
+                  element={<OrderDetails />}
+                />
               </Route>
               <Route path="/orders" element={<Order />} />
               <Route path="/place-order" element={<PlaceOrder />} />

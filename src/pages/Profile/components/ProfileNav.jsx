@@ -1,23 +1,18 @@
-import { Archive, Heart, LogOut, Settings } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/Button";
-import { useDeviceType } from "@/hooks/useDeviceType";
 
-import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 
 const navItems = [
   { label: "Details", path: "/account" },
   { label: "Favorites", path: "/account/favorites" },
-  { label: "Orders", path: "/account/orders" },
+  { label: "Orders", path: "/account/order-history" },
 ];
 
 const ProfileNav = () => {
   const location = useLocation();
 
   return (
-    <aside className="col-span-12 md:col-span-3 mt-10">
+    <aside className="col-span-12 md:col-span-3 bg-gray-200">
       <Tabs defaultValue="message" className="h-full">
         <TabsList className=" md:flex-col justify-start h-full w-full bg-transparent ">
           {navItems.map((item) => (

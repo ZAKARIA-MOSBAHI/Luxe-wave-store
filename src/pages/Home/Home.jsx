@@ -82,7 +82,7 @@ function Home() {
     window.history.replaceState({}, "");
   }, [location.state]);
   return (
-    <div className="">
+    <div className="pt-[10px]">
       <Hero />
 
       <ProductsCollection

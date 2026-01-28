@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
 
 export default function OrderSummary() {
-  const shipping_fees = 15;
   const { user } = useAuth();
   const cartState = useSelector((state) => state.cart.data);
 
@@ -26,16 +25,13 @@ export default function OrderSummary() {
         </p>
         <p className="flex justify-between text-sm  font-light sm:text-base">
           DELIVERY
-          <span>
-            {shipping_fees}{" "}
-            {user?.currencyPreference ? user?.currencyPreference : "MAD"}
-          </span>
+          <span>0 MAD</span>
         </p>
 
         <div className="flex  justify-between py-4 border-t  border-gray-400">
           <p className="text-lg font-medium">TOTAL :</p>
           <p className="text-lg ">
-            {cartState?.total + shipping_fees || shipping_fees}{" "}
+            {cartState?.total}{" "}
             {user?.currencyPreference ? user?.currencyPreference : "MAD"}
           </p>
         </div>

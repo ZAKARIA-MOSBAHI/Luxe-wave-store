@@ -6,7 +6,7 @@ import WhyUs from "./WhyUs";
 
 export default function Layout({ isMobileNavOpen, setIsMobileNavOpen }) {
   return (
-    <div className="mt-[80px] relative">
+    <div className="mt-[70px] relative">
       <Navbar
         isMobileNavOpen={isMobileNavOpen}
         setIsMobileNavOpen={setIsMobileNavOpen}
