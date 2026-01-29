@@ -1,13 +1,20 @@
 import UserHeader from "../UserHeader";
 import MissingInfoAlerts from "../MissingInfoAlerts";
 import InfoGrid from "@/components/shared/InfoGrid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
+import { createClientOrder } from "@/app/api/orders";
+import { toast } from "sonner";
+import { clearCart } from "@/app/slices/cartSlice";
+import { useNavigate } from "react-router-dom";
+import { addUserOrder } from "@/app/slices/userOrderSlice";
 
 export default function DeliverySection() {
   const { user } = useAuth();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userAddressState = useSelector((state) => state.userAddress?.address);
-
+  const userOrderState = useSelector((state) => state.userOrderState);
   const fields = [
     {
       label: "Country",
@@ -38,8 +45,22 @@ export default function DeliverySection() {
       value: "Cash On Delivery",
     },
   ];
-  const handleClick = () => {
-    alert("ORDER CONFIRMED! implement logic later");
+  const handleClick = async () => {
+    const response = await createClientOrder();
+    if (response?.success) {
+      dispatch(clearCart());
+      if (userOrderState?.orders !== null) {
+        dispatch(addUserOrder(response?.order));
+      }
+      navigate("/", {
+        state: {
+          hasOrdered: true,
+        },
+        replace: true,
+      });
+    } else {
+      toast.error("Couldn't Create Order!");
+    }
   };
   return (
     <div className=" order-2 md:order-1 flex gap-4 flex-col">

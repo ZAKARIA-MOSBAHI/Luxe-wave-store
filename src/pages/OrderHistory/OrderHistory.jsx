@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { Package } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { OrderCard } from "./components/OrderCard";
 import { EmptyOrdersState } from "./components/EmptyOrderState";
+import { useDispatch, useSelector } from "react-redux";
+import { getClientOrders } from "@/app/api/orders";
+import { setUserOrders } from "@/app/slices/userOrderSlice";
 
 export default function OrderHistory() {
   const mockOrders = [
@@ -149,9 +151,23 @@ export default function OrderHistory() {
       createdAt: "2026-01-20T16:45:00Z",
     },
   ];
-
+  const dispatch = useDispatch();
+  const userOrderState = useSelector((state) => state.userOrderState);
   const [orders] = useState(mockOrders);
-  const [isLoading] = useState(false);
+  useEffect(() => {
+    const fetchUserOrders = async () => {
+      const response = await getClientOrders();
+      if (response?.success) {
+        console.log(response);
+        dispatch(setUserOrders(response?.orders));
+      } else {
+        console.error(response?.message);
+      }
+    };
+    if (!userOrderState?.orders) {
+      fetchUserOrders();
+    }
+  }, [userOrderState]);
 
   return (
     <div className="max-h-screen overflow-y-scroll  bg-gray-50">
@@ -163,29 +179,17 @@ export default function OrderHistory() {
           <p className="text-gray-500">Track and manage your orders</p>
         </div>
 
-        {/* Loading State */}
-        {isLoading && (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="h-32 animate-pulse rounded-xl bg-gray-200"
-              />
-            ))}
-          </div>
-        )}
-
         {/* Orders List */}
-        {!isLoading && orders.length > 0 && (
+        {orders?.length > 0 && (
           <div className="flex flex-col gap-6">
-            {orders.map((order) => (
+            {userOrderState?.orders?.map((order) => (
               <OrderCard key={order._id} order={order} />
             ))}
           </div>
         )}
 
         {/* Empty State */}
-        {!isLoading && orders.length === 0 && <EmptyOrdersState />}
+        {userOrderState?.orders?.length === 0 && <EmptyOrdersState />}
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ export default function PlaceOrder() {
       }
     };
     fetchCartAndAddress();
-  }, [cartState, dispatch]);
+  }, [cartState, userAddressState, dispatch]);
 
   if (user === null) {
     navigate("/login", { replace: true });

@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
 import { OrderStatusBadge } from "../OrderHistory/components/OrderStatusBadge";
-import { PaymentStatusBadge } from "../OrderHistory/components/PaymentStatusBadge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -14,153 +13,31 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { OrderItemCard } from "./components/OrderItemCard";
-const mockOrders = [
-  {
-    _id: "1",
-    orderNumber: "ORD-001",
-    userId: "user-123",
-    items: [
-      {
-        product: {
-          name: "Classic Denim Jacket",
-          mainImage:
-            "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=200&h=200&fit=crop",
-          price: 129.99,
-        },
-        quantity: 1,
-        size: "M",
-      },
-      {
-        product: {
-          name: "Slim Fit Chinos",
-          mainImage:
-            "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=200&h=200&fit=crop",
-          price: 79.99,
-        },
-        quantity: 2,
-        size: "32",
-      },
-    ],
-    total: 289.97,
-    shippingAddress: {
-      street: "123 Main Street",
-      city: "New York",
-      country: "United States",
-      zipcode: "10001",
-    },
-    orderStatus: "delivered",
-    paymentStatus: "paid",
-    paymentMethod: "CARD",
-    createdAt: "2026-01-25T10:30:00Z",
-  },
-  {
-    _id: "2",
-    orderNumber: "ORD-002",
-    userId: "user-123",
-    items: [
-      {
-        product: {
-          name: "Oversized Hoodie",
-          mainImage:
-            "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200&h=200&fit=crop",
-          price: 89.99,
-        },
-        quantity: 1,
-        size: "L",
-      },
-    ],
-    total: 89.99,
-    shippingAddress: {
-      street: "456 Oak Avenue",
-      city: "Los Angeles",
-      country: "United States",
-      zipcode: "90001",
-    },
-    orderStatus: "shipped",
-    paymentStatus: "paid",
-    paymentMethod: "CARD",
-    createdAt: "2026-01-26T14:15:00Z",
-  },
-  {
-    _id: "3",
-    orderNumber: "ORD-003",
-    userId: "user-123",
-    items: [
-      {
-        product: {
-          name: "Wool Blend Overcoat",
-          mainImage:
-            "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=200&h=200&fit=crop",
-          price: 249.99,
-        },
-        quantity: 1,
-        size: "L",
-      },
-      {
-        product: {
-          name: "Cotton Crew Neck T-Shirt",
-          mainImage:
-            "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop",
-          price: 34.99,
-        },
-        quantity: 3,
-        size: "M",
-      },
-    ],
-    total: 354.96,
-    shippingAddress: {
-      street: "789 Pine Road",
-      city: "Chicago",
-      country: "United States",
-      zipcode: "60601",
-    },
-    orderStatus: "pending",
-    paymentStatus: "unpaid",
-    paymentMethod: "COD",
-    createdAt: "2026-01-28T09:00:00Z",
-  },
-  {
-    _id: "4",
-    orderNumber: "ORD-004",
-    userId: "user-123",
-    items: [
-      {
-        product: {
-          name: "High-Waist Skinny Jeans",
-          mainImage:
-            "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=200&h=200&fit=crop",
-          price: 99.99,
-        },
-        quantity: 1,
-        size: "28",
-      },
-      {
-        product: {
-          name: "Leather Belt",
-          mainImage:
-            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200&h=200&fit=crop",
-          price: 45.99,
-        },
-        quantity: 1,
-        size: "M",
-      },
-    ],
-    total: 145.98,
-    shippingAddress: {
-      street: "321 Elm Street",
-      city: "Miami",
-      country: "United States",
-      zipcode: "33101",
-    },
-    orderStatus: "cancelled",
-    paymentStatus: "unpaid",
-    paymentMethod: "CARD",
-    createdAt: "2026-01-20T16:45:00Z",
-  },
-];
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getClientOrderById } from "@/app/api/orders";
+
 export default function OrderDetails() {
   const { orderId } = useParams();
-  const order = mockOrders.find((o) => o._id === orderId);
+  const userOrderState = useSelector((state) => state.userOrderState);
+  const [order, setOrder] = useState(null);
+
+  useEffect(() => {
+    const fetchClientOrderById = async () => {
+      const response = await getClientOrderById(orderId);
+      if (response?.success) {
+        console.log(response);
+        setOrder(response?.order);
+      } else {
+        console.error(response?.message);
+      }
+    };
+    if (!userOrderState?.orders) {
+      fetchClientOrderById();
+    } else {
+      setOrder(userOrderState?.orders?.find((o) => o._id === orderId));
+    }
+  }, []);
 
   if (!order) {
     return (
@@ -184,7 +61,7 @@ export default function OrderDetails() {
   }
 
   const formattedDate = format(
-    new Date(order.createdAt),
+    new Date(order?.createdAt),
     "MMMM dd, yyyy 'at' h:mm a",
   );
 
@@ -205,11 +82,11 @@ export default function OrderDetails() {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-2xl font-bold text-gray-900">
-                {order.orderNumber}
+                {order?.orderNumber}
               </h1>
               <OrderStatusBadge
                 className={"flex items-center gap-2"}
-                status={order.orderStatus}
+                status={order?.orderStatus}
               />
             </div>
             <div className="flex items-center gap-2 text-gray-500">
@@ -220,7 +97,7 @@ export default function OrderDetails() {
           <div className="text-left sm:text-right">
             <p className="text-sm text-gray-500">Total Amount</p>
             <p className="text-3xl font-bold text-gray-900">
-              ${order.total.toFixed(2)}
+              ${order?.total.toFixed(2)}
             </p>
           </div>
         </div>
@@ -233,13 +110,13 @@ export default function OrderDetails() {
                 <CardTitle>Order Items</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {order.items.map((item, index) => (
+                {order?.items.map((item, index) => (
                   <OrderItemCard key={index} item={item} />
                 ))}
                 <Separator />
                 <div className="flex justify-between font-medium">
                   <span>Subtotal</span>
-                  <span>${order.total.toFixed(2)}</span>
+                  <span>${order?.total.toFixed(2)}</span>
                 </div>
               </CardContent>
             </Card>
@@ -252,11 +129,12 @@ export default function OrderDetails() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-1 text-gray-900">
-                <p>{order.shippingAddress.street}</p>
+                <p>{order?.shippingAddress.street}</p>
                 <p>
-                  {order.shippingAddress.city}, {order.shippingAddress.zipcode}
+                  {order?.shippingAddress.city},{" "}
+                  {order?.shippingAddress.zipcode}
                 </p>
-                <p>{order.shippingAddress.country}</p>
+                <p>{order?.shippingAddress.country}</p>
               </CardContent>
             </Card>
           </div>
@@ -270,15 +148,15 @@ export default function OrderDetails() {
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-gray-500">Status</span>
-                  <PaymentStatusBadge
+                  <OrderStatusBadge
                     className={"flex items-center gap-2"}
-                    status={order.paymentStatus}
+                    status={order?.paymentStatus}
                   />
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Method</span>
                   <span className="flex items-center gap-2 font-medium">
-                    {order.paymentMethod === "CARD" ? (
+                    {order?.paymentMethod === "CARD" ? (
                       <>
                         <CreditCard className="h-4 w-4" /> Card
                       </>
@@ -299,9 +177,9 @@ export default function OrderDetails() {
               <CardContent className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">
-                    Items ({order.items.length})
+                    Items ({order?.items.length})
                   </span>
-                  <span>${order.total.toFixed(2)}</span>
+                  <span>${order?.total.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Shipping</span>
@@ -310,7 +188,7 @@ export default function OrderDetails() {
                 <Separator />
                 <div className="flex justify-between font-bold">
                   <span>Total</span>
-                  <span>${order.total.toFixed(2)}</span>
+                  <span>${order?.total.toFixed(2)}</span>
                 </div>
               </CardContent>
             </Card>

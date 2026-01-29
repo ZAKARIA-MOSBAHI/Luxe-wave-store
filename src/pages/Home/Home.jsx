@@ -36,7 +36,6 @@ function Home() {
     }
   }, []);
   useEffect(() => {
-    // check if the user is coming from the login page and if he just logged in
     if (location.state?.firstLogin) {
       toast.success("User Logged in Successfully.");
     } else if (location.state?.signedUp) {
@@ -76,9 +75,10 @@ function Home() {
           },
         },
       );
+    } else if (location.state?.hasOrdered) {
+      toast.success("Order Created Successfully.");
     }
-    // Clear the state after showing the toast
-    // This prevents the toast from showing again on page refresh
+
     window.history.replaceState({}, "");
   }, [location.state]);
   return (

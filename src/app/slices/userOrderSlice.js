@@ -6,11 +6,16 @@ const userOrderSlice = createSlice({
     orders: null,
   },
   reducers: {
-    setUserOrder: (state, action) => {
+    setUserOrders: (state, action) => {
       state.orders = action.payload;
+    },
+    addUserOrder: (state, action) => {
+      if (!state.orders) return;
+
+      state.orders.unshift(action.payload);
     },
   },
 });
 
 export default userOrderSlice.reducer;
-export const { setUserOrder } = userOrderSlice.actions;
+export const { setUserOrders, addUserOrder } = userOrderSlice.actions;
