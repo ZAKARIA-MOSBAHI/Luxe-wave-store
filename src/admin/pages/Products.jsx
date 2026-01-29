@@ -57,7 +57,7 @@ const Products = () => {
   const filteredProducts = ProductsState.products.filter(
     (product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase())
+      product.category.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleDelete = (id) => {
@@ -65,12 +65,10 @@ const Products = () => {
     console.log("Delete product:", id);
   };
   useEffect(() => {
-
     const FetchProducts = async () => {
       try {
         const results = await getProducts();
-        console.log("%c Products : " , "color : green; background: lightgreen;");
-        console.log(results.products);
+
         dispatch(setProducts(results.products));
       } catch (e) {
         console.error(e);
@@ -156,18 +154,18 @@ const Products = () => {
                         </TableCell>
                         <TableCell>
                           <Badge
-                            className={
+                            variant={
                               product.stock > 0
-                                ? "bg-green-100 text-green-800 hover:bg-green-100/80"
-                                : product.stock <= 10 && product.stock > 0
-                                ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100/80"
-                                : "bg-red-100 text-red-800 hover:bg-red-100/80"
+                                ? product.stock <= 10 && product.stock > 0
+                                  ? "warning"
+                                  : "success"
+                                : "danger"
                             }
                           >
                             {product.stock > 0
-                              ? "In Stock"
-                              : product.stock <= 10 && product.stock > 0
-                              ? "Low Stock"
+                              ? product.stock <= 10 && product.stock > 0
+                                ? "Low Stock"
+                                : "In Stock"
                               : "Out of Stock"}
                           </Badge>
                         </TableCell>

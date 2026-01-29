@@ -73,7 +73,8 @@ export default function ProductInfo({
           {Object.keys(product?.sizes ?? {}).map((key, i) => (
             <button
               key={i}
-              className={`${
+              disabled={product?.sizes[key] > 0 ? false : true}
+              className={`${product?.sizes[key] > 0 ? "" : "line-through"} ${
                 sizeChoosen === key ? "border border-black" : ""
               } flex items-center justify-center px-4 py-2 w-fit h-fit  text-sm bg-gray-100 cursor-pointer hover:bg-gray-300 transition-all duration-500`}
               onClick={() => {

@@ -27,7 +27,7 @@ const Collections = () => {
   }, []);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 mb-8  relative max-w-[1152px] w-full mx-auto xl:px-0 px-4 ">
+    <section className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 mb-8  relative max-w-[1152px] w-full mx-auto">
       <div className="flex-1">
         <div className="flex flex-row justify-between items-center  mb-4">
           <Title title={"COLLECTIONS"} />
@@ -44,7 +44,7 @@ const Collections = () => {
 
         <ProductsList filteredProducts={ProductsState.filteredProducts} />
       </div>
-    </div>
+    </section>
   );
 };
 

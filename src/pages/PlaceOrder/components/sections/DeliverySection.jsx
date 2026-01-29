@@ -47,6 +47,7 @@ export default function DeliverySection() {
   ];
   const handleClick = async () => {
     const response = await createClientOrder();
+    console.log(response);
     if (response?.success) {
       dispatch(clearCart());
       if (userOrderState?.orders !== null) {
@@ -59,7 +60,7 @@ export default function DeliverySection() {
         replace: true,
       });
     } else {
-      toast.error("Couldn't Create Order!");
+      toast.error(`Error :  ${response?.message || "Server Error"}`);
     }
   };
   return (

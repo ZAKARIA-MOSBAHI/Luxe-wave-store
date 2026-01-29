@@ -25,9 +25,9 @@ export function Header() {
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchNotifications = async () => {
-      const response = await getNotifications();
+      const response = await getNotifications(5);
       if (response.success) {
-        dispatch(setNotification(response.notifications));
+        dispatch(setNotification(response));
       }
     };
     if (!notificationsState.notifications) {

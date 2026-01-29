@@ -22,7 +22,6 @@ export const signup = async (payload, setUser) => {
 export const login = async (payload, setUser) => {
   try {
     const response = await api.post("/users/login", payload);
-    console.log("api response : ", response);
 
     const { accessToken, refreshToken } = response.data;
     if (accessToken) {

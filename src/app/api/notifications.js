@@ -1,9 +1,9 @@
 import api from "@/api/axios";
-export const getNotifications = async () => {
+export const getNotifications = async (limit) => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user?.accessToken;
-    const response = await api.get("/notifications", {
+    const response = await api.get(`/notifications?limit=${limit}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

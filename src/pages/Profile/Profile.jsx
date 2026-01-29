@@ -13,7 +13,6 @@ function Profile() {
   const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
   const [adressDialogOpen, setAdressDialogOpen] = useState(false);
 
-  const navigate = useNavigate();
   const { user } = useAuth();
   const UserAddressState = useSelector((state) => state.userAddress?.address);
   const dispatch = useDispatch();
@@ -24,21 +23,15 @@ function Profile() {
         const addressResponse = await getClientAddress();
         if (addressResponse.success) {
           dispatch(setUserAddress(addressResponse.address));
-        } else {
-          navigate("/login", { replace: true });
         }
       } catch (error) {
-        navigate("/login", { replace: true });
+        console.error(error);
       }
     };
 
     fetchAddress();
   }, [dispatch]);
 
-  if (user === null) {
-    navigate("/login", { replace: true });
-    return null;
-  }
   return (
     <div className="w-full">
       <ProfileFormsDialog
