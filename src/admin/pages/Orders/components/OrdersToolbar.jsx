@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { Badge } from "@/components/ui/Badge";
 import { Search, Filter } from "lucide-react";
-import { orderFilterOptions } from "../../../../constants/order.constants";
-import { useOrders } from "../../../../hooks/useOrders";
+import { orderFilterOptions } from "@/constants/order.constants";
+import { useOrders } from "@/hooks/useOrders";
 
 export const OrdersToolbar = () => {
   const { ordersState, setFilterOption, setSearchQuery } = useOrders();

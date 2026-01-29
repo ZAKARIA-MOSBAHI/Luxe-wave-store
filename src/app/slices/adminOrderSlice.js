@@ -21,6 +21,20 @@ const adminOrderSlice = createSlice({
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
     },
+    updateOrder: (state, action) => {
+      const updatedOrder = action.payload;
+
+      const index = state.orders.findIndex(
+        (order) => order._id === updatedOrder._id,
+      );
+
+      if (index !== -1) {
+        state.orders[index] = {
+          ...state.orders[index],
+          ...updatedOrder,
+        };
+      }
+    },
   },
 });
 
@@ -30,4 +44,5 @@ export const {
   setFilteredOrders,
   setFilterOption,
   setSearchQuery,
+  updateOrder,
 } = adminOrderSlice.actions;

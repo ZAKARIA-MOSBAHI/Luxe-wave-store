@@ -1,28 +1,60 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders } from "@/app/api/orders";
+import {
+  cancelOrder,
+  confirmOrder,
+  deliverOrder,
+  getOrders,
+  shipOrder,
+} from "@/app/api/orders";
 import {
   setAdminOrders,
   setFilteredOrders,
   setFilterOption,
   setSearchQuery,
+  updateOrder,
 } from "@/app/slices/adminOrderSlice";
 import { toast } from "sonner";
 
 export const useOrders = () => {
   const dispatch = useDispatch();
   const ordersState = useSelector((state) => state.adminOrderState);
-  const handleConfirmOrder = async () => {
-    alert("not implemented yet!");
+
+  const handleConfirmOrder = async (orderId) => {
+    const response = await confirmOrder(orderId);
+    if (response?.success) {
+      dispatch(updateOrder(response.order));
+      toast.success("Order Confirmed! ");
+    } else {
+      toast.error("Couldn't Confirm Order!");
+    }
   };
-  const handleShipOrder = async () => {
-    alert("not implemented yet!");
+  const handleShipOrder = async (orderId) => {
+    const response = await shipOrder(orderId);
+    if (response?.success) {
+      dispatch(updateOrder(response.order));
+      toast.success("Order Shipped! ");
+    } else {
+      toast.error("Couldn't Ship Order!");
+    }
   };
-  const handleDeliverOrder = async () => {
-    alert("not implemented yet!");
+  const handleDeliverOrder = async (orderId) => {
+    const response = await deliverOrder(orderId);
+    if (response?.success) {
+      dispatch(updateOrder(response.order));
+      toast.success("Order Delivered! ");
+    } else {
+      toast.error("Couldn't Deliver Order!");
+    }
   };
-  const handleCancelOrder = async () => {
-    alert("not implemented yet!");
+  const handleCancelOrder = async (orderId) => {
+    const response = await cancelOrder(orderId);
+    if (response?.success) {
+      dispatch(updateOrder(response.order));
+      toast.success("Order Cancelled! ");
+    } else {
+      toast.error("Couldn't Cancelled Order!");
+    }
   };
   const applyOrderFilters = () => {
     if (!ordersState.orders) return;

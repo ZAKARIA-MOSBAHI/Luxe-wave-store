@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 
-import { useOrders } from "../../../../hooks/useOrders";
+import { useOrders } from "@/hooks/useOrders";
 
 import { OrderRow } from "./OrderRow";
 function OrdersTable() {

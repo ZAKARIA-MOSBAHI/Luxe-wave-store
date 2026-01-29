@@ -1,9 +1,9 @@
 import api from "../../api/axios";
 export const getCategories = async () => {
   try {
-    const response = await api.get("/categories/");
+    const response = await api.get("/categories");
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
