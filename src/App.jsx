@@ -35,7 +35,7 @@ const Order = lazy(() => import("./pages/PlaceOrder/PlaceOrder"));
 const AdminProducts = lazy(() => import("./admin/pages/Products"));
 const AdminCategories = lazy(() => import("./admin/pages/Categories"));
 const AdminUsers = lazy(() => import("./admin/pages/Users"));
-const AdminOrders = lazy(() => import("./admin/pages/Orders"));
+const AdminOrders = lazy(() => import("./admin/pages/Orders/Orders"));
 const AdminCarts = lazy(() => import("./admin/pages/Carts"));
 const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
 

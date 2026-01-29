@@ -24,9 +24,11 @@ function Profile() {
         const addressResponse = await getClientAddress();
         if (addressResponse.success) {
           dispatch(setUserAddress(addressResponse.address));
+        } else {
+          navigate("/login", { replace: true });
         }
       } catch (error) {
-        console.error("Failed to fetch client address:", error);
+        navigate("/login", { replace: true });
       }
     };
 

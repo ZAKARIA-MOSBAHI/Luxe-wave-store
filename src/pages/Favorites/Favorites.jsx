@@ -18,9 +18,11 @@ export default function Favorites() {
         const response = await getClientFavoriteProducts();
         if (response.success) {
           dispatch(setFavorites(response.favorites));
+        } else {
+          navigate("/login", { replace: true });
         }
       } catch (error) {
-        console.error("Error fetching favorite products:", error);
+        navigate("/login", { replace: true });
       }
     };
     onMount();

@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children }) {
    the user is not an admin when loading ends the page shows up 
   a little before directing to the register page */
   if (!isLoading) {
-    if (user.role !== "admin")
+    if (user?.role !== "admin")
       return (
         <ErrorPage
           statusCode={403}

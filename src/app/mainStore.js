@@ -6,7 +6,8 @@ import cartReducer from "./slices/cartSlice";
 import categoryReducer from "./slices/categorySlice";
 import addressReducer from "./slices/addressSlice";
 import notificationReducer from "./slices/notificationSlice";
-
+import userOrderReducer from "./slices/userOrderSlice";
+import adminOrderReducer from "./slices/adminOrderSlice";
 export const store = configureStore({
   reducer: {
     user: userReducer,
@@ -16,6 +17,8 @@ export const store = configureStore({
     categoriesState: categoryReducer,
     userAddress: addressReducer,
     notificationState: notificationReducer,
+    userOrderState: userOrderReducer,
+    adminOrderState: adminOrderReducer,
   },
 });
 
