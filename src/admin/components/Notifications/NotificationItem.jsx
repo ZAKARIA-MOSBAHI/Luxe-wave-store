@@ -15,7 +15,18 @@ import { formatDistanceToNow } from "date-fns";
 import { Check, MoreVertical, Trash2 } from "lucide-react";
 import { useDispatch } from "react-redux";
 
-const NotificationItem = ({ notification }) => {
+const notificationItemVariants = {
+  compact: {
+    TitleFontSize: "text-sm",
+    DateFontSize: "text-xs",
+  },
+  default: {
+    TitleFontSize: "text-base",
+    DateFontSize: "text-sm",
+  },
+};
+
+const NotificationItem = ({ notification, className, variant = "default" }) => {
   const dispatch = useDispatch();
   const formattedDate = formatDistanceToNow(new Date(notification.createdAt), {
     addSuffix: true,
@@ -36,8 +47,9 @@ const NotificationItem = ({ notification }) => {
   return (
     <div
       className={cn(
-        "group relative flex items-start gap-3 w-full rounded-xl transition-all duration-200",
+        "group relative flex items-start gap-3 w-full transition-all duration-200",
         notification.isRead ? "ps-3" : "",
+        className,
       )}
     >
       {/* Unread indicator dot */}
@@ -54,13 +66,18 @@ const NotificationItem = ({ notification }) => {
       <div className="flex-1 min-w-0 space-y-1">
         <p
           className={cn(
-            "text-sm leading-relaxed transition-colors duration-200",
+            " leading-relaxed transition-colors duration-200",
             notification.isRead ? "text-gray-500" : "text-gray-900 font-medium",
+            notificationItemVariants[variant].TitleFontSize,
           )}
         >
           {notification.message}
         </p>
-        <p className="text-xs text-gray-400">{formattedDate}</p>
+        <p
+          className={`text-gray-400 ${notificationItemVariants[variant].DateFontSize}`}
+        >
+          {formattedDate}
+        </p>
       </div>
 
       {/* Mark as read button */}

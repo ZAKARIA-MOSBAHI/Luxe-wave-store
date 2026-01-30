@@ -38,7 +38,7 @@ export default function NotificationMenu() {
         <DropdownMenuSeparator />
         {notificationsState.notifications?.map((notification) => (
           <DropdownMenuItem key={notification._id}>
-            <NotificationItem notification={notification} />
+            <NotificationItem notification={notification} variant="compact" />
           </DropdownMenuItem>
         ))}
         <DropdownMenuItem>

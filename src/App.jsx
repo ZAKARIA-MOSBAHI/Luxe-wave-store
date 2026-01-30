@@ -38,6 +38,15 @@ const AdminUsers = lazy(() => import("./admin/pages/Users"));
 const AdminOrders = lazy(() => import("./admin/pages/Orders/Orders"));
 const AdminCarts = lazy(() => import("./admin/pages/Carts"));
 const AdminDiscounts = lazy(() => import("./admin/pages/Discounts"));
+const AddProductPage = lazy(
+  () => import("./admin/pages/Products/AddProductPage"),
+);
+const EditProductPage = lazy(
+  () => import("./admin/pages/Products/EditProductPage"),
+);
+const AdminNotificationsPage = lazy(
+  () => import("./admin/pages/AdminNotificationsPage"),
+);
 
 function App() {
   const { showSearch } = useContext(SearchContext);
@@ -166,6 +175,30 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AdminDiscounts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/notifications"
+              element={
+                <ProtectedRoute>
+                  <AdminNotificationsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/products/add"
+              element={
+                <ProtectedRoute>
+                  <AddProductPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/products/edit"
+              element={
+                <ProtectedRoute>
+                  <EditProductPage />
                 </ProtectedRoute>
               }
             />

@@ -32,6 +32,13 @@ export function Header() {
     };
     if (!notificationsState.notifications) {
       fetchNotifications();
+    } else {
+      dispatch(
+        setNotification({
+          notifications: notificationsState.notifications?.slice(0, 5),
+          unreadCount: notificationsState.unreadCount,
+        }),
+      );
     }
   }, []);
   return (
