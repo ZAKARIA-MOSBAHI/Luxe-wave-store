@@ -33,7 +33,7 @@ const productsSlice = createSlice({
 
       if (category !== null) {
         filtered = filtered.filter(
-          (product) => product.categoryId.name.toLowerCase() === category
+          (product) => product.categoryId.name.toLowerCase() === category,
         );
       }
 
@@ -46,7 +46,7 @@ const productsSlice = createSlice({
       }
       if (size !== null) {
         filtered = filtered.filter((product) =>
-          Object.keys(product.sizes).includes(size)
+          Object.keys(product.sizes).includes(size),
         );
       }
 

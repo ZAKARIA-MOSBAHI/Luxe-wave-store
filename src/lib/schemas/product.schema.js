@@ -1,4 +1,9 @@
+import { FILTER_OPTIONS } from "@/constants/constants";
 import { z } from "zod";
+import {
+  validateAdditionalImages,
+  validateMainImage,
+} from "../imageValidators";
 
 export const productSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -9,7 +14,8 @@ export const productSchema = z.object({
     .number()
     .positive({ message: "Price must be a positive number." }),
   categoryId: z.string().min(1, { message: "Please select a category." }),
-  gender: z.enum(["men", "women", "kids"], {
+
+  gender: z.enum(FILTER_OPTIONS.gender, {
     errorMap: () => ({ message: "Please select a gender." }),
   }),
 
@@ -18,11 +24,28 @@ export const productSchema = z.object({
     .min(3, { message: "Badge must be at least 3 characters." })
     .optional()
     .default(null),
-  mainImage: z.any({
-    required_error: "Main image is required.",
+  mainImage: z.any().superRefine((file, ctx) => {
+    const result = validateMainImage(file);
+    if (!result.valid) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: result.message,
+      });
+      return false;
+    }
+    return true;
   }),
-  additionalImages: z
-    .array(z.instanceof(File))
-    .min(1, { message: "At least one additional image is required." })
-    .max(4, { message: "Maximum 4 additional images allowed" }),
+  additionalImages: z.any().superRefine((files, ctx) => {
+    const result = validateAdditionalImages(files);
+
+    if (!result.valid) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: result.message,
+      });
+      return false;
+    }
+
+    return true;
+  }),
 });

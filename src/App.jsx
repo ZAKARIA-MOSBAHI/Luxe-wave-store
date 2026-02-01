@@ -195,7 +195,7 @@ function App() {
               }
             />
             <Route
-              path="/admin/products/edit"
+              path="/admin/products/:productId/edit"
               element={
                 <ProtectedRoute>
                   <EditProductPage />

@@ -18,14 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,7 +27,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { ProductForm } from "../components/forms/ProductForm";
 import {
   PlusCircle,
   Search,
@@ -46,13 +38,13 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "@/app/api/products";
 import { setProducts } from "@/app/slices/productSlice";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const ProductsState = useSelector((state) => state.products);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const filteredProducts = ProductsState.products.filter(
     (product) =>
@@ -82,23 +74,11 @@ const Products = () => {
       <div className="flex flex-col gap-4 md:gap-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="text-3xl font-bold">Products</h1>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <PlusCircle className="h-4 w-4 mr-2" />
-                Add Product
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Add New Product</DialogTitle>
-                <DialogDescription>
-                  Fill in the details to add a new product to your inventory.
-                </DialogDescription>
-              </DialogHeader>
-              <ProductForm setDialogOpen={setDialogOpen} />
-            </DialogContent>
-          </Dialog>
+
+          <Button onClick={() => navigate("/admin/products/add")}>
+            <PlusCircle className="h-4 w-4 mr-2" />
+            Add Product
+          </Button>
         </div>
 
         <Card>
@@ -180,7 +160,13 @@ const Products = () => {
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
                               <DropdownMenuSeparator />
-                              <DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  navigate(
+                                    `/admin/products/${product?._id}/edit`,
+                                  )
+                                }
+                              >
                                 <Pencil className="mr-2 h-4 w-4" />
                                 Edit
                               </DropdownMenuItem>

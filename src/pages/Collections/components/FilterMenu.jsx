@@ -9,6 +9,7 @@ import {
   setFilterOptions,
 } from "@/app/slices/productSlice";
 import { useFilterMenu } from "@/context/FilterMenuProvider";
+import { FILTER_OPTIONS } from "@/constants/constants";
 
 function FilterMenu() {
   const {
@@ -18,12 +19,6 @@ function FilterMenu() {
     setShowFilterMenu,
   } = useFilterMenu();
 
-  const filterOptions = {
-    gender: ["men", "women", "unisex"],
-    category: ["t-shirts", "sweatshirts", "shorts", "trousers"],
-    price: ["low to high", "high to low"],
-    size: ["S", "M", "L", "XL", "XXL"],
-  };
   const [openAccordion, setOpenAccordion] = useState({
     gender: false,
     category: false,
@@ -84,7 +79,7 @@ function FilterMenu() {
         </div>
 
         <div className="my-16">
-          {Object.entries(filterOptions).map(([key, values], index) => {
+          {Object.entries(FILTER_OPTIONS).map(([key, values], index) => {
             return (
               <Accordion
                 key={index}
