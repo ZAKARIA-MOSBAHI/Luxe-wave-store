@@ -12,7 +12,7 @@ import login_image from "@/assets/client/images/model-female.jpg";
 import Denim_category from "@/assets/client/images/denim-cat.avif";
 import Sweatshirt_category from "@/assets/client/images/sweatshirts-cat.avif";
 import Tshirt_category from "@/assets/client/images/t-shirts-cat.avif";
-import Shorts_category from "@/assets/client/images/Shorts-cat.avif";
+import Shorts_category from "@/assets/client/images/shorts-cat.avif";
 import JuliaChen from "@/assets/client/images/team_member_2.jpg";
 import MarcusBlackwood from "@/assets/client/images/team_member_3.jpg";
 import JamesKim from "@/assets/client/images/team_member_1.jpg";
