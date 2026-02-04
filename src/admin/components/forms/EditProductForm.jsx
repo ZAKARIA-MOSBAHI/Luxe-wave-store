@@ -33,7 +33,6 @@ import { productSchema } from "@/lib/schemas/product.schema";
 import SizeSelector from "./SizeSelector";
 import ProductImagePreview from "../shared/ProductImagePreview";
 import { FILTER_OPTIONS } from "@/constants/constants";
-import { preview } from "vite";
 
 // --------------------
 // Constants

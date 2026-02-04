@@ -1,9 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import api from "../api/axios";
+import api from "@/services/axios";
 export const SearchContext = createContext();
 
 export function SearchContextProvider({ children }) {
- 
   const [showSearch, setShowSearch] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,7 +15,6 @@ export function SearchContextProvider({ children }) {
       setSearchResults(response.data.results);
     } catch (err) {
       console.error("Search error:", err);
-     
     }
   };
 
@@ -28,7 +26,6 @@ export function SearchContextProvider({ children }) {
     searchQuery,
     setSearchQuery,
     setSearchResults,
-    
   };
   useEffect(() => {
     if (showSearch === false) {

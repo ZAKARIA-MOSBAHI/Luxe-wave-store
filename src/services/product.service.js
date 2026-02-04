@@ -69,8 +69,10 @@ export const getClientFavoriteProducts = async () => {
     });
     return result.data;
   } catch (e) {
-    console.log(e);
-    return e.response.data;
+    return {
+      success: false,
+      message: e.message || "Couldn't Get User Favorite Products",
+    };
   }
 };
 export const removeFavoriteProduct = async (productId) => {
