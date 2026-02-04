@@ -4,11 +4,10 @@ import ProductsCollection from "./components/ProductsCollection";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import { useSelector } from "react-redux";
-
 import CategoriesGrid from "./components/CategoriesGrid";
 import { assets } from "@/assets/client/assets";
 import Hero from "./components/Hero";
+import { useProducts } from "@/hooks/useProducts";
 
 function Home() {
   const {
@@ -17,24 +16,25 @@ function Home() {
     Sweatshirt_category,
     Tshirt_category,
   } = assets;
-  const ProductsState = useSelector((state) => state.products);
+  const { products } = useProducts();
   const [BestSellers, setBestSellers] = useState([]);
   const [LatestCollections, setLatestCollections] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (ProductsState.products.length > 0) {
-      //next : make a list of tags and filter based on that
-      const bestSellerProducts = ProductsState.products.filter(
+    if (products?.length > 0) {
+      const bestSellerProducts = products?.filter(
         (product) => product.badge === "Best Seller",
       );
-      const newArrivalProducts = ProductsState.products.filter(
+      const newArrivalProducts = products?.filter(
         (product) => product.badge === "New Arrivals",
       );
       setBestSellers(bestSellerProducts ?? []);
       setLatestCollections(newArrivalProducts ?? []);
     }
-  }, []);
+  }, [products]);
+
   useEffect(() => {
     if (location.state?.firstLogin) {
       toast.success("User Logged in Successfully.");

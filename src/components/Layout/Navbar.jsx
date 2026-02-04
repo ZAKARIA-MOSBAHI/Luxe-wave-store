@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/client/assets";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   LogOut,
@@ -22,15 +22,15 @@ import { Logout } from "@/lib/utils";
 import SearchInput from "../ui/SearchInput";
 import SearchResults from "../ui/SearchResults";
 import useDebounce from "@/hooks/useDebounce";
-import { useSelector } from "react-redux";
 import { NavLinks } from "@/constants/NavLinks";
 import { useSearch } from "@/context/SearchContext";
 import MobileNavbar from "../MobileNavbar";
+import { useCart } from "@/hooks/useCart";
 
 function Navbar({ isMobileNavOpen, setIsMobileNavOpen }) {
   const { logo } = assets;
   const [hideLogo, setHideLogo] = useState(false);
-  const cartState = useSelector((state) => state.cart.data);
+  const { cart } = useCart();
   const navigate = useNavigate();
   const { showSearch, searchQuery, searchProduct, setSearchResults } =
     useSearch();
@@ -130,10 +130,10 @@ function Navbar({ isMobileNavOpen, setIsMobileNavOpen }) {
 
             <p
               className={`${
-                cartState?.items && cartState?.items?.length > 0 ? "" : "hidden"
+                cart?.items && cart?.items?.length > 0 ? "" : "hidden"
               } absolute right-[-5px] top-[-5px] rounded-full w-4 text-center leading-4 bg-red-500  text-white aspect-square  text-[8px]`}
             >
-              {cartState?.items?.length}
+              {cart?.items?.length}
             </p>
           </Link>
 

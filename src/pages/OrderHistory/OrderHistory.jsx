@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { OrderCard } from "./components/OrderCard";
 import { EmptyOrdersState } from "./components/EmptyOrderState";
 import { useDispatch, useSelector } from "react-redux";
-import { getClientOrders } from "@/app/api/orders";
+import { getClientOrders } from "@/services/order.service";
 import { setUserOrders } from "@/app/slices/userOrderSlice";
 
 export default function OrderHistory() {

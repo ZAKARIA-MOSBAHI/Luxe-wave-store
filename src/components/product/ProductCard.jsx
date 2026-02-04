@@ -4,7 +4,10 @@ import HeartIcon from "../../assets/client/icons/HeartIcon";
 import CardBadge from "../ui/CardBadge";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
-import { addFavoriteProduct, removeFavoriteProduct } from "@/app/api/products";
+import {
+  addFavoriteProduct,
+  removeFavoriteProduct,
+} from "@/services/product.service";
 import { setFavorites } from "@/app/slices/favoritesSlice";
 import { returnImgUrl } from "@/lib/utils";
 

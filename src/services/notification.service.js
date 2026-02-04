@@ -1,4 +1,4 @@
-import api from "@/api/axios";
+import api from "@/services/axios";
 export const getNotifications = async (limit) => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));

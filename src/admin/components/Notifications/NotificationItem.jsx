@@ -1,7 +1,7 @@
 import {
   deleteNotification,
   markNotificationAsRead,
-} from "@/app/api/notifications";
+} from "@/services/notification.service";
 import { markAsRead, removeNotification } from "@/app/slices/notificationSlice";
 import { Button } from "@/components/ui/Button";
 import {

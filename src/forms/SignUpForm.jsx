@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {  useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { signupSchema } from "@/lib/schemas/signup.schema";
-import { signup } from "@/app/api/users";
+import { signup } from "@/services/user.service";
 import { Button } from "@/components/ui/Button";
 import {
   Form,

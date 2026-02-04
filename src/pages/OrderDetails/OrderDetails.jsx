@@ -15,7 +15,7 @@ import { format } from "date-fns";
 import { OrderItemCard } from "./components/OrderItemCard";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getClientOrderById } from "@/app/api/orders";
+import { getClientOrderById } from "@/services/order.service";
 
 export default function OrderDetails() {
   const { orderId } = useParams();

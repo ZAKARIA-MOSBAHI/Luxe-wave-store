@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import ProductCard from "../../../components/product/ProductCard";
-import { getClientFavoriteProducts } from "@/app/api/products";
+import { getClientFavoriteProducts } from "@/services/product.service";
 import { setFavorites } from "@/app/slices/favoritesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";

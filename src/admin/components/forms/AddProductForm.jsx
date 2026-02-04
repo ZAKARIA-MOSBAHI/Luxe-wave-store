@@ -31,8 +31,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCategories } from "@/app/slices/categorySlice";
 
 // api
-import { createProduct } from "@/app/api/products";
-import { getCategories } from "@/app/api/categories";
+import { createProduct } from "@/services/product.service";
+import { getCategories } from "@/services/category.service";
 
 // local
 import { productSchema } from "@/lib/schemas/product.schema";

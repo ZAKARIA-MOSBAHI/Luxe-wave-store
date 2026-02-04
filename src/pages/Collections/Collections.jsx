@@ -3,28 +3,13 @@ import Title from "../../components/Title";
 import { FilterMenuContext } from "../../context/FilterMenuProvider";
 import ProductsList from "./components/ProductsList";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "@/app/api/products";
+import { getProducts } from "@/services/product.service";
 import { setFilteredProducts, setProducts } from "@/app/slices/productSlice";
 import { SlidersHorizontal } from "lucide-react";
-
+import { useProducts } from "@/hooks/useProducts";
 const Collections = () => {
   const { setShowFilterMenu } = useContext(FilterMenuContext);
-  const ProductsState = useSelector((state) => state.products);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const FetchProducts = async () => {
-      try {
-        const results = await getProducts();
-        dispatch(setProducts(results.products));
-        dispatch(setFilteredProducts(results.products));
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    FetchProducts();
-  }, []);
+  const ProductsState = useProducts();
 
   return (
     <section className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 mb-8  relative max-w-[1152px] w-full mx-auto">

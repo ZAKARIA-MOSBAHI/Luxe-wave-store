@@ -1,4 +1,4 @@
-import api from "../../api/axios";
+import api from "@/services/axios";
 
 export const signup = async (payload, setUser) => {
   try {

@@ -12,12 +12,6 @@ import { SearchContext } from "./context/SearchContext";
 import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 import Favorites from "./pages/Favorites/Favorites";
 import { DisableScroll, EnableScroll } from "./lib/utils";
-import { useDispatch, useSelector } from "react-redux";
-import { setProducts } from "./app/slices/productSlice";
-import { getProducts } from "./app/api/products";
-import { getClientCart } from "./app/api/carts";
-import { setCart } from "./app/slices/cartSlice";
-import { useAuth } from "./context/AuthProvider";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -50,12 +44,7 @@ const AdminNotificationsPage = lazy(
 
 function App() {
   const { showSearch } = useContext(SearchContext);
-  const productsState = useSelector((state) => state.products);
-  const cartState = useSelector((state) => state.cart.data);
 
-  const { user } = useAuth();
-
-  const dispatch = useDispatch();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   useEffect(() => {
     if (showSearch || isMobileNavOpen) {
@@ -67,23 +56,6 @@ function App() {
       EnableScroll();
     };
   }, [showSearch, isMobileNavOpen]);
-  useEffect(() => {
-    const FetchProductsAndCart = async () => {
-      if (!productsState?.products?.length) {
-        const productsResponse = await getProducts();
-        if (productsResponse.success) {
-          dispatch(setProducts(productsResponse.products));
-        }
-      }
-      if (!cartState) {
-        const cartResponse = await getClientCart();
-        if (cartResponse.success) {
-          dispatch(setCart(cartResponse.cart));
-        }
-      }
-    };
-    FetchProductsAndCart();
-  }, [dispatch, user, cartState, productsState]);
 
   return (
     <div className="relative overflow-hidden">

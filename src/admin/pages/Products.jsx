@@ -35,15 +35,13 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "@/app/api/products";
-import { setProducts } from "@/app/slices/productSlice";
+
 import { useNavigate } from "react-router-dom";
+import { useProducts } from "@/hooks/useProducts";
 
 const Products = () => {
-  const ProductsState = useSelector((state) => state.products);
+  const ProductsState = useProducts();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredProducts = ProductsState.products.filter(
@@ -56,19 +54,7 @@ const Products = () => {
     toast.success("Product deleted successfully");
     console.log("Delete product:", id);
   };
-  useEffect(() => {
-    const FetchProducts = async () => {
-      try {
-        const results = await getProducts();
 
-        dispatch(setProducts(results.products));
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    FetchProducts();
-  }, []);
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-4 md:gap-6">

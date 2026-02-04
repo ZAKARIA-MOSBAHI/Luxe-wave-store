@@ -7,11 +7,13 @@ export const isValidImageFile = (file) => {
 };
 export const validateMainImage = (file) => {
   if (!(file instanceof File)) {
+    if (typeof file === "string") {
+      console.log("this is a string : ", file);
+    }
     return { valid: false, message: "Main image is required." };
   }
 
   if (!isValidImageFile(file)) {
-    console.log("here2");
     return {
       valid: false,
       message: "Main image must be JPEG, PNG, WEBP or AVIF.",

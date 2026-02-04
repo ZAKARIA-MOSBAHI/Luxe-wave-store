@@ -1,4 +1,4 @@
-import { getNotifications } from "@/app/api/notifications";
+import { getNotifications } from "@/services/notification.service";
 import { setNotification } from "@/app/slices/notificationSlice";
 import { ArrowLeft, Check } from "lucide-react";
 import { useEffect } from "react";

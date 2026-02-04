@@ -1,4 +1,4 @@
-import api from "../../api/axios";
+import api from "@/services/axios";
 export const getCategories = async () => {
   try {
     const response = await api.get("/categories");

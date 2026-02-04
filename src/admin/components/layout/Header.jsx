@@ -15,7 +15,7 @@ import { useAuth } from "@/context/AuthProvider";
 import NotificationMenu from "../NotificationMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getNotifications } from "@/app/api/notifications";
+import { getNotifications } from "@/services/notification.service";
 import { setNotification } from "@/app/slices/notificationSlice";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function Header() {

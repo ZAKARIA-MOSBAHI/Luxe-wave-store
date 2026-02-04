@@ -1,4 +1,4 @@
-import { removeFavoriteProduct } from "@/app/api/products";
+import { removeFavoriteProduct } from "@/services/product.service";
 import { setFavorites } from "@/app/slices/favoritesSlice";
 import { X } from "lucide-react";
 import { useDispatch } from "react-redux";

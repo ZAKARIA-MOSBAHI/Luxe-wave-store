@@ -1,4 +1,4 @@
-import { updateCartItemSize } from "@/app/api/carts";
+import { updateCartItemSize } from "@/services/cart.service";
 import { setCart } from "@/app/slices/cartSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

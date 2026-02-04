@@ -6,7 +6,7 @@ import {
   deliverOrder,
   getOrders,
   shipOrder,
-} from "@/app/api/orders";
+} from "@/services/order.service";
 import {
   setAdminOrders,
   setFilteredOrders,

@@ -6,7 +6,7 @@ import {
   addFavoriteProduct,
   getClientFavoriteProducts,
   removeFavoriteProduct,
-} from "@/app/api/products";
+} from "@/services/product.service";
 import { useSelector } from "react-redux";
 
 export default function ProductInfo({

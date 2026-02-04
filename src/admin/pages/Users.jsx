@@ -49,7 +49,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/Dialog";
 import { UserForm } from "../components/forms/UserForm";
-import { getUsers } from "../../app/api/users";
+import { getUsers } from "@/services/user.service";
 
 // Sample data - in a real application, this would come from an API
 const users = [
@@ -122,7 +122,7 @@ const Users = () => {
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleDelete = (id) => {
@@ -245,8 +245,8 @@ const Users = () => {
                               user.status === "active"
                                 ? "bg-green-100 text-green-800 hover:bg-green-100/80"
                                 : user.status === "inactive"
-                                ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100/80"
-                                : "bg-red-100 text-red-800 hover:bg-red-100/80"
+                                  ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100/80"
+                                  : "bg-red-100 text-red-800 hover:bg-red-100/80"
                             }
                           >
                             {user.status}

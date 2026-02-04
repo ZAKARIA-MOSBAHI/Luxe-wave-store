@@ -3,7 +3,7 @@ import MissingInfoAlerts from "../MissingInfoAlerts";
 import InfoGrid from "@/components/shared/InfoGrid";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
-import { createClientOrder } from "@/app/api/orders";
+import { createClientOrder } from "@/services/order.service";
 import { toast } from "sonner";
 import { clearCart } from "@/app/slices/cartSlice";
 import { useNavigate } from "react-router-dom";

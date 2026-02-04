@@ -1,4 +1,4 @@
-import api from "@/api/axios";
+import api from "@/services/axios";
 export async function getClientCart() {
   try {
     const user = JSON.parse(localStorage.getItem("user"));

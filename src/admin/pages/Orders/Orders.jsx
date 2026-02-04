@@ -27,7 +27,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Search } from "lucide-react";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders } from "@/app/api/orders";
+import { getOrders } from "@/services/order.service";
 import {
   setAdminOrders,
   setFilteredOrders,

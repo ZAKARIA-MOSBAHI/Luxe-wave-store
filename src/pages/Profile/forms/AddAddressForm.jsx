@@ -1,4 +1,4 @@
-import { createClientAddress } from "@/app/api/addresses";
+import { createClientAddress } from "@/services/address.service";
 import { setUserAddress } from "@/app/slices/addressSlice";
 import { Button } from "@/components/ui/Button";
 import {

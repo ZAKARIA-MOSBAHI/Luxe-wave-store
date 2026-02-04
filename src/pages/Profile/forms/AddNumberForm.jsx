@@ -1,4 +1,4 @@
-import { updateUser } from "@/app/api/users";
+import { updateUser } from "@/services/user.service";
 import { Button } from "@/components/ui/Button";
 import {
   Form,

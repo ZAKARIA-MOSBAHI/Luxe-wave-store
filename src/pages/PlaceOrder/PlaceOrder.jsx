@@ -2,28 +2,18 @@ import { useAuth } from "@/context/AuthProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getClientCart } from "@/app/api/carts";
-import { setCart } from "@/app/slices/cartSlice";
-import { getClientAddress } from "@/app/api/addresses";
+import { getClientAddress } from "@/services/address.service";
 import { setUserAddress } from "@/app/slices/addressSlice";
 import DeliverySection from "./components/sections/DeliverySection";
 import OrderSummarySection from "./components/sections/OrderSummarySection";
 export default function PlaceOrder() {
   const { user } = useAuth();
-  const cartState = useSelector((state) => state.cart.data);
   const userAddressState = useSelector((state) => state.userAddress?.address);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartAndAddress = async () => {
-      if (!cartState) {
-        const cartResponse = await getClientCart();
-        if (cartResponse.success) {
-          dispatch(setCart(cartResponse.cart));
-        }
-      }
-
       if (!userAddressState) {
         const addressResponse = await getClientAddress();
         if (addressResponse.success) {

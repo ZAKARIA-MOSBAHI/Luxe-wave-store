@@ -1,5 +1,8 @@
 import { useDispatch } from "react-redux";
-import { addProductToCart, decrementCartItemQuantity } from "@/app/api/carts";
+import {
+  addProductToCart,
+  decrementCartItemQuantity,
+} from "@/services/cart.service";
 import { setCart } from "@/app/slices/cartSlice";
 import { Minus, Plus } from "lucide-react";
 import { toast } from "sonner";

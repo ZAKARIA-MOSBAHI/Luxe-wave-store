@@ -6,7 +6,7 @@ import ProfileFormsDialog from "./components/ProfileFormsDialog";
 import AddPhoneNumberForm from "./forms/AddNumberForm";
 import AddAddressForm from "./forms/AddAddressForm";
 import { useDispatch, useSelector } from "react-redux";
-import { getClientAddress } from "@/app/api/addresses";
+import { getClientAddress } from "@/services/address.service";
 import { setUserAddress } from "@/app/slices/addressSlice";
 
 function Profile() {
