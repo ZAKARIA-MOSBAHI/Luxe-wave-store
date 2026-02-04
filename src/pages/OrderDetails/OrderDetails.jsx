@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { OrderStatusBadge } from "../OrderHistory/components/OrderStatusBadge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
