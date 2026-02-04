@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import {
-  BarChart3,
   Package,
   ShoppingCart,
   Users,
@@ -14,7 +13,6 @@ import {
   Menu,
   X,
   LogOut,
-  Store,
   TicketPercent,
 } from "lucide-react";
 import { AdminAssets } from "../../assets/AdminAssets";
@@ -71,7 +69,7 @@ export function Sidebar() {
         size="icon"
         className={cn(
           "fixed top-4 left-4 z-50 md:hidden",
-          isOpen ? "text-white" : ""
+          isOpen ? "text-white" : "",
         )}
         onClick={toggleSidebar}
       >
@@ -93,7 +91,7 @@ export function Sidebar() {
           isOpen || mobileScreens.includes(deviceType) === false
             ? "translate-x-0"
             : "-translate-x-full",
-          deviceType === "tablet" ? "w-64" : "w-64 md:w-72"
+          deviceType === "tablet" ? "w-64" : "w-64 md:w-72",
         )}
       >
         <div className="flex flex-col h-full">
@@ -135,7 +133,7 @@ export function Sidebar() {
                     "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors cursor-pointer",
                     location.pathname === item.href
                       ? "bg-gray-100/50 text-white"
-                      : "text-white hover:bg-gray-100/50"
+                      : "text-white hover:bg-gray-100/50",
                   )}
                 >
                   <item.icon className="h-5 w-5" />

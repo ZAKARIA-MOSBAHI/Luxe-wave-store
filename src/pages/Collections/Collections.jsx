@@ -1,14 +1,10 @@
-import { useContext, useEffect } from "react";
 import Title from "../../components/Title";
-import { FilterMenuContext } from "../../context/FilterMenuProvider";
+import { useFilterMenu } from "../../context/FilterMenuProvider";
 import ProductsList from "./components/ProductsList";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "@/services/product.service";
-import { setFilteredProducts, setProducts } from "@/app/slices/productSlice";
 import { SlidersHorizontal } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
 const Collections = () => {
-  const { setShowFilterMenu } = useContext(FilterMenuContext);
+  const { setShowFilterMenu } = useFilterMenu();
   const ProductsState = useProducts();
 
   return (

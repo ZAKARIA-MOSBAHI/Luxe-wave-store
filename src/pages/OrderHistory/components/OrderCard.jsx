@@ -2,7 +2,7 @@ import { ChevronRight, CreditCard, Banknote, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/Card";
 import { OrderStatusBadge } from "./OrderStatusBadge";
 import { returnImgUrl } from "@/lib/utils";
 

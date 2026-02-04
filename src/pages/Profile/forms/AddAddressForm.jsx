@@ -13,9 +13,8 @@ import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/context/AuthProvider";
 import { addAddressSchema } from "@/lib/schemas/addAddress.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
 const formFields = [

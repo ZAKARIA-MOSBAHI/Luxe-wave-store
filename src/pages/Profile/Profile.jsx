@@ -1,5 +1,4 @@
 import { useAuth } from "@/context/AuthProvider";
-import { useNavigate } from "react-router-dom";
 import ProfileInfosSection from "./components/ProfileInfosSection";
 import { useEffect, useState } from "react";
 import ProfileFormsDialog from "./components/ProfileFormsDialog";

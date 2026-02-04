@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DashboardLayout } from "../components/layout/DashboardLayout";
 import {
   Table,
@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/Table";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import {
   Card,
   CardContent,
@@ -43,7 +42,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import DiscountForm from "../components/forms/DiscountForm";
-import { PhoneInput } from "@/components/ui/PhoneInput";
 
 // Sample data - in a real application, this would come from an API
 const discounts = [
@@ -73,7 +71,7 @@ const Discounts = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const filteredDiscounts = discounts.filter((discount) =>
-    discount.code.toLowerCase().includes(searchTerm.toLowerCase())
+    discount.code.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleDelete = (id) => {

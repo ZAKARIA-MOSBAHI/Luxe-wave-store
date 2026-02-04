@@ -1,9 +1,8 @@
 // can you help divide and organise this component into separate and potentialy re-usable components
 // right now it's stored in /pages/order
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { DashboardLayout } from "../../components/layout/DashboardLayout";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+
 import {
   Card,
   CardContent,
@@ -12,19 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-} from "@/components/ui/DropdownMenu";
-import { Badge } from "@/components/ui/Badge";
-
-import { Search } from "lucide-react";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "@/services/order.service";
