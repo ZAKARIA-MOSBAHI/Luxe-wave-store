@@ -2,14 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HeartIcon from "../../assets/client/icons/HeartIcon";
 import CardBadge from "../ui/CardBadge";
-import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
-import {
-  addFavoriteProduct,
-  removeFavoriteProduct,
-} from "@/services/product.service";
-import { setFavorites } from "@/app/slices/favoritesSlice";
+
 import { returnImgUrl } from "@/lib/utils";
+import { useFavorites } from "@/hooks/useFavorites";
+import { toast } from "sonner";
 
 export default function ProductCard({
   product,
@@ -19,38 +16,41 @@ export default function ProductCard({
   badgeColor = "",
 }) {
   const { user } = useAuth();
+  const { favoriteProducts, addFavorite, removeFavorite } = useFavorites();
   const [isFavorite, setIsFavorite] = useState(false);
-  const dispatch = useDispatch();
-  const FavoriteProductsState = useSelector((state) => state.favorites);
   const navigate = useNavigate();
 
   const handleFavorite = async (e) => {
     e.stopPropagation();
     if (!user) {
-      console.log("login to favor this !");
+      toast.error("Login To Favor Product ");
       return;
     }
 
     if (!isFavorite) {
-      const result = await addFavoriteProduct(product._id);
+      const result = await addFavorite(product?._id);
       if (result.success) {
-        dispatch(setFavorites(result.newFavoriteList));
         setIsFavorite(true);
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
       }
     } else {
-      const result = await removeFavoriteProduct(product._id);
+      const result = await removeFavorite(product?._id);
       if (result.success) {
-        dispatch(setFavorites(result.newFavoriteList));
         setIsFavorite(false);
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
       }
     }
   };
   useEffect(() => {
-    const isProductInFavorites = FavoriteProductsState.favoriteProducts.find(
+    const isProductInFavorites = favoriteProducts?.find(
       (item) => item.productId._id === product._id,
     );
     setIsFavorite(!!isProductInFavorites);
-  }, [FavoriteProductsState]);
+  }, [favoriteProducts]);
 
   const handleProductClick = () => {
     navigate(`/product/${product._id}`);

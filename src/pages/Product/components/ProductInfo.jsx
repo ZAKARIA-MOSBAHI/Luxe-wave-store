@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 
 import HeartIcon from "../../../assets/client/icons/HeartIcon";
 import { useAuth } from "@/context/AuthProvider";
-import {
-  addFavoriteProduct,
-  getClientFavoriteProducts,
-  removeFavoriteProduct,
-} from "@/services/product.service";
-import { useSelector } from "react-redux";
+
+import { useFavorites } from "@/hooks/useFavorites";
+import { toast } from "sonner";
 
 export default function ProductInfo({
   product,
@@ -16,50 +13,41 @@ export default function ProductInfo({
   err,
   handleClick,
 }) {
+  const { favoriteProducts, addFavorite, removeFavorite } = useFavorites();
   const [isFavorite, setIsFavorite] = useState(false);
-  const FavoriteProductsState = useSelector((state) => state.favorites);
 
   const { user } = useAuth();
   const handleFavorite = async () => {
     if (!user) {
+      toast.error("Login To Favor Product ");
+
       return;
     }
 
     if (!isFavorite) {
-      const result = await addFavoriteProduct(product?._id);
+      const result = await addFavorite(product?._id);
       if (result.success) {
         setIsFavorite(true);
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
       }
     } else {
-      const result = await removeFavoriteProduct(product?._id);
+      const result = await removeFavorite(product?._id);
       if (result.success) {
         setIsFavorite(false);
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
       }
     }
   };
   useEffect(() => {
-    const FetchFavoriteProducts = async () => {
-      try {
-        const response = await getClientFavoriteProducts();
-
-        const isProductInFavorites = response.favorites.find((item) => {
-          return item.productId._id === product?._id;
-        });
-
-        setIsFavorite(isProductInFavorites ? true : false);
-      } catch (error) {
-        console.error("Error fetching favorite products:", error);
-      }
-    };
-    if (FavoriteProductsState.favoriteProducts.length <= 0) {
-      FetchFavoriteProducts();
-    } else {
-      const isProductInFavorites = FavoriteProductsState.favoriteProducts.find(
-        (item) => item.productId._id === product?._id,
-      );
-      setIsFavorite(isProductInFavorites ? true : false);
-    }
-  }, [product?._id, FavoriteProductsState]);
+    const isProductInFavorites = favoriteProducts?.find(
+      (item) => item.productId._id === product?._id,
+    );
+    setIsFavorite(isProductInFavorites ? true : false);
+  }, [product?._id, favoriteProducts]);
 
   return (
     <div className="flex gap-6 flex-col justify-center">

@@ -2,24 +2,25 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductImage from "./components/ProductImage";
 import ProductInfo from "./components/ProductInfo";
-import { useSelector } from "react-redux";
 
-import { getProductById } from "@/services/product.service";
 import ProductsCollection from "../Home/components/ProductsCollection";
 import ErrorPage from "../ErrorPage";
 import { toast } from "sonner";
 import { useCart } from "@/hooks/useCart";
+import { useProduct } from "@/hooks/useProduct";
+import { useProducts } from "@/hooks/useProducts";
 
 export default function Product() {
-  const [product, setProduct] = useState(null);
-  const { AddToCart } = useCart();
-  const [mainImg, setMainImg] = useState("");
-  const [sizeChoosen, setSizeChoosen] = useState("");
   const { productId } = useParams();
-  const ProductsState = useSelector((state) => state.products);
+  const { product, mainImg, setMainImg, isLoading, notFound } =
+    useProduct(productId);
+  const ProductsState = useProducts();
+  const { AddToCart } = useCart();
+
+  const [sizeChoosen, setSizeChoosen] = useState("");
+
   const [similarProducts, setSimilarProducts] = useState([]);
   const [err, setErr] = useState("");
-  const [notFound, setNotFound] = useState(false);
 
   const handleClick = async () => {
     if (sizeChoosen) {
@@ -35,41 +36,11 @@ export default function Product() {
     }
   };
   useEffect(() => {
-    const fetchProduct = async () => {
-      // First try to find product in Redux store
-      if (ProductsState.products.length > 0) {
-        const foundProduct = ProductsState.products.find(
-          (item) => item._id === productId,
-        );
-        if (foundProduct) {
-          setProduct(foundProduct);
-          setMainImg(
-            foundProduct.mainImage?.url || foundProduct.image?.[0] || "",
-          );
-          return;
-        }
-      }
-
-      // If not found anywhere, fetch from API
-      const result = await getProductById(productId);
-
-      if (result.success) {
-        setProduct(result.product);
-        setMainImg(result.product.mainImage?.url || "");
-      } else {
-        setNotFound(true);
-      }
-    };
-
-    if (productId) {
-      fetchProduct();
-      setSizeChoosen("");
-    }
-  }, [productId, ProductsState.products]);
-
+    setSizeChoosen("");
+  }, [productId]);
   useEffect(() => {
     // next : change this into a filtering code
-    if (ProductsState.products.length > 0) {
+    if (ProductsState.products?.length > 0) {
       setSimilarProducts(ProductsState.products.slice(0, 4));
     }
   }, [ProductsState.products]);
