@@ -1,14 +1,9 @@
-import {
-  ArrowRight,
-  Award,
-   HeartHandshake,
- 
-  Shirt,
- } from "lucide-react";
+import { ArrowRight, Award, HeartHandshake, Shirt } from "lucide-react";
 import { Separator } from "@/components/ui/Separator";
 import { assets } from "@/assets/client/assets";
 
-const {JuliaChen , MarcusBlackwood,JamesKim, ElenaMartinez , aboutUsImg} = assets;
+const { JuliaChen, MarcusBlackwood, JamesKim, ElenaMartinez, aboutUsImg } =
+  assets;
 const Team = [
   {
     name: "Julia Chen",
@@ -37,9 +32,7 @@ const About = () => {
       <div className="space-y-16">
         {/* Hero Section */}
         <section className="text-center space-y-6">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
-            About LuxeWave
-          </h1>
+          <h1 className="typography-h1">About LuxeWave</h1>
           <p className="text-zinc-600 text-lg md:text-xl max-w-3xl mx-auto">
             Crafting elegance through minimalist designs since 2018
           </p>

@@ -1,8 +1,6 @@
 import SectionTitle from "../../../components/SectionTitle";
 import ProductCard from "../../../components/product/ProductCard";
 import Title from "../../../components/Title";
-import { Button } from "@/components/ui/Button";
-import { ArrowRight } from "lucide-react";
 import Carousel from "../../../components/ui/Carousel";
 
 export default function ProductsCollection({
@@ -13,10 +11,8 @@ export default function ProductsCollection({
   ...rest
 }) {
   return (
-    <section className={`mx-auto w-full ${rest.className ?? ""}`} {...rest}>
-      <SectionTitle>
-        <Title title={CollectionName} />
-      </SectionTitle>
+    <section className={`mx-auto w-full ${rest.className || ""}`} {...rest}>
+      <SectionTitle title={CollectionName} />
       <Carousel
         className="max-w-[350px] mx-0 w-full sm:max-w-full"
         items={products}

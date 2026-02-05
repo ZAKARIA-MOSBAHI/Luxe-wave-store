@@ -8,6 +8,7 @@ import CategoriesGrid from "./components/CategoriesGrid";
 import { assets } from "@/assets/client/assets";
 import Hero from "./components/Hero";
 import { useProducts } from "@/hooks/useProducts";
+import SectionTitle from "@/components/SectionTitle";
 
 function Home() {
   const {
@@ -99,13 +100,7 @@ function Home() {
       />
       {/* Categories display */}
       <section className="py-16 mb-0 bg-[#000]">
-        <div className="flex items-center gap-2  md:gap-4 mb-8">
-          <h1 className="tracking-tighter font-bold text-mobile-h2 md:text-desktop-h2 text-white">
-            Browse Our Categories
-          </h1>
-          <p className="w-10  hidden md:block lg:w-14 h-[2px] bg-white"></p>
-        </div>
-
+        <SectionTitle title={"Browse Our Categories"} isWhite={true} />
         <div className="flex flex-col gap-6 justify-center items-center">
           <CategoriesGrid
             firstColSpan="col-span-12 sm:col-span-5"

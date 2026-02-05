@@ -5,8 +5,8 @@ export default function NewsLetter() {
   return (
     <section className="text-center">
       <div className="space-y-6 max-w-2xl mx-auto">
-        <h2 className="text-3xl font-bold tracking-tight">Stay Connected.</h2>
-        <p className="text-zinc-400">
+        <h2 className="typography-h3">Stay Connected.</h2>
+        <p className="text-zinc-400 typography-p">
           Subscribe to our newsletter for exclusive updates, early access to new
           collections, and styling inspiration.
         </p>

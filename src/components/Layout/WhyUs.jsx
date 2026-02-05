@@ -23,7 +23,7 @@ const benefits = [
 export default function WhyUs() {
   return (
     <section className="space-y-12 md:px-6 text-center mt-10 md:mt-14 lg:mt-16">
-      <h2 className="text-3xl font-bold tracking-tight">Why Choose Us.</h2>
+      <h3 className="typography-h3">Why Choose Us.</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 place-items-center">
         {benefits.map((benefit, index) => (
           <div
@@ -32,8 +32,10 @@ export default function WhyUs() {
           >
             {benefit.icon}
             <div>
-              <h3 className="font-medium tracking-tight">{benefit.name}</h3>
-              <p className=" text-zinc-400">{benefit.description}</p>
+              <h6 className="typography-h6">{benefit.name}</h6>
+              <p className=" text-zinc-400 typography-p">
+                {benefit.description}
+              </p>
             </div>
           </div>
         ))}

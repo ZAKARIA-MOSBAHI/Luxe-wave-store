@@ -1,8 +1,8 @@
-import Title from "../../components/Title";
 import { useFilterMenu } from "../../context/FilterMenuProvider";
 import ProductsList from "./components/ProductsList";
 import { SlidersHorizontal } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
+import SectionTitle from "@/components/SectionTitle";
 const Collections = () => {
   const { setShowFilterMenu } = useFilterMenu();
   const ProductsState = useProducts();
@@ -11,7 +11,8 @@ const Collections = () => {
     <section className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 mb-8  relative max-w-[1152px] w-full mx-auto">
       <div className="flex-1">
         <div className="flex flex-row justify-between items-center  mb-4">
-          <Title title={"COLLECTIONS"} />
+          <SectionTitle title={"Collections"} />
+
           <button
             title="filter menu"
             type="button"
