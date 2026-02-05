@@ -1,3 +1,4 @@
+import { buildApiResponse } from "@/lib/utils";
 import api from "@/services/axios";
 export const getNotifications = async (limit) => {
   try {
@@ -10,7 +11,10 @@ export const getNotifications = async (limit) => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    return buildApiResponse(
+      false,
+      error?.message || "Couldn't get notifications!",
+    );
   }
 };
 export const markNotificationAsRead = async (notificationId) => {
@@ -27,11 +31,10 @@ export const markNotificationAsRead = async (notificationId) => {
         },
       },
     );
-    console.log("response : ", response);
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    return buildApiResponse(false, error?.message || "Something went wrong!");
   }
 };
 export const deleteNotification = async (notificationId) => {
@@ -45,6 +48,6 @@ export const deleteNotification = async (notificationId) => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    return buildApiResponse(false, error?.message || "Something went wrong!");
   }
 };

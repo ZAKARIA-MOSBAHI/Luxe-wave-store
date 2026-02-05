@@ -9,20 +9,27 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { Bell, Check } from "lucide-react";
 import NotificationItem from "./Notifications/NotificationItem";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useNotifications } from "@/hooks/useNotifications";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function NotificationMenu() {
-  const notificationsState = useSelector((state) => state.notificationState);
+  const { notifications, error, unreadCount } = useNotifications(5);
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" className="relative">
           <Bell className="h-4 w-4" />
-          {notificationsState.unreadCount > 0 && (
+          {unreadCount > 0 && (
             <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[10px] text-white">
-              {notificationsState.unreadCount}
+              {unreadCount}
             </span>
           )}
         </Button>
@@ -36,7 +43,7 @@ export default function NotificationMenu() {
           </Button>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {notificationsState.notifications?.map((notification) => (
+        {notifications?.slice(0, 5)?.map((notification) => (
           <DropdownMenuItem key={notification._id}>
             <NotificationItem notification={notification} variant="compact" />
           </DropdownMenuItem>

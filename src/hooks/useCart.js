@@ -45,7 +45,7 @@ export const useCart = () => {
       dispatch(setCart(response.cart));
       return buildApiResponse(true, "Product removed from cart");
     }
-
+    // why ? use return response instead because the response is already build in the api func
     return buildApiResponse(
       false,
       response?.message || "Failed to delete product from cart",

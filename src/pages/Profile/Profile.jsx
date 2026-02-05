@@ -1,35 +1,16 @@
 import { useAuth } from "@/context/AuthProvider";
 import ProfileInfosSection from "./components/ProfileInfosSection";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProfileFormsDialog from "./components/ProfileFormsDialog";
 import AddPhoneNumberForm from "./forms/AddNumberForm";
 import AddAddressForm from "./forms/AddAddressForm";
-import { useDispatch, useSelector } from "react-redux";
-import { getClientAddress } from "@/services/address.service";
-import { setUserAddress } from "@/app/slices/addressSlice";
+import { useAddress } from "@/hooks/useAddress";
 
 function Profile() {
+  const { user } = useAuth();
+  const { address } = useAddress();
   const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
   const [adressDialogOpen, setAdressDialogOpen] = useState(false);
-
-  const { user } = useAuth();
-  const UserAddressState = useSelector((state) => state.userAddress?.address);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchAddress = async () => {
-      try {
-        const addressResponse = await getClientAddress();
-        if (addressResponse.success) {
-          dispatch(setUserAddress(addressResponse.address));
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchAddress();
-  }, [dispatch]);
 
   return (
     <div className="w-full">
@@ -79,27 +60,27 @@ function Profile() {
 
       <ProfileInfosSection
         title="Shipping Address"
-        fallback={UserAddressState ? "" : "No Address is Found."}
-        fallbackActionText={UserAddressState ? "" : "Create One Now"}
+        fallback={address ? "" : "No Address is Found."}
+        fallbackActionText={address ? "" : "Create One Now"}
         onFallbackClick={
-          UserAddressState ? null : () => setAdressDialogOpen(!adressDialogOpen)
+          address ? null : () => setAdressDialogOpen(!adressDialogOpen)
         }
         fields={[
           {
             label: "Street",
-            value: UserAddressState?.street,
+            value: address?.street,
           },
           {
             label: "City",
-            value: UserAddressState?.city,
+            value: address?.city,
           },
           {
             label: "Country",
-            value: UserAddressState?.country,
+            value: address?.country,
           },
           {
             label: "Zip Code",
-            value: UserAddressState?.zipCode,
+            value: address?.zipCode,
           },
         ]}
       />

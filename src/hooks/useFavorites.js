@@ -10,10 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export const useFavorites = () => {
   const dispatch = useDispatch();
-  const favoriteProducts = useSelector(
-    (state) => state.favorites.favorites.favoriteProducts,
-  );
-
+  const { favoriteProducts } = useSelector((state) => state.favorites);
   const [error, setError] = useState(null);
 
   const addFavorite = async (productId) => {

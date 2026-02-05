@@ -13,34 +13,10 @@ import { Logout } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
 import { useAuth } from "@/context/AuthProvider";
 import NotificationMenu from "../NotificationMenu";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getNotifications } from "@/services/notification.service";
-import { setNotification } from "@/app/slices/notificationSlice";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function Header() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const notificationsState = useSelector((state) => state.notificationState);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      const response = await getNotifications(5);
-      if (response.success) {
-        dispatch(setNotification(response));
-      }
-    };
-    if (!notificationsState.notifications) {
-      fetchNotifications();
-    } else {
-      dispatch(
-        setNotification({
-          notifications: notificationsState.notifications?.slice(0, 5),
-          unreadCount: notificationsState.unreadCount,
-        }),
-      );
-    }
-  }, []);
+
   return (
     <header className="flex h-16 items-center justify-end gap-8 md:justify-between border-b bg-background px-2 md:px-6">
       {/* Search Bar */}

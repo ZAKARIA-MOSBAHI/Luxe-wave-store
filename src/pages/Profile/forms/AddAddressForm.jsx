@@ -1,4 +1,3 @@
-import { createClientAddress } from "@/services/address.service";
 import { setUserAddress } from "@/app/slices/addressSlice";
 import { Button } from "@/components/ui/Button";
 import {
@@ -16,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { useAddress } from "@/hooks/useAddress";
 
 const formFields = [
   {
@@ -50,6 +50,7 @@ const formFields = [
 
 export default function AddAddressForm({ setDialogOpen }) {
   const { setUser } = useAuth();
+  const { createAddress } = useAddress();
   const dispatch = useDispatch();
 
   const form = useForm({
@@ -63,20 +64,14 @@ export default function AddAddressForm({ setDialogOpen }) {
   });
 
   const handleSubmit = async (data) => {
-    try {
-      const result = await createClientAddress(data);
-
-      if (!result || result.success === false) {
-        throw new Error(result?.message || "Failed to create address");
-      }
-
-      setUser(result.user);
-      dispatch(setUserAddress(result.newAddress));
+    const response = await createAddress(data);
+    if (response.success) {
+      setUser(response.user);
+      dispatch(setUserAddress(response.newAddress));
       setDialogOpen(false);
       toast.success("Address saved successfully!");
-    } catch (error) {
-      console.error("Error creating address:", error);
-      toast.success("Address saved successfully!");
+    } else {
+      toast.error(response.message);
     }
   };
 

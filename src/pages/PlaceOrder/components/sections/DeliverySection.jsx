@@ -8,17 +8,19 @@ import { toast } from "sonner";
 import { clearCart } from "@/app/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { addUserOrder } from "@/app/slices/userOrderSlice";
+import { useAddress } from "@/hooks/useAddress";
 
 export default function DeliverySection() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userAddressState = useSelector((state) => state.userAddress?.address);
+  const { address } = useAddress();
+
   const userOrderState = useSelector((state) => state.userOrderState);
   const fields = [
     {
       label: "Country",
-      value: userAddressState?.country ?? "Not Found",
+      value: address?.country ?? "Not Found",
     },
     {
       label: "Full Name",
@@ -30,15 +32,15 @@ export default function DeliverySection() {
     },
     {
       label: "Shipping Address",
-      value: userAddressState?.street ?? "Not Found",
+      value: address?.street ?? "Not Found",
     },
     {
       label: "City",
-      value: userAddressState?.city ?? "Not Found",
+      value: address?.city ?? "Not Found",
     },
     {
       label: "Zip Code",
-      value: userAddressState?.zipCode ?? "Not Found",
+      value: address?.zipCode ?? "Not Found",
     },
     {
       label: "Payment Method",

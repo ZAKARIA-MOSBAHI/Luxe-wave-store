@@ -1,8 +1,3 @@
-import {
-  deleteNotification,
-  markNotificationAsRead,
-} from "@/services/notification.service";
-import { markAsRead, removeNotification } from "@/app/slices/notificationSlice";
 import { Button } from "@/components/ui/Button";
 import {
   DropdownMenu,
@@ -13,7 +8,8 @@ import {
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { Check, MoreVertical, Trash2 } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useNotifications } from "@/hooks/useNotifications";
+import { toast } from "sonner";
 
 const notificationItemVariants = {
   compact: {
@@ -27,20 +23,20 @@ const notificationItemVariants = {
 };
 
 const NotificationItem = ({ notification, className, variant = "default" }) => {
-  const dispatch = useDispatch();
+  const { markNotifAsRead, deleteNotif } = useNotifications();
   const formattedDate = formatDistanceToNow(new Date(notification.createdAt), {
     addSuffix: true,
   });
   const onMarkAsRead = async () => {
-    const response = await markNotificationAsRead(notification._id);
-    if (response.success) {
-      dispatch(markAsRead(notification._id));
+    const response = await markNotifAsRead(notification._id);
+    if (!response.success) {
+      toast.error(response.message);
     }
   };
   const onDelete = async () => {
-    const response = await deleteNotification(notification._id);
-    if (response.success) {
-      dispatch(removeNotification(notification._id));
+    const response = await deleteNotif(notification._id);
+    if (!response.success) {
+      toast.error(response.message);
     }
   };
 

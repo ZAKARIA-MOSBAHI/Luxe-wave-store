@@ -1,28 +1,16 @@
-import { removeFavoriteProduct } from "@/services/product.service";
-import { setFavorites } from "@/app/slices/favoritesSlice";
 import { X } from "lucide-react";
-import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { useFavorites } from "@/hooks/useFavorites";
 
 export default function RemoveButton({ productId }) {
-  const dispatch = useDispatch();
+  const { removeFavorite } = useFavorites();
   const handleClick = async (e) => {
-    try {
-      e.stopPropagation();
-      console.log("product with id ", productId, "should be removed ");
-      const response = await removeFavoriteProduct(productId);
-      if (response.success) {
-        //means it was deleted successfully
-        toast.success("Product removed from favorites");
-        dispatch(setFavorites(response.newFavoriteList));
-      } else {
-        // means an unsuccessfull response
-        console.log("this is from the button comp");
-        toast.error(response.message);
-      }
-    } catch (e) {
-      console.log("error");
-      console.log(e);
+    e.stopPropagation();
+    const response = await removeFavorite(productId);
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
     }
   };
   return (

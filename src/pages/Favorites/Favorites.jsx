@@ -10,7 +10,9 @@ export default function Favorites() {
   const navigate = useNavigate();
   const { user } = useAuth();
   useEffect(() => {
-    toast.error(error);
+    if (error) {
+      toast.error(error);
+    }
   }, [error]);
 
   if (user === null) {

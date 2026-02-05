@@ -1,3 +1,4 @@
+import { buildApiResponse } from "@/lib/utils";
 import api from "@/services/axios";
 
 export async function getClientAddress() {
@@ -6,9 +7,8 @@ export async function getClientAddress() {
     const accessToken = user?.accessToken;
 
     if (!accessToken) {
-      console.warn("No access token found, clearing user...");
       localStorage.removeItem("user");
-      return null;
+      return buildApiResponse(false, "User is not authenticated!");
     }
 
     const response = await api.get("/address/me", {
@@ -19,12 +19,7 @@ export async function getClientAddress() {
 
     return response.data;
   } catch (e) {
-    return (
-      e.response?.data || {
-        success: false,
-        message: e.message,
-      }
-    );
+    return buildApiResponse(false, e?.message || "Something went wrong!");
   }
 }
 
@@ -34,7 +29,7 @@ export async function createClientAddress(payload) {
     const accessToken = user?.accessToken;
 
     if (!accessToken) {
-      throw new Error("No access token found");
+      return buildApiResponse(false, "User is not authenticated!");
     }
 
     const result = await api.post("/address/me", payload, {
@@ -45,11 +40,6 @@ export async function createClientAddress(payload) {
 
     return result.data;
   } catch (e) {
-    return (
-      e.response?.data || {
-        success: false,
-        message: e.message,
-      }
-    );
+    return buildApiResponse(false, e?.message || "Something went wrong!");
   }
 }
