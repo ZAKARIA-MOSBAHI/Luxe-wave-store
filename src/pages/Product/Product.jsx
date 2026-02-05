@@ -2,42 +2,36 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductImage from "./components/ProductImage";
 import ProductInfo from "./components/ProductInfo";
-import { useDispatch, useSelector } from "react-redux";
-import { addProductToCart } from "@/services/cart.service";
-import { setCart } from "@/app/slices/cartSlice";
+import { useSelector } from "react-redux";
+
 import { getProductById } from "@/services/product.service";
 import ProductsCollection from "../Home/components/ProductsCollection";
 import ErrorPage from "../ErrorPage";
 import { toast } from "sonner";
+import { useCart } from "@/hooks/useCart";
 
 export default function Product() {
-  // next : fetch all products in app component
   const [product, setProduct] = useState(null);
+  const { AddToCart } = useCart();
   const [mainImg, setMainImg] = useState("");
   const [sizeChoosen, setSizeChoosen] = useState("");
   const { productId } = useParams();
   const ProductsState = useSelector((state) => state.products);
   const [similarProducts, setSimilarProducts] = useState([]);
-  const dispatch = useDispatch();
   const [err, setErr] = useState("");
   const [notFound, setNotFound] = useState(false);
 
   const handleClick = async () => {
-    try {
-      if (sizeChoosen) {
-        const response = await addProductToCart(productId, sizeChoosen);
-        if (response.success) {
-          dispatch(setCart(response.cart));
-          setErr("");
-          toast.success("Product added to cart");
-        } else {
-          setErr(response.message || "Failed to add product to cart");
-        }
+    if (sizeChoosen) {
+      const response = await AddToCart(productId, sizeChoosen);
+      if (response.success) {
+        setErr("");
+        toast.success("Product added to cart");
       } else {
-        setErr("Please select a size");
+        setErr(response.message);
       }
-    } catch (error) {
-      console.error("Error adding product to cart:", error);
+    } else {
+      setErr("Please select a size");
     }
   };
   useEffect(() => {

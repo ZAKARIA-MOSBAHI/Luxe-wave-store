@@ -1,42 +1,26 @@
-import { useDispatch } from "react-redux";
-import {
-  addProductToCart,
-  decrementCartItemQuantity,
-} from "@/services/cart.service";
-import { setCart } from "@/app/slices/cartSlice";
 import { Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useCart } from "@/hooks/useCart";
 
 export default function QuantityCounter({ product }) {
-  const dispatch = useDispatch();
+  const { AddToCart, DecrementItemQuantity } = useCart();
 
   const handleIncrement = async () => {
     try {
       const productId = product?.productId._id;
-      const response = await addProductToCart(productId, product?.itemSize);
-      if (response.success === true) {
-        dispatch(setCart(response.cart));
-      } else {
-        toast.error(response.message || "Failed to add product to cart");
+      const response = await AddToCart(productId, product?.itemSize);
+      if (!response.success) {
+        toast.error(response?.message);
       }
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
   };
   const handleDecrement = async () => {
-    try {
-      const productId = product?.productId._id;
-      const response = await decrementCartItemQuantity(
-        productId,
-        product?.itemSize,
-      );
-      if (response.success === true) {
-        dispatch(setCart(response.cart));
-      } else {
-        toast.error(response.message || "Failed to add product to cart");
-      }
-    } catch (error) {
-      console.error("Error adding product to cart:", error);
+    const productId = product?.productId._id;
+    const response = await DecrementItemQuantity(productId, product?.itemSize);
+    if (!response.success) {
+      toast.error(response?.message);
     }
   };
 

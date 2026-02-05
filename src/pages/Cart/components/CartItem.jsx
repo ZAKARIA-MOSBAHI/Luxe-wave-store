@@ -1,24 +1,20 @@
 import QuantityCounter from "./QuantityCounter";
 import SelectMenu from "./SelectMenu";
-import { useDispatch } from "react-redux";
-import { deleteCartItem } from "@/services/cart.service";
-import { setCart } from "@/app/slices/cartSlice";
+
 import { returnImgUrl } from "@/lib/utils";
 import { useAuth } from "@/context/AuthProvider";
+import { useCart } from "@/hooks/useCart";
+import { toast } from "sonner";
 
 export default function CartItem({ item }) {
   const { user } = useAuth();
-  const dispatch = useDispatch();
+  const { DeleteItem } = useCart();
   const handleDelete = async () => {
-    try {
-      const productId = item?.productId._id;
-      const response = await deleteCartItem(productId, item?.itemSize);
-      console.log(response);
-      if (response.success === true) {
-        dispatch(setCart(response.cart));
-      }
-    } catch (error) {
-      console.error("Error adding product to cart:", error);
+    const productId = item?.productId._id;
+    const response = await DeleteItem(productId, item?.itemSize);
+
+    if (!response.success) {
+      toast.error(response?.message);
     }
   };
 

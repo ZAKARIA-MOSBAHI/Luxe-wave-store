@@ -1,11 +1,9 @@
-import { updateCartItemSize } from "@/services/cart.service";
-import { setCart } from "@/app/slices/cartSlice";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { useCart } from "@/hooks/useCart";
 
 export default function SelectMenu({ product }) {
-  const dispatch = useDispatch();
+  const { UpdateItemSize } = useCart();
   const [selected, setSelected] = useState(product?.itemSize);
   const [isopen, setIsOpen] = useState(false);
   const [optionList, setOptionList] = useState(product?.productId?.sizes);
@@ -14,16 +12,15 @@ export default function SelectMenu({ product }) {
     if (newSize === selected) {
       return;
     }
-    const result = await updateCartItemSize(
+    const result = await UpdateItemSize(
       product?.productId?._id,
       selected,
       newSize,
     );
     if (result.success) {
-      dispatch(setCart(result.cart));
       setSelected(newSize);
     } else {
-      toast.error(result.message);
+      toast.error(result?.message);
     }
   };
   useEffect(() => {

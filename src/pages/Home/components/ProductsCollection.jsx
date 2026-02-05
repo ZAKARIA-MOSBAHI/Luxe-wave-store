@@ -1,6 +1,5 @@
 import SectionTitle from "../../../components/SectionTitle";
 import ProductCard from "../../../components/product/ProductCard";
-import Title from "../../../components/Title";
 import Carousel from "../../../components/ui/Carousel";
 
 export default function ProductsCollection({

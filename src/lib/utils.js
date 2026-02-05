@@ -22,4 +22,17 @@ const EnableScroll = () => {
   document.body.style.overflow = "";
 };
 
-export { Logout, cn, returnImgUrl, DisableScroll, EnableScroll };
+const buildApiResponse = (status, message, data = {}) => ({
+  status,
+  message,
+  ...data,
+});
+
+export {
+  Logout,
+  cn,
+  returnImgUrl,
+  DisableScroll,
+  EnableScroll,
+  buildApiResponse,
+};
