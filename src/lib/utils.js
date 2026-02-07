@@ -80,6 +80,17 @@ export const buildProductFormData = (
   return formData;
 };
 
+export const isAuthenticated = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const accessToken = user?.accessToken;
+
+  if (!accessToken) {
+    localStorage.removeItem("user");
+    return buildApiResponse(false, "Unauthorized!");
+  } else {
+    return buildApiResponse(true, "", { accessToken });
+  }
+};
 export {
   Logout,
   cn,

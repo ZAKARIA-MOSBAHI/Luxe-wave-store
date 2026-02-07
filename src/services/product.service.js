@@ -39,26 +39,7 @@ export const getProductById = async (productId) => {
     }
   }
 };
-export const deleteProductById = async (productId) => {
-  try {
-    const accessToken = localStorage.getItem("accessToken");
-    const response = await api.delete(`/products/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log("deleting...");
-    console.log("Product deleted successfully ");
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error("Failed to delete product data");
-    }
-  }
-};
+
 // ADMIN API CALLS
 export const createProduct = async (payload) => {
   try {
@@ -89,5 +70,28 @@ export const updateProduct = async (productId, payload) => {
     return result.data;
   } catch (e) {
     return buildApiResponse(false, e?.message || "Couldn't update product");
+  }
+};
+export const deleteProductById = async (productId) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user?.accessToken;
+
+    if (!accessToken) {
+      localStorage.removeItem("user");
+      return buildApiResponse(false, "Unauthorized");
+    }
+    const response = await api.delete(`/products/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return buildApiResponse(
+      false,
+      error?.message || "Failed to delete product data",
+    );
   }
 };

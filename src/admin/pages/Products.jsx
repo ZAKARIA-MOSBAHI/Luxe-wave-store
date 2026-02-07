@@ -40,7 +40,7 @@ import { useNavigate } from "react-router-dom";
 import { useProducts } from "@/hooks/useProducts";
 
 const Products = () => {
-  const { products } = useProducts();
+  const { products, deleteProduct } = useProducts();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -50,9 +50,13 @@ const Products = () => {
       product.category.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleDelete = (id) => {
-    toast.success("Product deleted successfully");
-    console.log("Delete product:", id);
+  const handleDelete = async (id) => {
+    const res = await deleteProduct(id);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
   };
 
   return (

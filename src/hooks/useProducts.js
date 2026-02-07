@@ -1,10 +1,12 @@
 import {
   createProduct,
+  deleteProductById,
   getProducts,
   updateProduct,
 } from "@/services/product.service";
 import {
   addProductInStore,
+  deleteProductFromStore,
   setFilteredProducts,
   setProducts,
   updateProductInStore,
@@ -35,6 +37,15 @@ export const useProducts = () => {
     }
     return response;
   };
+  const deleteProduct = async (productId) => {
+    const response = await deleteProductById(productId);
+    console.warn("delete response ");
+    console.log(response);
+    if (response.success) {
+      dispatch(deleteProductFromStore(productId));
+    }
+    return response;
+  };
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -53,5 +64,12 @@ export const useProducts = () => {
     }
   }, [dispatch, products?.length]);
 
-  return { products, options, filteredProducts, editProduct, addProduct };
+  return {
+    products,
+    options,
+    filteredProducts,
+    editProduct,
+    addProduct,
+    deleteProduct,
+  };
 };

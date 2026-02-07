@@ -44,61 +44,15 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { toast } from "sonner";
-
-// Sample data - in a real application, this would come from an API
-const categories = [
-  {
-    id: "cat-1",
-    name: "Electronics",
-    slug: "electronics",
-    productCount: 24,
-  },
-  {
-    id: "67e98f8444ca874bee1c81ee",
-    name: "Clothing",
-    slug: "clothing",
-    productCount: 36,
-  },
-  {
-    id: "cat-3",
-    name: "Home & Kitchen",
-    slug: "home-kitchen",
-    productCount: 42,
-  },
-  {
-    id: "cat-4",
-    name: "Books",
-    slug: "books",
-    productCount: 18,
-  },
-  {
-    id: "cat-5",
-    name: "Toys & Games",
-    slug: "toys-games",
-    productCount: 15,
-  },
-  {
-    id: "cat-6",
-    name: "Beauty & Personal Care",
-    slug: "beauty-personal-care",
-    productCount: 29,
-  },
-  {
-    id: "cat-7",
-    name: "Sports & Outdoors",
-    slug: "sports-outdoors",
-    productCount: 20,
-  },
-];
+import { useCategories } from "@/hooks/useCategories";
 
 const Categories = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const { searchCategories, filteredCategories } = useCategories();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  const handleSearch = (value) => {
+    searchCategories(value);
+  };
   const handleDelete = (id) => {
     toast.success("Category deleted successfully");
     console.log("Delete category:", id);
@@ -148,8 +102,7 @@ const Categories = () => {
                   type="search"
                   placeholder="Search categories..."
                   className="w-full pl-8"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => handleSearch(e.target.value)}
                 />
               </div>
             </div>
@@ -165,8 +118,8 @@ const Categories = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredCategories.length > 0 ? (
-                    filteredCategories.map((category) => (
+                  {filteredCategories?.length > 0 ? (
+                    filteredCategories?.map((category) => (
                       <TableRow key={category.id}>
                         <TableCell className="font-medium">
                           {category.name}
@@ -176,7 +129,7 @@ const Categories = () => {
                         </TableCell>
                         <TableCell>
                           <Badge variant="secondary">
-                            {category.productCount}
+                            {category.productsCount}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -201,7 +154,7 @@ const Categories = () => {
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
                                 className="text-red-600 focus:text-red-600"
-                                onClick={() => handleDelete(category.id)}
+                                onClick={() => handleDelete(category._id)}
                               >
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 Delete
