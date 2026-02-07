@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-// UI
 import { Button } from "@/components/ui/Button";
 import {
   Form,
@@ -12,7 +11,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/TextArea";
@@ -24,21 +22,17 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 
-// Store / API
 import { setCategories } from "@/app/slices/categorySlice";
 import { getCategories } from "@/services/category.service";
 
-// Local
 import { productSchema } from "@/lib/schemas/product.schema";
 import SizeSelector from "./SizeSelector";
 import ProductImagePreview from "../shared/ProductImagePreview";
 import { FILTER_OPTIONS } from "@/constants/constants";
 import { buildProductFormData, returnImgUrl } from "@/lib/utils";
 import { useCategories } from "@/hooks/useCategories";
+import { toast } from "sonner";
 
-// --------------------
-// Constants
-// --------------------
 const DEFAULT_FORM_VALUES = {
   name: "",
   description: "",
@@ -56,7 +50,7 @@ const DEFAULT_SIZES = {
   XXL: 0,
 };
 
-export default function EditProductForm({ initialData, onSubmit }) {
+export default function ProductForm({ initialData, onSubmit }) {
   const [formErrors, setFormErrors] = useState({
     mainImage: null,
     additionalImages: null,
@@ -76,17 +70,11 @@ export default function EditProductForm({ initialData, onSubmit }) {
 
   const [sizeValues, setSizeValues] = useState(DEFAULT_SIZES);
 
-  // --------------------
-  // RHF
-  // --------------------
   const form = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: DEFAULT_FORM_VALUES,
   });
 
-  // --------------------
-  // Load categories
-  // --------------------
   useEffect(() => {
     const fetchCategories = async () => {
       const result = await getCategories();
@@ -95,9 +83,6 @@ export default function EditProductForm({ initialData, onSubmit }) {
     fetchCategories();
   }, [dispatch]);
 
-  // --------------------
-  // Sync initialData (EDIT MODE)
-  // --------------------
   useEffect(() => {
     if (!initialData || categories.length === 0) return;
 
@@ -126,10 +111,6 @@ export default function EditProductForm({ initialData, onSubmit }) {
       setAdditionalImagesPreviews(previews);
     }
   }, [initialData, categories.length, form]);
-  useEffect(() => {
-    console.warn(" additional Images previews are ");
-    console.log(additionalImagesPreviews);
-  }, [additionalImagesPreviews]);
 
   const handleSizeChange = (size, value) => {
     setSizeValues((prev) => ({
@@ -142,6 +123,7 @@ export default function EditProductForm({ initialData, onSubmit }) {
     const file = e.target.files?.[0];
     if (!file) return;
     setMainImagePreview({ preview: URL.createObjectURL(file), file });
+    e.target.value = "";
   };
 
   const handleAdditionalImagesChange = (e) => {
@@ -164,6 +146,7 @@ export default function EditProductForm({ initialData, onSubmit }) {
         file,
         preview: URL.createObjectURL(file),
       }));
+      e.target.value = "";
 
       return [...existing, ...newPreviews];
     });
@@ -199,6 +182,44 @@ export default function EditProductForm({ initialData, onSubmit }) {
       }
     }
   };
+  const hasProductChanges = () => {
+    if (!initialData) return true;
+
+    // 1️⃣ Compare form fields manually
+    const currentValues = form.getValues();
+
+    const isFormChanged = Object.keys(DEFAULT_FORM_VALUES).some((key) => {
+      const currentValue = currentValues[key];
+      const initialValue = initialData[key];
+
+      if (key === "price") {
+        return Number(currentValue) !== Number(initialValue);
+      }
+
+      return currentValue !== initialValue;
+    });
+
+    // 2️⃣ Sizes
+    const isSizesChanged =
+      JSON.stringify(sizeValues) !== JSON.stringify(initialData.sizes || {});
+
+    // 3️⃣ Images
+    const isMainImageChanged = !!mainImagePreview?.file;
+
+    const isAdditionalImagesAdded = additionalImagesPreviews.some(
+      (img) => img.file instanceof File,
+    );
+
+    const isImagesRemoved = removedImages.length > 0;
+
+    return (
+      isFormChanged ||
+      isSizesChanged ||
+      isMainImageChanged ||
+      isAdditionalImagesAdded ||
+      isImagesRemoved
+    );
+  };
 
   const handleFormSubmit = (values) => {
     setFormErrors({
@@ -206,7 +227,7 @@ export default function EditProductForm({ initialData, onSubmit }) {
       additionalImages: null,
       size: null,
     });
-    if (!Object.values(sizeValues).some((q) => q > 0)) {
+    if (!initialData && !Object.values(sizeValues).some((q) => q > 0)) {
       setFormErrors((prev) => ({
         ...prev,
         size: "At least one size must have quantity > 0",
@@ -227,7 +248,10 @@ export default function EditProductForm({ initialData, onSubmit }) {
       }));
       return;
     }
-
+    if (!hasProductChanges()) {
+      toast.error("no changes detected!");
+      return;
+    }
     const mainImg = mainImagePreview.file ? mainImagePreview.file : undefined;
     const additionalImgs = additionalImagesPreviews
       .filter((ai) => ai.file !== null)
@@ -248,7 +272,21 @@ export default function EditProductForm({ initialData, onSubmit }) {
     }
     onSubmit(data);
   };
+  useEffect(() => {
+    return () => {
+      // Revoke main image if it's a blob
+      if (mainImagePreview?.preview?.startsWith("blob:")) {
+        URL.revokeObjectURL(mainImagePreview.preview);
+      }
 
+      // Revoke additional images blobs
+      additionalImagesPreviews.forEach((img) => {
+        if (img.preview?.startsWith("blob:")) {
+          URL.revokeObjectURL(img.preview);
+        }
+      });
+    };
+  }, [mainImagePreview, additionalImagesPreviews]);
   return (
     <Form {...form}>
       <form
@@ -315,14 +353,18 @@ export default function EditProductForm({ initialData, onSubmit }) {
                 name={name}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{name}</FormLabel>
+                    <FormLabel>
+                      {name === "categoryId" ? "Category" : name}
+                    </FormLabel>
                     <FormControl>
                       <Select
                         value={field.value || ""}
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder={`Select ${name}`} />
+                          <SelectValue
+                            placeholder={`Select ${name === "categoryId" ? "Category" : name}`}
+                          />
                         </SelectTrigger>
                         <SelectContent>
                           {options.map((o) => (

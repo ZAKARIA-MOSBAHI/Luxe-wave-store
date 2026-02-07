@@ -62,7 +62,6 @@ export const deleteProductById = async (productId) => {
 // ADMIN API CALLS
 export const createProduct = async (payload) => {
   try {
-    console.log("hello from createProduct api");
     const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user?.accessToken;
     const result = await api.post("/products", payload, {
@@ -73,9 +72,7 @@ export const createProduct = async (payload) => {
 
     return result.data;
   } catch (e) {
-    console.log("error adding   product");
-    console.log(e);
-    return e.response.data;
+    return buildApiResponse(false, e?.message || "Couldn't create product!");
   }
 };
 export const updateProduct = async (productId, payload) => {

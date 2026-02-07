@@ -54,12 +54,12 @@ const productsSlice = createSlice({
       state.filteredProducts = filtered;
     },
 
-    addProduct: (state, action) => {
+    addProductInStore: (state, action) => {
       state.products.push(action.payload);
       state.filteredProducts.push(action.payload);
     },
 
-    updateProduct: (state, action) => {
+    updateProductInStore: (state, action) => {
       const updatedProduct = action.payload;
       const index = state.products.findIndex(
         (p) => p._id === updatedProduct._id,
@@ -76,7 +76,7 @@ const productsSlice = createSlice({
       }
     },
 
-    deleteProduct: (state, action) => {
+    deleteProductFromStore: (state, action) => {
       const id = action.payload;
       state.products = state.products.filter((p) => p._id !== id);
       state.filteredProducts = state.filteredProducts.filter(
@@ -92,7 +92,7 @@ export const {
   setFilterOptions,
   filterProducts,
   setFilteredProducts,
-  addProduct,
-  updateProduct,
-  deleteProduct,
+  addProductInStore,
+  updateProductInStore,
+  deleteProductFromStore,
 } = productsSlice.actions;

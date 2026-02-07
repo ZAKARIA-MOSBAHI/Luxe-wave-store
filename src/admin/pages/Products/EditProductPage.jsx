@@ -1,10 +1,10 @@
 import { DashboardLayout } from "@/admin/components/layout/DashboardLayout";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import EditProductForm from "@/admin/components/forms/EditProductForm";
 import { useProduct } from "@/hooks/useProduct";
 import { useProducts } from "@/hooks/useProducts";
 import { toast } from "sonner";
+import ProductForm from "@/admin/components/forms/ProductForm";
 
 export default function EditProductPage() {
   const { productId } = useParams();
@@ -45,7 +45,7 @@ export default function EditProductPage() {
       </p>
 
       {initialData && (
-        <EditProductForm initialData={initialData} onSubmit={handleSubmit} />
+        <ProductForm initialData={initialData} onSubmit={handleSubmit} />
       )}
     </DashboardLayout>
   );
