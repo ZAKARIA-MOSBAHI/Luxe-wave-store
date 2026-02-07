@@ -1,12 +1,22 @@
-import { getProducts } from "@/services/product.service";
+import { getProducts, updateProduct } from "@/services/product.service";
 import { setFilteredProducts, setProducts } from "@/app/slices/productSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const useProducts = () => {
   const dispatch = useDispatch();
-  const productsState = useSelector((state) => state.products);
-
+  const { products, options, filteredProducts } = useSelector(
+    (state) => state.products,
+  );
+  const editProduct = async (productId, formData) => {
+    const response = await updateProduct(productId, formData);
+    console.warn("update response ");
+    console.log(response);
+    if (response.success) {
+      dispatch(updateProduct(response.updateProduct));
+    }
+    return response;
+  };
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -20,10 +30,10 @@ export const useProducts = () => {
       }
     };
 
-    if (!productsState.products?.length) {
+    if (!products?.length) {
       fetchProducts();
     }
-  }, [dispatch, productsState.products?.length]);
+  }, [dispatch, products?.length]);
 
-  return productsState;
+  return { products, options, filteredProducts, editProduct };
 };

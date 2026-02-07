@@ -11,7 +11,10 @@ const ProductImagePreview = ({
   return (
     <div
       onClick={() => onClick}
-      className={cn("relative group cursor-pointer", className)}
+      className={cn(
+        "relative group cursor-pointer h-[150px] w-[150px]",
+        className,
+      )}
     >
       <div className="overflow-hidden  aspect-square mb-3  rounded-lg bg-zinc-100/20">
         <img

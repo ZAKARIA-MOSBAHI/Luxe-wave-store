@@ -14,7 +14,7 @@ export default function Product() {
   const { productId } = useParams();
   const { product, mainImg, setMainImg, isLoading, notFound } =
     useProduct(productId);
-  const ProductsState = useProducts();
+  const { products } = useProducts();
   const { AddToCart } = useCart();
 
   const [sizeChoosen, setSizeChoosen] = useState("");
@@ -40,10 +40,10 @@ export default function Product() {
   }, [productId]);
   useEffect(() => {
     // next : change this into a filtering code
-    if (ProductsState.products?.length > 0) {
-      setSimilarProducts(ProductsState.products.slice(0, 4));
+    if (products?.length > 0) {
+      setSimilarProducts(products.slice(0, 4));
     }
-  }, [ProductsState.products]);
+  }, [products]);
 
   if (notFound) {
     return (

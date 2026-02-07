@@ -33,6 +33,8 @@ import { productSchema } from "@/lib/schemas/product.schema";
 import SizeSelector from "./SizeSelector";
 import ProductImagePreview from "../shared/ProductImagePreview";
 import { FILTER_OPTIONS } from "@/constants/constants";
+import { buildProductFormData, returnImgUrl } from "@/lib/utils";
+import { useCategories } from "@/hooks/useCategories";
 
 // --------------------
 // Constants
@@ -54,37 +56,25 @@ const DEFAULT_SIZES = {
   XXL: 0,
 };
 
-// --------------------
-// Component
-// --------------------
 export default function EditProductForm({ initialData, onSubmit }) {
+  const [formErrors, setFormErrors] = useState({
+    mainImage: null,
+    additionalImages: null,
+    size: null,
+  });
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.products);
-  const categories = useSelector((state) => state.categoriesState.categories);
-
-  // --------------------
-  // Images (NOT RHF)
-  // --------------------
-  const [mainImage, setMainImage] = useState({
-    file: null,
-    preview: null,
-    fromApi: null, // "/uploads/..."
-  });
-
-  const [additionalImages, setAdditionalImages] = useState([]);
-  // each item: { file?, preview?, fromApi? }
-
+  const { categories } = useCategories();
+  // to send api the images that should be deleted from the api
+  const [removedImages, setRemovedImages] = useState([]);
+  // form data handled not by RHF
   const [mainImagePreview, setMainImagePreview] = useState(null);
   const [additionalImagesPreviews, setAdditionalImagesPreviews] = useState([]);
 
   const mainImageRef = useRef(null);
   const additionalImagesRef = useRef(null);
 
-  // --------------------
-  // Sizes (NOT RHF)
-  // --------------------
   const [sizeValues, setSizeValues] = useState(DEFAULT_SIZES);
-  const [sizeErrorMsg, setSizeErrorMsg] = useState("");
 
   // --------------------
   // RHF
@@ -115,122 +105,150 @@ export default function EditProductForm({ initialData, onSubmit }) {
       ...DEFAULT_FORM_VALUES,
       ...initialData,
     });
-
+    console.warn("initial data : ");
+    console.log(initialData);
     if (initialData.sizes) {
       setSizeValues(initialData.sizes);
     }
     if (initialData.mainImage) {
-      setMainImage({
+      setMainImagePreview({
+        preview: returnImgUrl(initialData.mainImage),
         file: null,
-        preview: initialData.mainImage,
-        fromApi: initialData.mainImage,
       });
     }
 
     if (initialData.additionalImages?.length) {
-      setAdditionalImages(
-        initialData.additionalImages.map((img) => ({
-          file: null,
-          preview: img,
-          fromApi: img,
-        })),
-      );
+      const previews = initialData.additionalImages.map((img) => ({
+        preview: returnImgUrl(img.url),
+        file: null,
+      }));
+
+      setAdditionalImagesPreviews(previews);
     }
   }, [initialData, categories.length, form]);
+  useEffect(() => {
+    console.warn(" additional Images previews are ");
+    console.log(additionalImagesPreviews);
+  }, [additionalImagesPreviews]);
 
-  // --------------------
-  // Sizes change
-  // --------------------
   const handleSizeChange = (size, value) => {
     setSizeValues((prev) => ({
       ...prev,
-      [size]: Number(value),
+      [size]: value === "" ? "" : Number(value),
     }));
   };
 
-  // --------------------
-  // Additional images
-  // --------------------
+  const handleMainImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setMainImagePreview({ preview: URL.createObjectURL(file), file });
+  };
+
   const handleAdditionalImagesChange = (e) => {
     const files = Array.from(e.target.files);
 
-    const newFiles = files.filter(
-      (file) =>
-        !additionalImages.some(
-          (f) => f.name === file.name && f.size === file.size,
-        ),
-    );
+    setAdditionalImagesPreviews((prev) => {
+      const existing = prev;
 
-    const previews = newFiles.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }));
+      const newFiles = files.filter(
+        (file) =>
+          !existing.some(
+            (img) =>
+              img.file &&
+              img.file.name === file.name &&
+              img.file.size === file.size,
+          ),
+      );
 
-    const updatedFiles = [...additionalImages, ...newFiles];
-    const updatedPreviews = [...additionalImagesPreviews, ...previews];
+      const newPreviews = newFiles.map((file) => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
 
-    setAdditionalImages(updatedFiles);
-    setAdditionalImagesPreviews(updatedPreviews);
-
-    // sync input element
-    const dt = new DataTransfer();
-    updatedFiles.forEach((f) => dt.items.add(f));
-    additionalImagesRef.current.files = dt.files;
+      return [...existing, ...newPreviews];
+    });
   };
 
-  // --------------------
-  // Remove image
-  // --------------------
-  const handleRemoveImage = (img) => {
-    // Main
-    if (img === mainImage) {
-      URL.revokeObjectURL(mainImagePreview);
-      setMainImage(null);
+  const handleRemoveImage = (img, type = "mainImage") => {
+    const isObjectUrl = img.preview?.startsWith("blob:");
+
+    if (type === "mainImage") {
+      if (img.file === null) {
+        setRemovedImages((prev) => [...prev, img.preview]);
+      }
+
+      if (isObjectUrl) {
+        URL.revokeObjectURL(img.preview);
+      }
+
       setMainImagePreview(null);
-      mainImageRef.current.value = "";
       return;
     }
 
-    // Additional
-    URL.revokeObjectURL(img.preview);
-    const files = additionalImages.filter((f) => f !== img.file);
-    const previews = additionalImagesPreviews.filter(
-      (p) => p.preview !== img.preview,
-    );
+    if (type === "additionalImage") {
+      if (img.file === null) {
+        setRemovedImages((prev) => [...prev, img.preview]);
+      }
 
-    setAdditionalImages(files);
-    setAdditionalImagesPreviews(previews);
+      setAdditionalImagesPreviews((prev) =>
+        prev.filter((ai) => ai.preview !== img.preview),
+      );
 
-    const dt = new DataTransfer();
-    files.forEach((f) => dt.items.add(f));
-    additionalImagesRef.current.files = dt.files;
+      if (isObjectUrl) {
+        URL.revokeObjectURL(img.preview);
+      }
+    }
   };
 
-  // --------------------
-  // Submit
-  // --------------------
   const handleFormSubmit = (values) => {
-    setSizeErrorMsg("");
-
+    setFormErrors({
+      mainImage: null,
+      additionalImages: null,
+      size: null,
+    });
     if (!Object.values(sizeValues).some((q) => q > 0)) {
-      setSizeErrorMsg("At least one size must have quantity > 0");
+      setFormErrors((prev) => ({
+        ...prev,
+        size: "At least one size must have quantity > 0",
+      }));
+      return;
+    }
+    if (!mainImagePreview) {
+      setFormErrors((prev) => ({
+        ...prev,
+        mainImage: "The main image is Required!",
+      }));
+      return;
+    }
+    if (!additionalImagesPreviews || additionalImagesPreviews.length !== 3) {
+      setFormErrors((prev) => ({
+        ...prev,
+        additionalImages: "It Should be 3 additional images!",
+      }));
       return;
     }
 
-    const formData = new FormData();
-    formData.append("sizes", JSON.stringify(sizeValues));
-
-    Object.entries(values).forEach(([k, v]) => formData.append(k, v));
-
-    if (mainImage) formData.append("mainImage", mainImage);
-    additionalImages.forEach((f) => formData.append("additionalImages", f));
-
-    onSubmit(formData);
+    const mainImg = mainImagePreview.file ? mainImagePreview.file : undefined;
+    const additionalImgs = additionalImagesPreviews
+      .filter((ai) => ai.file !== null)
+      .map((ai) => ai.file);
+    const data = buildProductFormData(
+      values,
+      sizeValues,
+      mainImg,
+      additionalImgs,
+      removedImages,
+    );
+    for (let [key, value] of data.entries()) {
+      if (value instanceof File) {
+        console.log(key, "FILE:", value.name, value.size, value.type);
+      } else {
+        console.log(key, value);
+      }
+    }
+    onSubmit(data);
   };
 
-  // --------------------
-  // JSX
-  // --------------------
   return (
     <Form {...form}>
       <form
@@ -327,7 +345,7 @@ export default function EditProductForm({ initialData, onSubmit }) {
         <SizeSelector
           sizeValues={sizeValues}
           handleSizeChange={handleSizeChange}
-          sizeErrorMsg={sizeErrorMsg}
+          sizeErrorMsg={formErrors.size ?? ""}
         />
 
         {/* Price */}
@@ -347,27 +365,28 @@ export default function EditProductForm({ initialData, onSubmit }) {
 
         {/* Main image */}
         <div>
+          <p>Main Image</p>
           <Input
             ref={mainImageRef}
             type="file"
             accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (!file) return;
-              setMainImage(file);
-              setMainImagePreview(URL.createObjectURL(file));
-            }}
+            onChange={(e) => handleMainImageChange(e)}
           />
+          <span className="text-red-500 text-sm font-medium">
+            {formErrors.mainImage}
+          </span>
           {mainImagePreview && (
             <ProductImagePreview
-              imageUrl={mainImagePreview}
-              onRemove={() => handleRemoveImage(mainImage)}
+              imageUrl={mainImagePreview?.preview}
+              onRemove={() => handleRemoveImage(mainImagePreview)}
             />
           )}
         </div>
 
         {/* Additional images */}
         <div>
+          <p>Additional Images</p>
+
           <Input
             ref={additionalImagesRef}
             type="file"
@@ -375,12 +394,15 @@ export default function EditProductForm({ initialData, onSubmit }) {
             accept="image/*"
             onChange={handleAdditionalImagesChange}
           />
+          <span className="text-red-500 text-sm font-medium">
+            {formErrors.additionalImages}
+          </span>
           <div className="grid grid-cols-4 gap-4">
-            {additionalImagesPreviews.map((img) => (
+            {additionalImagesPreviews.map((img, ind) => (
               <ProductImagePreview
-                key={img.preview}
-                imageUrl={img.preview}
-                onRemove={() => handleRemoveImage(img)}
+                key={ind}
+                imageUrl={img?.preview}
+                onRemove={() => handleRemoveImage(img, "additionalImage")}
               />
             ))}
           </div>

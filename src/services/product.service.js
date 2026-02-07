@@ -1,3 +1,4 @@
+import { buildApiResponse } from "@/lib/utils";
 import api from "@/services/axios";
 export const getProducts = async () => {
   try {
@@ -75,5 +76,21 @@ export const createProduct = async (payload) => {
     console.log("error adding   product");
     console.log(e);
     return e.response.data;
+  }
+};
+export const updateProduct = async (productId, payload) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user?.accessToken;
+    const result = await api.put(`/products/${productId}`, payload, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.error("h");
+    console.log(result.data);
+    return result.data;
+  } catch (e) {
+    return buildApiResponse(false, e?.message || "Couldn't update product");
   }
 };

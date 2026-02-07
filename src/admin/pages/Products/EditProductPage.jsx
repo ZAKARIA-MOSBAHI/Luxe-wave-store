@@ -1,16 +1,25 @@
 import { DashboardLayout } from "@/admin/components/layout/DashboardLayout";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getProductById } from "@/services/product.service";
 import EditProductForm from "@/admin/components/forms/EditProductForm";
+import { useProduct } from "@/hooks/useProduct";
+import { useProducts } from "@/hooks/useProducts";
+import { toast } from "sonner";
 
 export default function EditProductPage() {
   const { productId } = useParams();
-  const ProductsState = useSelector((state) => state.products);
-
+  const { product } = useProduct(productId);
+  const { editProduct } = useProducts();
   const [initialData, setInitialData] = useState(null);
 
+  const handleSubmit = async (formData) => {
+    const response = await editProduct(productId, formData);
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
   useEffect(() => {
     const buildInitialData = (product) => ({
       name: product?.name ?? "",
@@ -20,34 +29,13 @@ export default function EditProductPage() {
       gender: product?.gender ?? "",
       badge: product?.badge ?? "",
       sizes: product?.sizes ?? [],
-      mainImage: undefined, // file only on submit
-      additionalImages: [], // file only on submit
+      mainImage: product?.mainImage?.url,
+      additionalImages: product?.additionalImages,
     });
-
-    const fetchProduct = async () => {
-      // 1️⃣ Try Redux first
-      if (ProductsState.products?.length > 0) {
-        const foundProduct = ProductsState.products.find(
-          (item) => item._id === productId,
-        );
-
-        if (foundProduct) {
-          setInitialData(buildInitialData(foundProduct));
-          return;
-        }
-      }
-
-      // 2️⃣ Fallback to API
-      const result = await getProductById(productId);
-      if (result?.success) {
-        setInitialData(buildInitialData(result.product));
-      }
-    };
-
-    if (productId) {
-      fetchProduct();
+    if (product) {
+      setInitialData(buildInitialData(product));
     }
-  }, [productId, ProductsState.products]);
+  }, [productId, product]);
 
   return (
     <DashboardLayout>
@@ -56,7 +44,9 @@ export default function EditProductPage() {
         Modify the product details and save your changes.
       </p>
 
-      {initialData && <EditProductForm initialData={initialData} />}
+      {initialData && (
+        <EditProductForm initialData={initialData} onSubmit={handleSubmit} />
+      )}
     </DashboardLayout>
   );
 }

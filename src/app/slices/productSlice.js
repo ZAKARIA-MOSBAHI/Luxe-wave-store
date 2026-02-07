@@ -44,6 +44,7 @@ const productsSlice = createSlice({
           filtered = [...filtered].sort((a, b) => b.price - a.price);
         }
       }
+
       if (size !== null) {
         filtered = filtered.filter((product) =>
           Object.keys(product.sizes).includes(size),
@@ -51,6 +52,36 @@ const productsSlice = createSlice({
       }
 
       state.filteredProducts = filtered;
+    },
+
+    addProduct: (state, action) => {
+      state.products.push(action.payload);
+      state.filteredProducts.push(action.payload);
+    },
+
+    updateProduct: (state, action) => {
+      const updatedProduct = action.payload;
+      const index = state.products.findIndex(
+        (p) => p._id === updatedProduct._id,
+      );
+      if (index !== -1) {
+        state.products[index] = updatedProduct;
+      }
+
+      const filteredIndex = state.filteredProducts.findIndex(
+        (p) => p._id === updatedProduct._id,
+      );
+      if (filteredIndex !== -1) {
+        state.filteredProducts[filteredIndex] = updatedProduct;
+      }
+    },
+
+    deleteProduct: (state, action) => {
+      const id = action.payload;
+      state.products = state.products.filter((p) => p._id !== id);
+      state.filteredProducts = state.filteredProducts.filter(
+        (p) => p._id !== id,
+      );
     },
   },
 });
@@ -61,4 +92,7 @@ export const {
   setFilterOptions,
   filterProducts,
   setFilteredProducts,
+  addProduct,
+  updateProduct,
+  deleteProduct,
 } = productsSlice.actions;

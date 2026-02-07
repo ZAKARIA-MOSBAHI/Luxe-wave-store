@@ -5,7 +5,7 @@ import { useProducts } from "@/hooks/useProducts";
 import SectionTitle from "@/components/SectionTitle";
 const Collections = () => {
   const { setShowFilterMenu } = useFilterMenu();
-  const ProductsState = useProducts();
+  const { filteredProducts } = useProducts();
 
   return (
     <section className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 mb-8  relative max-w-[1152px] w-full mx-auto">
@@ -24,7 +24,7 @@ const Collections = () => {
           </button>
         </div>
 
-        <ProductsList filteredProducts={ProductsState.filteredProducts} />
+        <ProductsList filteredProducts={filteredProducts} />
       </div>
     </section>
   );

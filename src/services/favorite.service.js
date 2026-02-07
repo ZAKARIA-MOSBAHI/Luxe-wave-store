@@ -9,6 +9,7 @@ export const getClientFavoriteProducts = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
     return result.data;
   } catch (e) {
     return buildApiResponse(

@@ -1,9 +1,5 @@
 import { FILTER_OPTIONS } from "@/constants/constants";
 import { z } from "zod";
-import {
-  validateAdditionalImages,
-  validateMainImage,
-} from "../imageValidators";
 
 export const productSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -24,48 +20,49 @@ export const productSchema = z.object({
     .min(3, { message: "Badge must be at least 3 characters." })
     .optional()
     .default(null),
-  mainImage: z
-    .union([z.instanceof(File), z.string()])
-    .optional()
-    .superRefine((value, ctx) => {
-      // Edit mode → existing image path
-      if (typeof value === "string") return;
+  // the images will be validated in the component
+  // mainImage: z
+  //   .union([z.instanceof(File), z.string()])
+  //   .optional()
+  //   .superRefine((value, ctx) => {
+  //     // Edit mode → existing image path
+  //     if (typeof value === "string") return;
 
-      // Create / replaced image
-      if (!(value instanceof File)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Main image is required.",
-        });
-        return;
-      }
+  //     // Create / replaced image
+  //     if (!(value instanceof File)) {
+  //       ctx.addIssue({
+  //         code: z.ZodIssueCode.custom,
+  //         message: "Main image is required.",
+  //       });
+  //       return;
+  //     }
 
-      const result = validateMainImage(value);
-      if (!result.valid) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: result.message,
-        });
-      }
-    }),
+  //     const result = validateMainImage(value);
+  //     if (!result.valid) {
+  //       ctx.addIssue({
+  //         code: z.ZodIssueCode.custom,
+  //         message: result.message,
+  //       });
+  //     }
+  //   }),
 
-  additionalImages: z
-    .array(z.union([z.instanceof(File), z.string()]))
-    .optional()
-    .superRefine((files, ctx) => {
-      if (!files || files.length === 0) return;
+  // additionalImages: z
+  //   .array(z.union([z.instanceof(File), z.string()]))
+  //   .optional()
+  //   .superRefine((files, ctx) => {
+  //     if (!files || files.length === 0) return;
 
-      const newFiles = files.filter((f) => f instanceof File);
+  //     const newFiles = files.filter((f) => f instanceof File);
 
-      // Only validate files user changed
-      if (newFiles.length > 0) {
-        const result = validateAdditionalImages(newFiles);
-        if (!result.valid) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: result.message,
-          });
-        }
-      }
-    }),
+  //     // Only validate files user changed
+  //     if (newFiles.length > 0) {
+  //       const result = validateAdditionalImages(newFiles);
+  //       if (!result.valid) {
+  //         ctx.addIssue({
+  //           code: z.ZodIssueCode.custom,
+  //           message: result.message,
+  //         });
+  //       }
+  //     }
+  //   }),
 });
