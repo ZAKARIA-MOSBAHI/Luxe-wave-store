@@ -3,12 +3,12 @@ import { toast } from "sonner";
 import { useUserCart } from "@/hooks/useUserCart";
 
 export default function QuantityCounter({ product }) {
-  const { AddToCart, DecrementItemQuantity } = useUserCart();
+  const { addToCart, DecrementItemQuantity } = useUserCart();
 
   const handleIncrement = async () => {
     try {
       const productId = product?.productId._id;
-      const response = await AddToCart(productId, product?.itemSize);
+      const response = await addToCart(productId, product?.itemSize);
       if (!response.success) {
         toast.error(response?.message);
       }

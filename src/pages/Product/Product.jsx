@@ -15,7 +15,7 @@ export default function Product() {
   const { product, mainImg, setMainImg, isLoading, notFound } =
     useProduct(productId);
   const { products } = useProducts();
-  const { AddToCart } = useUserCart();
+  const { addToCart } = useUserCart();
 
   const [sizeChoosen, setSizeChoosen] = useState("");
 
@@ -24,7 +24,7 @@ export default function Product() {
 
   const handleClick = async () => {
     if (sizeChoosen) {
-      const response = await AddToCart(productId, sizeChoosen);
+      const response = await addToCart(productId, sizeChoosen);
       if (response.success) {
         setErr("");
         toast.success("Product added to cart");
