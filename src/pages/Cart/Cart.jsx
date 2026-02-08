@@ -1,10 +1,10 @@
 import CartItem from "./components/CartItem";
 import OrderSummary from "./components/OrderSummary";
 
-import { useCart } from "@/hooks/useCart";
+import { useUserCart } from "@/hooks/useUserCart";
 
 function Cart() {
-  const { cart } = useCart();
+  const { cart } = useUserCart();
 
   return (
     <section>

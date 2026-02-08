@@ -25,12 +25,12 @@ import useDebounce from "@/hooks/useDebounce";
 import { NavLinks } from "@/constants/NavLinks";
 import { useSearch } from "@/context/SearchContext";
 import MobileNavbar from "../MobileNavbar";
-import { useCart } from "@/hooks/useCart";
+import { useUserCart } from "@/hooks/useUserCart";
 
 function Navbar({ isMobileNavOpen, setIsMobileNavOpen }) {
   const { logo } = assets;
   const [hideLogo, setHideLogo] = useState(false);
-  const { cart } = useCart();
+  const { cart } = useUserCart();
   const navigate = useNavigate();
   const { showSearch, searchQuery, searchProduct, setSearchResults } =
     useSearch();

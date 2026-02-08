@@ -6,7 +6,7 @@ import ProductInfo from "./components/ProductInfo";
 import ProductsCollection from "../Home/components/ProductsCollection";
 import ErrorPage from "../ErrorPage";
 import { toast } from "sonner";
-import { useCart } from "@/hooks/useCart";
+import { useUserCart } from "@/hooks/useUserCart";
 import { useProduct } from "@/hooks/useProduct";
 import { useProducts } from "@/hooks/useProducts";
 
@@ -15,7 +15,7 @@ export default function Product() {
   const { product, mainImg, setMainImg, isLoading, notFound } =
     useProduct(productId);
   const { products } = useProducts();
-  const { AddToCart } = useCart();
+  const { AddToCart } = useUserCart();
 
   const [sizeChoosen, setSizeChoosen] = useState("");
 

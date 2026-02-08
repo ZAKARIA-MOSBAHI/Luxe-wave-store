@@ -5,6 +5,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// Add token to headers
 api.interceptors.request.use(
   (config) => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -17,6 +18,26 @@ api.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error),
+);
+
+// Response interceptor to handle token expiration
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.data?.name === "accessTokenExpired") {
+      console.log("Token expired, handle refresh or logout");
+
+      // Example actions:
+      // Try to refresh token (call refresh API)
+      // Or clear user and redirect to login
+      localStorage.removeItem("user");
+      window.location.href = "/login"; // redirect user to login
+
+      return Promise.reject(error);
+    }
+
+    return Promise.reject(error);
+  },
 );
 
 export default api;

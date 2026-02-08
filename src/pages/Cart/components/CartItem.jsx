@@ -3,12 +3,12 @@ import SelectMenu from "./SelectMenu";
 
 import { returnImgUrl } from "@/lib/utils";
 import { useAuth } from "@/context/AuthProvider";
-import { useCart } from "@/hooks/useCart";
+import { useUserCart } from "@/hooks/useUserCart";
 import { toast } from "sonner";
 
 export default function CartItem({ item }) {
   const { user } = useAuth();
-  const { DeleteItem } = useCart();
+  const { DeleteItem } = useUserCart();
   const handleDelete = async () => {
     const productId = item?.productId._id;
     const response = await DeleteItem(productId, item?.itemSize);

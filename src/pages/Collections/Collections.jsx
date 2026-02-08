@@ -3,7 +3,15 @@ import ProductsList from "./components/ProductsList";
 import { SlidersHorizontal } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
 import SectionTitle from "@/components/SectionTitle";
+import { useLocation } from "react-router-dom";
 const Collections = () => {
+  const location = useLocation();
+  console.warn("location ");
+  console.log(location);
+
+  const queryParams = new URLSearchParams(location.search);
+  console.warn("queryParams ");
+  console.log(queryParams);
   const { setShowFilterMenu } = useFilterMenu();
   const { filteredProducts } = useProducts();
 

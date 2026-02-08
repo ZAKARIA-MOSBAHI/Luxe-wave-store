@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useCart } from "@/hooks/useCart";
+import { useUserCart } from "@/hooks/useUserCart";
 
 export default function SelectMenu({ product }) {
-  const { UpdateItemSize } = useCart();
+  const { UpdateItemSize } = useUserCart();
   const [selected, setSelected] = useState(product?.itemSize);
   const [isopen, setIsOpen] = useState(false);
   const [optionList, setOptionList] = useState(product?.productId?.sizes);

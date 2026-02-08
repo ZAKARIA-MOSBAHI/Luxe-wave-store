@@ -12,6 +12,7 @@ export const getClientFavoriteProducts = async () => {
 
     return result.data;
   } catch (e) {
+    console.warn(e?.response?.data?.message);
     return buildApiResponse(
       false,
       e?.response?.data?.message || "Couldn't Get User Favorite Products",

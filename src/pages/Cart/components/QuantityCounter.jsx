@@ -1,9 +1,9 @@
 import { Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
-import { useCart } from "@/hooks/useCart";
+import { useUserCart } from "@/hooks/useUserCart";
 
 export default function QuantityCounter({ product }) {
-  const { AddToCart, DecrementItemQuantity } = useCart();
+  const { AddToCart, DecrementItemQuantity } = useUserCart();
 
   const handleIncrement = async () => {
     try {

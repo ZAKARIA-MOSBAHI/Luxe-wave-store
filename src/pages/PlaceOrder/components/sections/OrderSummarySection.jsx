@@ -1,8 +1,8 @@
 import OrderItem from "../OrderItem";
-import { useCart } from "@/hooks/useCart";
+import { useUserCart } from "@/hooks/useUserCart";
 
 export default function OrderSummarySection() {
-  const { cart } = useCart();
+  const { cart } = useUserCart();
 
   return (
     <div className="order-1 md:order-2 bg-[#F1F4F9] p-8 w-full">
