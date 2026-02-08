@@ -34,7 +34,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Badge } from "@/components/ui/Badge";
-import { CategoryForm } from "../components/forms/CategoryForm";
 import {
   FolderPlus,
   Search,
@@ -45,10 +44,11 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useCategories } from "@/hooks/useCategories";
+import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
+  const navigate = useNavigate();
   const { searchCategories, filteredCategories } = useCategories();
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleSearch = (value) => {
     searchCategories(value);
@@ -63,28 +63,11 @@ const Categories = () => {
       <div className="flex flex-col gap-4 md:gap-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="text-3xl font-bold">Categories</h1>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <FolderPlus className="h-4 w-4 mr-2" />
-                Add Category
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
-              <DialogHeader>
-                <DialogTitle>Add New Category</DialogTitle>
-                <DialogDescription>
-                  Create a new category to organize your products.
-                </DialogDescription>
-              </DialogHeader>
-              <CategoryForm
-                onSubmit={() => {
-                  toast.success("Category added successfully");
-                  setDialogOpen(false);
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+
+          <Button onClick={() => navigate("/admin/categories/add")}>
+            <FolderPlus className="h-4 w-4 mr-2" />
+            Add Category
+          </Button>
         </div>
 
         <Card>
@@ -120,7 +103,7 @@ const Categories = () => {
                 <TableBody>
                   {filteredCategories?.length > 0 ? (
                     filteredCategories?.map((category) => (
-                      <TableRow key={category.id}>
+                      <TableRow key={category._id}>
                         <TableCell className="font-medium">
                           {category.name}
                         </TableCell>
@@ -143,7 +126,13 @@ const Categories = () => {
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
                               <DropdownMenuSeparator />
-                              <DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  navigate(
+                                    `/admin/categories/${category._id}/edit`,
+                                  )
+                                }
+                              >
                                 <Pencil className="mr-2 h-4 w-4" />
                                 Edit
                               </DropdownMenuItem>

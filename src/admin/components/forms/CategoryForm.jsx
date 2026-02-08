@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import {
   Form,
@@ -13,40 +13,43 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { toast } from "sonner";
-import { DialogClose } from "@/components/ui/Dialog";
-import { categorySchema } from "../../../lib/schemas/category.schema";
+import { categorySchema } from "@/lib/schemas/category.schema";
+
+const DEFAULT_VALUES = { name: "", slug: "" };
+
 export function CategoryForm({ initialData, onSubmit }) {
   const form = useForm({
     resolver: zodResolver(categorySchema),
-    defaultValues: initialData || {
-      name: "",
-      slug: "",
-    },
+    defaultValues: initialData || DEFAULT_VALUES,
   });
 
-  const handleNameChange = (e) => {
-    const name = e.target.value;
-    form.setValue("name", name);
+  const [originalValues, setOriginalValues] = useState(
+    initialData || DEFAULT_VALUES,
+  );
 
-    // Only auto-generate slug if it's empty or matches previous auto-generated slug
-    if (
-      !form.getValues("slug") ||
-      form.getValues("slug") ===
-        form.getValues("name").toLowerCase().replace(/\s+/g, "-")
-    ) {
-      const slug = name.toLowerCase().replace(/\s+/g, "-");
-      form.setValue("slug", slug);
+  // Update form and originalValues if initialData changes
+  useEffect(() => {
+    if (initialData) {
+      form.reset(initialData);
+      setOriginalValues(initialData);
     }
+  }, [initialData, form]);
+
+  // Detect if anything has actually changed
+  const hasCategoryChanges = () => {
+    const currentValues = form.getValues();
+    return Object.keys(DEFAULT_VALUES).some(
+      (key) => currentValues[key] !== originalValues[key],
+    );
   };
 
   const handleSubmit = (values) => {
-    if (onSubmit) {
-      onSubmit(values);
-    } else {
-      // For demo purposes, show a success toast
-      toast.success("Category saved successfully!");
-      console.log("Category form values:", values);
+    if (initialData && !hasCategoryChanges()) {
+      toast.error("No changes detected!");
+      return;
     }
+
+    onSubmit(values);
   };
 
   return (
@@ -64,7 +67,6 @@ export function CategoryForm({ initialData, onSubmit }) {
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
-                    handleNameChange(e);
                   }}
                 />
               </FormControl>
@@ -80,7 +82,13 @@ export function CategoryForm({ initialData, onSubmit }) {
             <FormItem>
               <FormLabel>Slug</FormLabel>
               <FormControl>
-                <Input placeholder="Enter category slug" {...field} />
+                <Input
+                  placeholder="Enter category slug"
+                  onChange={(e) => {
+                    field.onChange(e);
+                  }}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 The slug is used in the URL for this category
@@ -91,10 +99,6 @@ export function CategoryForm({ initialData, onSubmit }) {
         />
 
         <div className="flex justify-end space-x-4">
-          {/* since the form will be inside a dialog context  */}
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
           <Button type="submit">Save Category</Button>
         </div>
       </form>

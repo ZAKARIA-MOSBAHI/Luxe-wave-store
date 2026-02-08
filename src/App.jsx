@@ -41,6 +41,12 @@ const EditProductPage = lazy(
 const AdminNotificationsPage = lazy(
   () => import("./admin/pages/AdminNotificationsPage"),
 );
+const AddCategoryPage = lazy(
+  () => import("./admin/pages/Categories/AddCategoryPage"),
+);
+const EditCategoryPage = lazy(
+  () => import("./admin/pages/Categories/EditCategoryPage"),
+);
 
 function App() {
   const { showSearch } = useContext(SearchContext);
@@ -171,6 +177,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EditProductPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/categories/add"
+              element={
+                <ProtectedRoute>
+                  <AddCategoryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/categories/:categoryId/edit"
+              element={
+                <ProtectedRoute>
+                  <EditCategoryPage />
                 </ProtectedRoute>
               }
             />

@@ -14,6 +14,7 @@ import {
   createCategory,
   updateCategory,
   deleteCategory,
+  getCategoryById,
 } from "@/services/category.service";
 
 export const useCategories = () => {
@@ -67,6 +68,16 @@ export const useCategories = () => {
     return result;
   };
 
+  const fetchCategoryById = async (id) => {
+    const categoryFromStore = categories?.find((c) => c._id === id);
+    if (categoryFromStore) {
+      return { success: true, category: categoryFromStore };
+    }
+
+    const result = await getCategoryById(id);
+    return result;
+  };
+
   const searchCategories = (searchTerm) => {
     dispatch(filterCategoriesBySlug(searchTerm));
   };
@@ -85,7 +96,7 @@ export const useCategories = () => {
     addCategory,
     editCategory,
     removeCategory,
-
+    fetchCategoryById,
     searchCategories,
   };
 };

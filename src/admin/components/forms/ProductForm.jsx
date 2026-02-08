@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/Button";
 import {
@@ -21,9 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/Select";
-
-import { setCategories } from "@/app/slices/categorySlice";
-import { getCategories } from "@/services/category.service";
 
 import { productSchema } from "@/lib/schemas/product.schema";
 import SizeSelector from "./SizeSelector";
@@ -56,8 +52,6 @@ export default function ProductForm({ initialData, onSubmit }) {
     additionalImages: null,
     size: null,
   });
-  const dispatch = useDispatch();
-  const { status } = useSelector((state) => state.products);
   const { categories } = useCategories();
   // to send api the images that should be deleted from the api
   const [removedImages, setRemovedImages] = useState([]);
@@ -74,43 +68,6 @@ export default function ProductForm({ initialData, onSubmit }) {
     resolver: zodResolver(productSchema),
     defaultValues: DEFAULT_FORM_VALUES,
   });
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const result = await getCategories();
-      dispatch(setCategories(result));
-    };
-    fetchCategories();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!initialData || categories.length === 0) return;
-
-    form.reset({
-      ...DEFAULT_FORM_VALUES,
-      ...initialData,
-    });
-    console.warn("initial data : ");
-    console.log(initialData);
-    if (initialData.sizes) {
-      setSizeValues(initialData.sizes);
-    }
-    if (initialData.mainImage) {
-      setMainImagePreview({
-        preview: returnImgUrl(initialData.mainImage),
-        file: null,
-      });
-    }
-
-    if (initialData.additionalImages?.length) {
-      const previews = initialData.additionalImages.map((img) => ({
-        preview: returnImgUrl(img.url),
-        file: null,
-      }));
-
-      setAdditionalImagesPreviews(previews);
-    }
-  }, [initialData, categories.length, form]);
 
   const handleSizeChange = (size, value) => {
     setSizeValues((prev) => ({
@@ -272,6 +229,7 @@ export default function ProductForm({ initialData, onSubmit }) {
     }
     onSubmit(data);
   };
+
   useEffect(() => {
     return () => {
       // Revoke main image if it's a blob
@@ -287,6 +245,35 @@ export default function ProductForm({ initialData, onSubmit }) {
       });
     };
   }, [mainImagePreview, additionalImagesPreviews]);
+
+  useEffect(() => {
+    if (!initialData || !categories) return;
+
+    form.reset({
+      ...DEFAULT_FORM_VALUES,
+      ...initialData,
+    });
+    console.warn("initial data : ");
+    console.log(initialData);
+    if (initialData.sizes) {
+      setSizeValues(initialData.sizes);
+    }
+    if (initialData.mainImage) {
+      setMainImagePreview({
+        preview: returnImgUrl(initialData.mainImage),
+        file: null,
+      });
+    }
+
+    if (initialData.additionalImages?.length) {
+      const previews = initialData.additionalImages.map((img) => ({
+        preview: returnImgUrl(img.url),
+        file: null,
+      }));
+
+      setAdditionalImagesPreviews(previews);
+    }
+  }, [initialData, categories, form]);
   return (
     <Form {...form}>
       <form
@@ -328,12 +315,12 @@ export default function ProductForm({ initialData, onSubmit }) {
           {["categoryId", "gender", "badge"].map((name) => {
             const options =
               name === "categoryId"
-                ? categories.map((c) => ({
+                ? categories?.map((c) => ({
                     label: c.name,
                     value: c._id,
                   }))
                 : name === "gender"
-                  ? FILTER_OPTIONS.gender.map((g) => ({
+                  ? FILTER_OPTIONS.gender?.map((g) => ({
                       label: g,
                       value: g,
                     }))
@@ -367,7 +354,7 @@ export default function ProductForm({ initialData, onSubmit }) {
                           />
                         </SelectTrigger>
                         <SelectContent>
-                          {options.map((o) => (
+                          {options?.map((o) => (
                             <SelectItem key={o.value} value={o.value}>
                               {o.label}
                             </SelectItem>
@@ -452,9 +439,7 @@ export default function ProductForm({ initialData, onSubmit }) {
 
         {/* Actions */}
         <div className="flex justify-end gap-4">
-          <Button type="submit" disabled={status === "loading"}>
-            {status === "loading" ? "Saving..." : "Save Product"}
-          </Button>
+          <Button type="submit">Save Product</Button>
         </div>
       </form>
     </Form>
