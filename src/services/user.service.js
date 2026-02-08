@@ -1,3 +1,4 @@
+import { buildApiResponse } from "@/lib/utils";
 import api from "@/services/axios";
 
 export const signup = async (payload, setUser) => {
@@ -13,10 +14,11 @@ export const signup = async (payload, setUser) => {
     setUser(response.data.user);
 
     return { success: true };
-  } catch (error) {
-    console.log("error data is ", error);
-    // error structure => error : {response : {data : {field , success , message } }}
-    return error;
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't create account!",
+    );
   }
 };
 export const login = async (payload, setUser) => {
@@ -38,18 +40,11 @@ export const login = async (payload, setUser) => {
     setUser(response.data.user);
     // refresh token shouldn't be in local storage
     return { success: true };
-  } catch (error) {
-    console.log("api error : ", error);
-    if (error.response.data) {
-      return {
-        success: false,
-        message: error.response.data.message,
-      };
-    } else {
-      return {
-        message: "Failed to login",
-      };
-    }
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't Login!",
+    );
   }
 };
 export const fetchLoggingUser = async (setUser) => {
@@ -73,14 +68,11 @@ export const fetchLoggingUser = async (setUser) => {
     });
 
     return { accessToken, ...response.data };
-  } catch (error) {
-    const backendErrorName = error.response?.data?.name;
-
-    if (backendErrorName === "accessTokenExpired") {
-      console.warn("Access token expired. You need to login again...");
-      localStorage.removeItem("user");
-      setUser(null);
-    }
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get account informations!",
+    );
   }
 };
 export const getUsers = async () => {
@@ -94,15 +86,11 @@ export const getUsers = async () => {
     });
     console.log("response", response.data);
     return response.data;
-  } catch (error) {
-    console.log("error", error);
-    if (error.response.data) {
-      return error.response.data;
-    } else {
-      return {
-        message: "Failed to get users",
-      };
-    }
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get users!",
+    );
   }
 };
 export const updateUser = async (payload, setUser) => {
@@ -123,13 +111,10 @@ export const updateUser = async (payload, setUser) => {
     setUser(response.data.user);
 
     return { success: true, user: response.data.user };
-  } catch (error) {
-    console.error("%c Update user error:", "color: red;", error);
-    return (
-      error.response?.data || {
-        success: false,
-        message: "Failed to update user",
-      }
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't update account informations!",
     );
   }
 };

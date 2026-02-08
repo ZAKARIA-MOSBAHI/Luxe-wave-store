@@ -7,6 +7,8 @@ import {
   updateCategoryInStore,
   deleteCategoryFromStore,
   filterCategoriesBySlug,
+  incrementCategoryProductsCount,
+  decrementCategoryProductsCount,
 } from "@/app/slices/categorySlice";
 
 import {
@@ -40,7 +42,8 @@ export const useCategories = () => {
 
   const addCategory = async (payload) => {
     const result = await createCategory(payload);
-
+    console.warn("result ");
+    console.log(result);
     if (result.success) {
       dispatch(addCategoryToStore(result.category));
     }
@@ -81,6 +84,11 @@ export const useCategories = () => {
   const searchCategories = (searchTerm) => {
     dispatch(filterCategoriesBySlug(searchTerm));
   };
+  const incrementProductsCount = (catId) =>
+    dispatch(incrementCategoryProductsCount(catId));
+
+  const decrementProductsCount = (catId) =>
+    dispatch(decrementCategoryProductsCount(catId));
 
   useEffect(() => {
     if (categories === null) {
@@ -98,5 +106,7 @@ export const useCategories = () => {
     removeCategory,
     fetchCategoryById,
     searchCategories,
+    incrementProductsCount,
+    decrementProductsCount,
   };
 };

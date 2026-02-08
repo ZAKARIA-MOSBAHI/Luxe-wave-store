@@ -28,11 +28,15 @@ const categorySlice = createSlice({
       const updated = action.payload;
 
       state.categories = state.categories.map((cat) =>
-        cat._id === updated._id ? updated : cat,
+        cat._id === updated._id
+          ? { ...cat, name: updated.name, slug: updated.slug }
+          : cat,
       );
 
       state.filteredCategories = state.filteredCategories?.map((cat) =>
-        cat._id === updated._id ? updated : cat,
+        cat._id === updated._id
+          ? { ...cat, name: updated.name, slug: updated.slug }
+          : cat,
       );
     },
 
@@ -57,6 +61,39 @@ const categorySlice = createSlice({
         cat.slug.toLowerCase().includes(searchTerm),
       );
     },
+    incrementCategoryProductsCount: (state, action) => {
+      if (!state.categories) return;
+
+      const categoryId = action.payload;
+
+      const increment = (cat) =>
+        cat._id === categoryId
+          ? {
+              ...cat,
+              productsCount: (cat.productsCount ?? 0) + 1,
+            }
+          : cat;
+
+      state.categories = state.categories.map(increment);
+      state.filteredCategories = state.filteredCategories?.map(increment);
+    },
+
+    decrementCategoryProductsCount: (state, action) => {
+      if (!state.categories) return;
+
+      const categoryId = action.payload;
+
+      const decrement = (cat) =>
+        cat._id === categoryId
+          ? {
+              ...cat,
+              productsCount: Math.max((cat.productsCount ?? 1) - 1, 0),
+            }
+          : cat;
+
+      state.categories = state.categories.map(decrement);
+      state.filteredCategories = state.filteredCategories?.map(decrement);
+    },
   },
 });
 
@@ -68,4 +105,6 @@ export const {
   updateCategoryInStore,
   deleteCategoryFromStore,
   filterCategoriesBySlug,
+  incrementCategoryProductsCount,
+  decrementCategoryProductsCount,
 } = categorySlice.actions;

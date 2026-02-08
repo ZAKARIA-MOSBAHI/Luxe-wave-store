@@ -4,10 +4,14 @@ export const getProducts = async () => {
   try {
     const response = await api.get("/products/");
     return response.data;
-  } catch (error) {
-    return { success: false, message: error?.response?.message };
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get products!",
+    );
   }
 };
+// this not used
 export const getFilteredProducts = async (filterOptions) => {
   console.log("hello there from getFilteredProducts", filterOptions);
 
@@ -15,12 +19,11 @@ export const getFilteredProducts = async (filterOptions) => {
     const response = await api.post("/products/filter", filterOptions);
     console.log("📦 Response from backend:", response);
     return response.data;
-  } catch (error) {
-    console.error(
-      "🔥 Backend call failed:",
-      error.response?.data || error.message,
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get products!",
     );
-    throw error;
   }
 };
 
@@ -29,14 +32,11 @@ export const getProductById = async (productId) => {
     const response = await api.get(`/products/${productId}`);
 
     return response.data;
-  } catch (error) {
-    console.log("error is : ");
-    console.log(error.response.data);
-    if (error.response) {
-      return error.response.data.message;
-    } else {
-      return { success: false, message: "Failed to fetch product data" };
-    }
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get product!",
+    );
   }
 };
 
@@ -53,7 +53,10 @@ export const createProduct = async (payload) => {
 
     return result.data;
   } catch (e) {
-    return buildApiResponse(false, e?.message || "Couldn't create product!");
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't create product!",
+    );
   }
 };
 export const updateProduct = async (productId, payload) => {
@@ -69,7 +72,10 @@ export const updateProduct = async (productId, payload) => {
     console.log(result.data);
     return result.data;
   } catch (e) {
-    return buildApiResponse(false, e?.message || "Couldn't update product");
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't update product",
+    );
   }
 };
 export const deleteProductById = async (productId) => {
@@ -88,10 +94,10 @@ export const deleteProductById = async (productId) => {
     });
 
     return response.data;
-  } catch (error) {
+  } catch (e) {
     return buildApiResponse(
       false,
-      error?.message || "Failed to delete product data",
+      e?.response?.data?.message || "Failed to delete product data",
     );
   }
 };

@@ -21,8 +21,7 @@ export const useProducts = () => {
   );
   const editProduct = async (productId, formData) => {
     const response = await updateProduct(productId, formData);
-    console.warn("update response ");
-    console.log(response);
+
     if (response.success) {
       dispatch(updateProductInStore(response.updatedProduct));
     }
@@ -30,8 +29,7 @@ export const useProducts = () => {
   };
   const addProduct = async (formData) => {
     const response = await createProduct(formData);
-    console.warn("create response ");
-    console.log(response);
+
     if (response.success) {
       dispatch(addProductInStore(response.product));
     }
@@ -39,8 +37,7 @@ export const useProducts = () => {
   };
   const deleteProduct = async (productId) => {
     const response = await deleteProductById(productId);
-    console.warn("delete response ");
-    console.log(response);
+
     if (response.success) {
       dispatch(deleteProductFromStore(productId));
     }

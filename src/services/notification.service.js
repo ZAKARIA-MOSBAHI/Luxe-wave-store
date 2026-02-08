@@ -10,10 +10,10 @@ export const getNotifications = async (limit) => {
       },
     });
     return response.data;
-  } catch (error) {
+  } catch (e) {
     return buildApiResponse(
       false,
-      error?.message || "Couldn't get notifications!",
+      e?.response?.data?.message || "Couldn't get notifications!",
     );
   }
 };
@@ -33,8 +33,11 @@ export const markNotificationAsRead = async (notificationId) => {
     );
 
     return response.data;
-  } catch (error) {
-    return buildApiResponse(false, error?.message || "Something went wrong!");
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Something went wrong!",
+    );
   }
 };
 export const deleteNotification = async (notificationId) => {
@@ -47,7 +50,10 @@ export const deleteNotification = async (notificationId) => {
       },
     });
     return response.data;
-  } catch (error) {
-    return buildApiResponse(false, error?.message || "Something went wrong!");
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Something went wrong!",
+    );
   }
 };

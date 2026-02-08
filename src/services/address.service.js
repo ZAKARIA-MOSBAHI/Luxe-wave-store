@@ -19,7 +19,10 @@ export async function getClientAddress() {
 
     return response.data;
   } catch (e) {
-    return buildApiResponse(false, e?.message || "Something went wrong!");
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Something went wrong!",
+    );
   }
 }
 
@@ -40,6 +43,9 @@ export async function createClientAddress(payload) {
 
     return result.data;
   } catch (e) {
-    return buildApiResponse(false, e?.message || "Something went wrong!");
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't create address!",
+    );
   }
 }

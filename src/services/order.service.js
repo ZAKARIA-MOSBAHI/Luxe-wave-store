@@ -1,3 +1,4 @@
+import { buildApiResponse } from "@/lib/utils";
 import api from "@/services/axios";
 
 // CLIENT API CALLS
@@ -11,8 +12,11 @@ export const getClientOrders = async () => {
       },
     });
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get orders!",
+    );
   }
 };
 export const getClientOrderById = async (orderId) => {
@@ -25,8 +29,11 @@ export const getClientOrderById = async (orderId) => {
       },
     });
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get order!",
+    );
   }
 };
 export const createClientOrder = async () => {
@@ -43,8 +50,11 @@ export const createClientOrder = async () => {
       },
     );
     return response.data;
-  } catch (error) {
-    return error?.response?.data;
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't create order!",
+    );
   }
 };
 // ADMIN API CALLS
@@ -58,8 +68,11 @@ export const getOrders = async () => {
       },
     });
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get orders!",
+    );
   }
 };
 export const confirmOrder = async (orderId) => {
@@ -76,8 +89,11 @@ export const confirmOrder = async (orderId) => {
       },
     );
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't confirm orders!",
+    );
   }
 };
 export const shipOrder = async (orderId) => {
@@ -94,8 +110,11 @@ export const shipOrder = async (orderId) => {
       },
     );
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't ship orders!",
+    );
   }
 };
 export const deliverOrder = async (orderId) => {
@@ -112,8 +131,11 @@ export const deliverOrder = async (orderId) => {
       },
     );
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't deliver orders!",
+    );
   }
 };
 export const cancelOrder = async (orderId) => {
@@ -130,7 +152,10 @@ export const cancelOrder = async (orderId) => {
       },
     );
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't cancel orders!",
+    );
   }
 };

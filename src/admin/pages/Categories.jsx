@@ -48,14 +48,19 @@ import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
   const navigate = useNavigate();
-  const { searchCategories, filteredCategories } = useCategories();
+  const { searchCategories, filteredCategories, removeCategory } =
+    useCategories();
 
   const handleSearch = (value) => {
     searchCategories(value);
   };
-  const handleDelete = (id) => {
-    toast.success("Category deleted successfully");
-    console.log("Delete category:", id);
+  const handleDelete = async (id) => {
+    const res = await removeCategory(id);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
   };
 
   return (

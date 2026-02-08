@@ -14,7 +14,7 @@ export const getClientFavoriteProducts = async () => {
   } catch (e) {
     return buildApiResponse(
       false,
-      e.message || "Couldn't Get User Favorite Products",
+      e?.response?.data?.message || "Couldn't Get User Favorite Products",
     );
   }
 };
@@ -29,7 +29,10 @@ export const removeFavoriteProduct = async (productId) => {
     });
     return result.data;
   } catch (e) {
-    return buildApiResponse(false, e?.message || "Couldn't Remove Favorite!");
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't Remove Favorite!",
+    );
   }
 };
 export const addFavoriteProduct = async (productId) => {
@@ -48,6 +51,9 @@ export const addFavoriteProduct = async (productId) => {
 
     return result.data;
   } catch (e) {
-    return buildApiResponse(false, e?.message || "Couldn't Add Favorite!");
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't Add Favorite!",
+    );
   }
 };

@@ -5,21 +5,34 @@ import { useProduct } from "@/hooks/useProduct";
 import { useProducts } from "@/hooks/useProducts";
 import { toast } from "sonner";
 import ProductForm from "@/admin/components/forms/ProductForm";
+import { useCategories } from "@/hooks/useCategories";
 
 export default function EditProductPage() {
   const { productId } = useParams();
   const { product } = useProduct(productId);
   const { editProduct } = useProducts();
+  const { incrementProductsCount, decrementProductsCount } = useCategories();
   const [initialData, setInitialData] = useState(null);
 
   const handleSubmit = async (formData) => {
+    const oldCategoryId = initialData?.categoryId;
+
+    const newCategoryId = formData.get("categoryId");
+
     const response = await editProduct(productId, formData);
+
     if (response.success) {
+      if (oldCategoryId && newCategoryId && oldCategoryId !== newCategoryId) {
+        decrementProductsCount(oldCategoryId);
+        incrementProductsCount(newCategoryId);
+      }
+
       toast.success(response.message);
     } else {
       toast.error(response.message);
     }
   };
+
   useEffect(() => {
     const buildInitialData = (product) => ({
       name: product?.name ?? "",

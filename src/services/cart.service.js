@@ -1,3 +1,4 @@
+import { buildApiResponse } from "@/lib/utils";
 import api from "@/services/axios";
 export async function getClientCart() {
   try {
@@ -14,7 +15,10 @@ export async function getClientCart() {
 
     return result.data;
   } catch (e) {
-    return { success: false, message: "error getting client cart" };
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get cart!",
+    );
   }
 }
 export async function addProductToCart(productId, size) {
@@ -38,7 +42,10 @@ export async function addProductToCart(productId, size) {
     );
     return result.data;
   } catch (e) {
-    return e.response?.data || { success: false, message: e.message };
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't add product in cart!",
+    );
   }
 }
 export async function deleteCartItem(productId, size) {
@@ -60,9 +67,10 @@ export async function deleteCartItem(productId, size) {
 
     return result.data;
   } catch (e) {
-    console.log("error deleting item from client cart");
-    console.log(e);
-    return e.response?.data || { success: false, message: e.message };
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't delete product from cart!",
+    );
   }
 }
 export async function decrementCartItemQuantity(productId, size) {
@@ -87,7 +95,10 @@ export async function decrementCartItemQuantity(productId, size) {
 
     return result.data;
   } catch (e) {
-    return { success: false, message: e.message };
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't decrement product quantity!",
+    );
   }
 }
 
@@ -115,7 +126,10 @@ export async function updateCartItemSize(productId, oldSize, newSize) {
     );
 
     return response.data;
-  } catch (error) {
-    return error.response?.data;
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't update product size!",
+    );
   }
 }

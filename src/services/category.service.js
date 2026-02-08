@@ -5,8 +5,11 @@ export const getCategories = async () => {
   try {
     const response = await api.get("/categories");
     return response.data;
-  } catch (error) {
-    return buildApiResponse(false, error?.message || "Something went wrong!");
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Something went wrong!",
+    );
   }
 };
 
@@ -14,10 +17,10 @@ export const getCategoryById = async (id) => {
   try {
     const response = await api.get(`/categories/${id}`);
     return response.data;
-  } catch (error) {
+  } catch (e) {
     return buildApiResponse(
       false,
-      error?.message || "Failed to fetch category!",
+      e?.response?.data?.message || "Failed to fetch category!",
     );
   }
 };
@@ -28,7 +31,10 @@ export const createCategory = async (payload) => {
 
     return result.data;
   } catch (e) {
-    return buildApiResponse(false, e?.message || "Couldn't create category!");
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't create category!",
+    );
   }
 };
 
@@ -37,10 +43,10 @@ export const updateCategory = async (id, payload) => {
     const response = await api.put(`/categories/${id}`, payload);
 
     return response.data;
-  } catch (error) {
+  } catch (e) {
     return buildApiResponse(
       false,
-      error?.message || "Failed to update category!",
+      e?.response?.data?.message || "Failed to update category!",
     );
   }
 };
@@ -50,10 +56,10 @@ export const deleteCategory = async (id) => {
     const response = await api.delete(`/categories/${id}`);
 
     return response.data;
-  } catch (error) {
+  } catch (e) {
     return buildApiResponse(
       false,
-      error?.message || "Failed to delete category!",
+      e?.response?.data?.message || "Failed to delete category!",
     );
   }
 };
