@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import FavoriteProducts from "./components/FavoriteProducts";
 import { useAuth } from "@/context/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFavorites } from "@/hooks/useFavorites";
 import { toast } from "sonner";
+import { EmptyStateUI } from "@/components/shared/EmptyStateUI";
+import { Heart } from "lucide-react";
 
 export default function Favorites() {
   const { error, favoriteProducts } = useFavorites();
@@ -19,6 +21,18 @@ export default function Favorites() {
     navigate("/login", { replace: true });
     return null;
   }
+  if (favoriteProducts && favoriteProducts?.length === 0) {
+    return (
+      <EmptyStateUI
+        title={"No favorite product found."}
+        description={
+          "When you click the heart icon, the product will appear here!"
+        }
+        link={<Link to="/">Start Shopping</Link>}
+        icon={<Heart className="h-10 w-10 text-muted-foreground" />}
+      />
+    );
+  }
 
   return (
     <>
@@ -27,13 +41,10 @@ export default function Favorites() {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {favoriteProducts?.length > 0 ? (
+        {favoriteProducts?.length > 0 &&
           favoriteProducts?.map((p) => (
             <FavoriteProducts key={p._id} item={p} />
-          ))
-        ) : (
-          <p> no products found </p>
-        )}
+          ))}
       </div>
     </>
   );

@@ -8,12 +8,14 @@ import { toast } from "sonner";
 
 export default function CartItem({ item }) {
   const { user } = useAuth();
-  const { DeleteItem } = useUserCart();
+  const { deleteItem } = useUserCart();
   const handleDelete = async () => {
     const productId = item?.productId._id;
-    const response = await DeleteItem(productId, item?.itemSize);
+    const response = await deleteItem(productId, item?.itemSize);
 
-    if (!response.success) {
+    if (response.success) {
+      toast.success(response?.message);
+    } else {
       toast.error(response?.message);
     }
   };

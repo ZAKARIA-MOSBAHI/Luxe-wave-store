@@ -1,11 +1,24 @@
 import { OrderCard } from "./components/OrderCard";
-import { EmptyOrdersState } from "./components/EmptyOrderState";
+import { EmptyStateUI } from "../../components/shared/EmptyStateUI";
 
 import { useUserOrders } from "@/hooks/useUserOrders";
+import { Link } from "react-router-dom";
+import { Package } from "lucide-react";
 
 export default function OrderHistory() {
   const { orders } = useUserOrders();
-
+  if (orders?.length === 0) {
+    return (
+      <EmptyStateUI
+        title={"No orders yet"}
+        description={
+          "When you place an order, it will appear here. Start shopping to see your orders!"
+        }
+        link={<Link to="/">Start Shopping</Link>}
+        icon={<Package className="h-10 w-10 text-muted-foreground" />}
+      />
+    );
+  }
   return (
     <div className="max-h-screen overflow-y-scroll  bg-gray-50">
       <div className="mx-auto max-w-4xl px-4 py-8">
@@ -26,7 +39,6 @@ export default function OrderHistory() {
         )}
 
         {/* Empty State */}
-        {orders?.length === 0 && <EmptyOrdersState />}
       </div>
     </div>
   );

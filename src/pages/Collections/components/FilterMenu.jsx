@@ -2,14 +2,10 @@ import { useState } from "react";
 import Accordion from "@/components/ui/Accordion";
 
 import { Check, X } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  filterProducts,
-  setFilteredProducts,
-  setFilterOptions,
-} from "@/app/slices/productSlice";
+
 import { useFilterMenu } from "@/context/FilterMenuProvider";
 import { FILTER_OPTIONS } from "@/constants/constants";
+import { useProducts } from "@/hooks/useProducts";
 
 function FilterMenu() {
   const {
@@ -26,26 +22,8 @@ function FilterMenu() {
     size: false,
   });
 
-  const ProductsState = useSelector((state) => state.products);
-  const dispatch = useDispatch();
-  const handleFilterChange = (key, value) => {
-    if (ProductsState.options[key] === value) {
-      dispatch(filterProducts({ [key]: null }));
-    } else {
-      dispatch(filterProducts({ [key]: value }));
-    }
-  };
-  const resetFilters = () => {
-    dispatch(setFilteredProducts(ProductsState.products));
-    dispatch(
-      setFilterOptions({
-        gender: null,
-        category: null,
-        price: null,
-        size: null,
-      }),
-    );
-  };
+  const { filterProducts, removeFilters, options } = useProducts();
+
   const toggleAccordion = (key) => {
     setOpenAccordion((prev) => ({
       ...prev,
@@ -96,11 +74,11 @@ function FilterMenu() {
                           ? "text-white bg-black"
                           : "hover:text-white hover:bg-black"
                       } p-4 group  border-b cursor-pointer border-gray-200 transition-all w-full duration-300 `}
-                      onClick={() => handleFilterChange(key, val)}
+                      onClick={() => filterProducts(key, val)}
                     >
                       <p className="uppercase flex justify-between">
                         {val}
-                        {ProductsState.options[key] === val && (
+                        {options[key] === val && (
                           <Check className="size-6 group-hover:text-white text-black" />
                         )}
                       </p>
@@ -118,7 +96,7 @@ function FilterMenu() {
         >
           <h2
             className="text-base font-medium underline"
-            onClick={resetFilters}
+            onClick={removeFilters}
           >
             CLEAR FILTERS
           </h2>

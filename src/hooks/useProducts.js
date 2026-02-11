@@ -7,7 +7,9 @@ import {
 import {
   addProductInStore,
   deleteProductFromStore,
+  filterProductsInStore,
   setFilteredProducts,
+  setFilterOptions,
   setProducts,
   updateProductInStore,
 } from "@/app/slices/productSlice";
@@ -43,6 +45,24 @@ export const useProducts = () => {
     }
     return response;
   };
+  const filterProducts = (key, value) => {
+    if (options[key] === value) {
+      dispatch(filterProductsInStore({ [key]: null }));
+    } else {
+      dispatch(filterProductsInStore({ [key]: value }));
+    }
+  };
+  const removeFilters = () => {
+    dispatch(setFilteredProducts(products));
+    dispatch(
+      setFilterOptions({
+        gender: null,
+        category: null,
+        price: null,
+        size: null,
+      }),
+    );
+  };
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -68,5 +88,7 @@ export const useProducts = () => {
     editProduct,
     addProduct,
     deleteProduct,
+    filterProducts,
+    removeFilters,
   };
 };

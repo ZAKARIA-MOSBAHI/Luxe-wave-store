@@ -22,7 +22,7 @@ const productsSlice = createSlice({
     setFilteredProducts: (state, action) => {
       state.filteredProducts = action.payload;
     },
-    filterProducts: (state, action) => {
+    filterProductsInStore: (state, action) => {
       state.options = { ...state.options, ...action.payload };
       const { gender, category, price, size } = state.options;
       let filtered = [...state.products];
@@ -90,7 +90,7 @@ export default productsSlice.reducer;
 export const {
   setProducts,
   setFilterOptions,
-  filterProducts,
+  filterProductsInStore,
   setFilteredProducts,
   addProductInStore,
   updateProductInStore,

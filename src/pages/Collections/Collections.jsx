@@ -1,20 +1,34 @@
 import { useFilterMenu } from "../../context/FilterMenuProvider";
 import ProductsList from "./components/ProductsList";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
 import SectionTitle from "@/components/SectionTitle";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { EmptyStateUI } from "@/components/shared/EmptyStateUI";
 const Collections = () => {
   const location = useLocation();
-  console.warn("location ");
-  console.log(location);
 
-  const queryParams = new URLSearchParams(location.search);
-  console.warn("queryParams ");
-  console.log(queryParams);
   const { setShowFilterMenu } = useFilterMenu();
-  const { filteredProducts } = useProducts();
+  const { filteredProducts, filterProducts } = useProducts();
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const queryValue = queryParams.get("category");
+    if (queryValue) {
+      filterProducts("category", queryValue);
+    }
+  }, [location.search, filterProducts]);
 
+  if (filteredProducts?.length === 0) {
+    return (
+      <EmptyStateUI
+        title={"No products in that category are found!"}
+        description={"change the catgory into an existing category"}
+        icon={<X />}
+        link={<Link to="/"> Back to home</Link>}
+      />
+    );
+  }
   return (
     <section className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 mb-8  relative max-w-[1152px] w-full mx-auto">
       <div className="flex-1">
