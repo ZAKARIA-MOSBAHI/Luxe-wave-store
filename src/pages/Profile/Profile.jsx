@@ -4,7 +4,7 @@ import { useState } from "react";
 import ProfileFormsDialog from "./components/ProfileFormsDialog";
 import AddPhoneNumberForm from "./forms/AddNumberForm";
 import AddAddressForm from "./forms/AddAddressForm";
-import { useUserAddress } from "@/hooks/useUserAddress";
+import { useUserAddress } from "@/hooks/client/useUserAddress";
 
 function Profile() {
   const { user } = useAuth();

@@ -1,22 +1,20 @@
 import UserHeader from "../UserHeader";
 import MissingInfoAlerts from "../MissingInfoAlerts";
 import InfoGrid from "@/components/shared/InfoGrid";
-import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
-import { createClientOrder } from "@/services/order.service";
 import { toast } from "sonner";
-import { clearCart } from "@/app/slices/clientcartSlice";
 import { useNavigate } from "react-router-dom";
-import { addUserOrder } from "@/app/slices/userOrderSlice";
-import { useUserAddress } from "@/hooks/useUserAddress";
+import { useUserAddress } from "@/hooks/client/useUserAddress";
+import { useUserOrders } from "@/hooks/client/useUserOrders";
+import { useUserCart } from "@/hooks/client/useUserCart";
 
 export default function DeliverySection() {
   const { user } = useAuth();
-  const dispatch = useDispatch();
+  const { createUserOrder } = useUserOrders();
+  const { clearCartInStore } = useUserCart();
   const navigate = useNavigate();
   const { address } = useUserAddress();
 
-  const userOrderState = useSelector((state) => state.userOrderState);
   const fields = [
     {
       label: "Country",
@@ -48,13 +46,10 @@ export default function DeliverySection() {
     },
   ];
   const handleClick = async () => {
-    const response = await createClientOrder();
-    console.log(response);
-    if (response?.success) {
-      dispatch(clearCart());
-      if (userOrderState?.orders !== null) {
-        dispatch(addUserOrder(response?.order));
-      }
+    const response = await createUserOrder();
+    if (response.success) {
+      clearCartInStore();
+
       navigate("/", {
         state: {
           hasOrdered: true,

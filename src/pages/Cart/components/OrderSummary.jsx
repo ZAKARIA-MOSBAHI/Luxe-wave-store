@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
-import { useUserCart } from "@/hooks/useUserCart";
+import { useUserCart } from " @/hooks/client/useUserCart";
 
 export default function OrderSummary() {
   const { user } = useAuth();

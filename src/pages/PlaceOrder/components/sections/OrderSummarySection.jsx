@@ -1,5 +1,5 @@
 import OrderItem from "../OrderItem";
-import { useUserCart } from "@/hooks/useUserCart";
+import { useUserCart } from " @/hooks/client/useUserCart";
 
 export default function OrderSummarySection() {
   const { cart } = useUserCart();

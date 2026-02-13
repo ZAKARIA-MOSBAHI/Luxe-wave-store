@@ -3,7 +3,7 @@ import SelectMenu from "./SelectMenu";
 
 import { returnImgUrl } from "@/lib/utils";
 import { useAuth } from "@/context/AuthProvider";
-import { useUserCart } from "@/hooks/useUserCart";
+import { useUserCart } from " @/hooks/client/useUserCart";
 import { toast } from "sonner";
 
 export default function CartItem({ item }) {

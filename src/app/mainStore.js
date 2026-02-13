@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
 import productReducer from "./slices/productSlice";
 import favoritesReducer from "./slices/favoritesSlice";
-import cartReducer from "./slices/clientcartSlice";
+import cartReducer from "./slices/userCartSlice";
 import categoryReducer from "./slices/categorySlice";
 import userAddressReducer from "./slices/userAddressSlice";
 import notificationReducer from "./slices/notificationSlice";

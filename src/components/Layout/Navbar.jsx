@@ -25,7 +25,7 @@ import useDebounce from "@/hooks/useDebounce";
 import { NavLinks } from "@/constants/NavLinks";
 import { useSearch } from "@/context/SearchContext";
 import MobileNavbar from "../MobileNavbar";
-import { useUserCart } from "@/hooks/useUserCart";
+import { useUserCart } from " @/hooks/client/useUserCart";
 
 function Navbar({ isMobileNavOpen, setIsMobileNavOpen }) {
   const { logo } = assets;

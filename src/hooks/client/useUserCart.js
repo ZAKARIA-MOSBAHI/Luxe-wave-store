@@ -1,4 +1,4 @@
-import { clearCart, setUserCart } from "@/app/slices/clientcartSlice";
+import { clearCart, setUserCart } from "@/app/slices/userCartSlice";
 import {
   addProductToCart,
   decrementCartItemQuantity,
