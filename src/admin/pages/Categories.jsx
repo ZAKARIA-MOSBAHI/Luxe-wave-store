@@ -41,15 +41,21 @@ import {
   Pencil,
   Trash2,
   ExternalLink,
+  ArrowUpDown,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useCategories } from "@/hooks/useCategories";
 import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
+  const [sortDirection, setSortDirection] = useState(null);
   const navigate = useNavigate();
-  const { searchCategories, filteredCategories, removeCategory } =
-    useCategories();
+  const {
+    searchCategories,
+    filteredCategories,
+    removeCategory,
+    sortCategories,
+  } = useCategories();
 
   const handleSearch = (value) => {
     searchCategories(value);
@@ -62,7 +68,11 @@ const Categories = () => {
       toast.error(res.message);
     }
   };
-
+  const handleSort = () => {
+    const dir = sortDirection === "asc" ? "desc" : "asc";
+    sortCategories("productsCount", dir);
+    setSortDirection(dir);
+  };
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-4 md:gap-6">
@@ -101,7 +111,12 @@ const Categories = () => {
                   <TableRow>
                     <TableHead>Name</TableHead>
                     <TableHead className="hidden md:table-cell">Slug</TableHead>
-                    <TableHead>Products</TableHead>
+                    <TableHead onClick={handleSort}>
+                      <div className="flex items-center">
+                        Products
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </div>
+                    </TableHead>
                     <TableHead className="w-[70px]"></TableHead>
                   </TableRow>
                 </TableHeader>

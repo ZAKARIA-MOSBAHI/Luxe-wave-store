@@ -26,27 +26,26 @@ import {
 import { toast } from "sonner";
 import { useAdminCarts } from "@/hooks/useAdminCarts";
 import { useState } from "react";
-import { SortByOptions, SortDirections } from "@/admin/utils/cartUtils";
+import { formatDateToText } from "@/lib/utils";
+import { Badge } from "@/components/ui/Badge";
 
 const CartTable = () => {
-  const { carts } = useAdminCarts();
-  const [sortBy, setSortBy] = useState(SortByOptions.LAST_UPDATED);
-  const [sortDirection, setSortDirection] = useState(SortDirections.DESC);
+  const [sortDirections, setSortDirections] = useState({
+    items: null,
+    total: null,
+    updatedAt: null,
+  });
+
+  const { filteredCarts, sortCarts } = useAdminCarts();
+
   const handleDelete = (id) => {
     toast.success("Cart has been deleted");
     console.log("Delete cart:", id);
   };
-  const toggleSort = (column) => {
-    if (sortBy === column) {
-      setSortDirection(
-        sortDirection === SortDirections.ASC
-          ? SortDirections.DESC
-          : SortDirections.ASC,
-      );
-    } else {
-      setSortBy(column);
-      setSortDirection(SortDirections.DESC);
-    }
+  const handleSort = (column) => {
+    const direction = sortDirections[column] === "asc" ? "desc" : "asc";
+    setSortDirections((prev) => ({ ...prev, [column]: direction }));
+    sortCarts(column, direction);
   };
 
   return (
@@ -57,7 +56,7 @@ const CartTable = () => {
             <TableHead>User</TableHead>
             <TableHead
               className="cursor-pointer"
-              onClick={() => toggleSort("items")}
+              onClick={() => handleSort("items")}
             >
               <div className="flex items-center">
                 Items
@@ -66,16 +65,16 @@ const CartTable = () => {
             </TableHead>
             <TableHead
               className="cursor-pointer"
-              onClick={() => toggleSort("totalValue")}
+              onClick={() => handleSort("total")}
             >
               <div className="flex items-center">
-                Value
+                Total
                 <ArrowUpDown className="ml-2 h-4 w-4" />
               </div>
             </TableHead>
             <TableHead
               className="hidden md:table-cell cursor-pointer"
-              onClick={() => toggleSort("lastUpdated")}
+              onClick={() => handleSort("updatedAt")}
             >
               <div className="flex items-center">
                 Last Updated
@@ -87,9 +86,9 @@ const CartTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {carts?.length > 0 ? (
-            carts.map((cart) => (
-              <TableRow key={cart.id}>
+          {filteredCarts?.length > 0 ? (
+            filteredCarts.map((cart) => (
+              <TableRow key={cart._id}>
                 <TableCell>
                   <div>
                     <div className="font-medium">{cart.userId.name}</div>
@@ -101,18 +100,14 @@ const CartTable = () => {
                 <TableCell>{cart.items.length}</TableCell>
                 <TableCell>{cart.total}</TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {cart.updatedAt}
+                  {formatDateToText(cart.updatedAt)}
                 </TableCell>
                 <TableCell>
-                  <div
-                    className={`px-2 py-1 rounded-full text-xs font-medium inline-block ${
-                      cart.status === "active"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-amber-100 text-amber-800"
-                    }`}
+                  <Badge
+                    variant={cart.status === "active" ? "success" : "warning"}
                   >
                     {cart.status}
-                  </div>
+                  </Badge>
                 </TableCell>
                 <TableCell>
                   <DropdownMenu>
@@ -129,10 +124,7 @@ const CartTable = () => {
                         <Eye className="mr-2 h-4 w-4" />
                         View Details
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <ShoppingCart className="mr-2 h-4 w-4" />
-                        Edit Items
-                      </DropdownMenuItem>
+
                       <DropdownMenuItem>
                         <FileText className="mr-2 h-4 w-4" />
                         Convert to Order

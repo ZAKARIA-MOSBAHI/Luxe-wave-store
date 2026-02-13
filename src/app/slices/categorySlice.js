@@ -11,7 +11,9 @@ const categorySlice = createSlice({
       state.categories = action.payload;
       state.filteredCategories = action.payload;
     },
-
+    setFilteredCategories: (state, action) => {
+      state.filteredCategories = action.payload;
+    },
     addCategoryToStore: (state, action) => {
       if (!state.categories) return;
 
@@ -107,4 +109,5 @@ export const {
   filterCategoriesBySlug,
   incrementCategoryProductsCount,
   decrementCategoryProductsCount,
+  setFilteredCategories,
 } = categorySlice.actions;

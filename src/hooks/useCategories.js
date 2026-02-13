@@ -9,6 +9,7 @@ import {
   filterCategoriesBySlug,
   incrementCategoryProductsCount,
   decrementCategoryProductsCount,
+  setFilteredCategories,
 } from "@/app/slices/categorySlice";
 
 import {
@@ -18,6 +19,7 @@ import {
   deleteCategory,
   getCategoryById,
 } from "@/services/category.service";
+import { sortItems } from "@/utils/sortItems";
 
 export const useCategories = () => {
   const dispatch = useDispatch();
@@ -32,7 +34,8 @@ export const useCategories = () => {
     setIsLoading(true);
 
     const result = await getCategories();
-
+    console.warn("cat results");
+    console.log(result);
     if (result.success) {
       dispatch(setCategories(result.categories));
     }
@@ -90,6 +93,10 @@ export const useCategories = () => {
   const decrementProductsCount = (catId) =>
     dispatch(decrementCategoryProductsCount(catId));
 
+  const sortCategories = (column = "productsCount", direction = "asc") => {
+    const sorted = sortItems(categories, column, direction);
+    dispatch(setFilteredCategories(sorted));
+  };
   useEffect(() => {
     if (categories === null) {
       fetchCategories();
@@ -108,5 +115,6 @@ export const useCategories = () => {
     searchCategories,
     incrementProductsCount,
     decrementProductsCount,
+    sortCategories,
   };
 };

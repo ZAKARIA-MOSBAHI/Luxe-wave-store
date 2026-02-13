@@ -13,7 +13,6 @@ import { useAuth } from "@/context/AuthProvider";
 import { addAddressSchema } from "@/lib/schemas/addAddress.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { useAddress } from "@/hooks/useAddress";
 
@@ -51,7 +50,6 @@ const formFields = [
 export default function AddAddressForm({ setDialogOpen }) {
   const { setUser } = useAuth();
   const { createAddress } = useAddress();
-  const dispatch = useDispatch();
 
   const form = useForm({
     resolver: zodResolver(addAddressSchema),
@@ -65,9 +63,9 @@ export default function AddAddressForm({ setDialogOpen }) {
 
   const handleSubmit = async (data) => {
     const response = await createAddress(data);
+
     if (response.success) {
       setUser(response.user);
-      dispatch(setUserAddress(response.newAddress));
       setDialogOpen(false);
       toast.success("Address saved successfully!");
     } else {
