@@ -1,4 +1,4 @@
-import { ChevronRight, CreditCard, Banknote, Calendar } from "lucide-react";
+import { ChevronRight, Banknote, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
@@ -21,7 +21,7 @@ export function OrderCard({ order }) {
                   {order?.orderNumber}
                 </h3>
                 <OrderStatusBadge
-                  status={order?.orderStatus}
+                  status={order?.orderStatus?.toLowerCase()}
                   className={"flex items-center gap-2"}
                 />
               </div>

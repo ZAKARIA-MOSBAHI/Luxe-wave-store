@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { OrderStatusBadge } from "../OrderHistory/components/OrderStatusBadge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -14,49 +14,34 @@ import {
 import { format } from "date-fns";
 import { OrderItemCard } from "./components/OrderItemCard";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { getClientOrderById } from "@/services/order.service";
+import { EmptyStateUI } from "@/components/shared/EmptyStateUI";
 
-export default function OrderDetails() {
+export default function OrderDetails({ fetchOrderById }) {
   const { orderId } = useParams();
-  const userOrderState = useSelector((state) => state.userOrderState);
   const [order, setOrder] = useState(null);
-
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
   useEffect(() => {
-    const fetchClientOrderById = async () => {
-      const response = await getClientOrderById(orderId);
+    const fetchOrder = async () => {
+      const response = await fetchOrderById(orderId);
       if (response?.success) {
-        console.log(response);
-        setOrder(response?.order);
-      } else {
-        console.error(response?.message);
+        setOrder(response.order);
       }
     };
-    if (!userOrderState?.orders) {
-      fetchClientOrderById();
-    } else {
-      setOrder(userOrderState?.orders?.find((o) => o._id === orderId));
-    }
-  }, []);
+
+    fetchOrder();
+  }, [orderId, fetchOrderById]);
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 mx-auto mb-4">
-            <Package className="h-8 w-8 text-gray-500" />
-          </div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">
-            Order not found
-          </h2>
-          <p className="text-gray-500 mb-4">
-            The order you're looking for doesn't exist.
-          </p>
-          <Button asChild>
-            <Link to="/account/order-history">Back to Orders</Link>
-          </Button>
-        </div>
-      </div>
+      <EmptyStateUI
+        title={"Order not found!"}
+        description={"The order you're looking for doesn't exist."}
+        icon={<Package className="h-8 w-8 text-gray-500" />}
+        link={<Link onClick={goBack}>Back to Orders</Link>}
+      />
     );
   }
 
@@ -66,16 +51,17 @@ export default function OrderDetails() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container max-w-4xl py-8 px-4">
+    <div className="min-h-screen ">
+      <div className="container max-w-4xl ">
         {/* Back Button */}
-        <Link
-          to="/account/order-history"
+        <Button
+          variant="ghost"
+          onClick={goBack}
           className="inline-flex items-center gap-2  hover:underline transition mb-6"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Orders
-        </Link>
+        </Button>
 
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-between mb-8">

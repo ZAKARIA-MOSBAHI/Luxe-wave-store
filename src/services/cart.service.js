@@ -133,3 +133,16 @@ export async function updateCartItemSize(productId, oldSize, newSize) {
     );
   }
 }
+// ADMIN ACTIONS
+export async function getCarts() {
+  try {
+    const result = await api.get("/carts");
+
+    return result.data;
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get cart!",
+    );
+  }
+}

@@ -24,11 +24,29 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useAdminCarts } from "@/hooks/useAdminCarts";
+import { useState } from "react";
+import { SortByOptions, SortDirections } from "@/admin/utils/cartUtils";
 
-const CartTable = ({ carts, sortBy, sortDirection, toggleSort }) => {
+const CartTable = () => {
+  const { carts } = useAdminCarts();
+  const [sortBy, setSortBy] = useState(SortByOptions.LAST_UPDATED);
+  const [sortDirection, setSortDirection] = useState(SortDirections.DESC);
   const handleDelete = (id) => {
     toast.success("Cart has been deleted");
     console.log("Delete cart:", id);
+  };
+  const toggleSort = (column) => {
+    if (sortBy === column) {
+      setSortDirection(
+        sortDirection === SortDirections.ASC
+          ? SortDirections.DESC
+          : SortDirections.ASC,
+      );
+    } else {
+      setSortBy(column);
+      setSortDirection(SortDirections.DESC);
+    }
   };
 
   return (
@@ -69,21 +87,21 @@ const CartTable = ({ carts, sortBy, sortDirection, toggleSort }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {carts.length > 0 ? (
+          {carts?.length > 0 ? (
             carts.map((cart) => (
               <TableRow key={cart.id}>
                 <TableCell>
                   <div>
-                    <div className="font-medium">{cart.user}</div>
+                    <div className="font-medium">{cart.userId.name}</div>
                     <div className="text-sm text-muted-foreground">
-                      {cart.email}
+                      {cart.userId.email}
                     </div>
                   </div>
                 </TableCell>
-                <TableCell>{cart.items}</TableCell>
-                <TableCell>{cart.totalValue}</TableCell>
+                <TableCell>{cart.items.length}</TableCell>
+                <TableCell>{cart.total}</TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {cart.lastUpdated}
+                  {cart.updatedAt}
                 </TableCell>
                 <TableCell>
                   <div
@@ -122,7 +140,7 @@ const CartTable = ({ carts, sortBy, sortDirection, toggleSort }) => {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         className="text-red-600 focus:text-red-600"
-                        onClick={() => handleDelete(cart.id)}
+                        onClick={() => handleDelete(cart._id)}
                       >
                         <Trash2 className="mr-2 h-4 w-4" />
                         Delete Cart

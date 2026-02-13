@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
 import { createClientOrder } from "@/services/order.service";
 import { toast } from "sonner";
-import { clearCart } from "@/app/slices/cartSlice";
+import { clearCart } from "@/app/slices/clientcartSlice";
 import { useNavigate } from "react-router-dom";
 import { addUserOrder } from "@/app/slices/userOrderSlice";
 import { useAddress } from "@/hooks/useAddress";

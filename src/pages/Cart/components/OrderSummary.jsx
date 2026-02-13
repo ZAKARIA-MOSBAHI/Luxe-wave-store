@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useAuth } from "@/context/AuthProvider";
+import { useUserCart } from "@/hooks/useUserCart";
 
 export default function OrderSummary() {
   const { user } = useAuth();
-  const cartState = useSelector((state) => state.cart.data);
+  const { cart } = useUserCart();
 
   return (
     <div className="w-full md:w-[35%]">
       <h1 className="text-2xl font-medium sm:py-8 py-4 ">ORDER SUMMARY</h1>
       <div className="flex flex-col p-8  border my-2">
         <p className="flex justify-between text-sm  font-light sm:text-base">
-          {cartState?.items.length || 0} ITEMS
+          {cart?.items.length || 0} ITEMS
           <span>
-            {cartState?.total ?? 15}
+            {cart?.total ?? 15}
             {user?.currencyPreference ? user?.currencyPreference : "MAD"}
           </span>
         </p>
@@ -31,12 +31,12 @@ export default function OrderSummary() {
         <div className="flex  justify-between py-4 border-t  border-gray-400">
           <p className="text-lg font-medium">TOTAL :</p>
           <p className="text-lg ">
-            {cartState?.total}{" "}
+            {cart?.total}{" "}
             {user?.currencyPreference ? user?.currencyPreference : "MAD"}
           </p>
         </div>
       </div>
-      <Link to={cartState?.items?.length > 0 ? "/place-order" : null}>
+      <Link to={cart?.items?.length > 0 ? "/place-order" : null}>
         <button className="px-8 py-2.5 bg-black w-full text-white my-4">
           CHECKOUT
         </button>

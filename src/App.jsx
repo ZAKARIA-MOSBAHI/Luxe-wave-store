@@ -12,6 +12,8 @@ import { SearchContext } from "./context/SearchContext";
 import ProfilePageLayout from "./components/Layout/ProfilePageLayout";
 import Favorites from "./pages/Favorites/Favorites";
 import { DisableScroll, EnableScroll } from "./lib/utils";
+import { DashboardLayout } from "./admin/components/layout/DashboardLayout";
+import { getClientOrderById, getOrderById } from "./services/order.service";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -95,7 +97,7 @@ function App() {
                 />
                 <Route
                   path="/account/order-history/:orderId"
-                  element={<OrderDetails />}
+                  element={<OrderDetails fetchOrderById={getClientOrderById} />}
                 />
               </Route>
               <Route path="/orders" element={<Order />} />
@@ -193,6 +195,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EditCategoryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/orders/:orderId"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <OrderDetails fetchOrderById={getOrderById} />
+                  </DashboardLayout>
                 </ProtectedRoute>
               }
             />

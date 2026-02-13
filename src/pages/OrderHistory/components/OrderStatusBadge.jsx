@@ -7,26 +7,32 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { useEffect } from "react";
 
 const statusConfig = {
   pending: {
-    label: "pending",
+    label: "Pending",
     icon: Package,
     badgeVariant: "warning",
   },
+  confirmed: {
+    label: "Confirmed",
+    icon: Truck,
+    badgeVariant: "info",
+  },
   shipped: {
-    label: "shipped",
+    label: "Shipped",
     icon: Truck,
     badgeVariant: "info",
   },
 
   delivered: {
-    label: "delivered",
+    label: "Delivered",
     icon: CheckCircle2,
     badgeVariant: "success",
   },
   cancelled: {
-    label: "cancelled",
+    label: "Cancelled",
     icon: XCircle,
     badgeVariant: "danger",
   },
@@ -49,12 +55,24 @@ const statusConfig = {
 
 export function OrderStatusBadge({ status, className }) {
   const variant = statusConfig[status?.toLowerCase()];
-  const Icon = variant?.icon;
+  useEffect(() => {
+    console.log("render");
+  }, []);
+
+  if (!variant) {
+    return (
+      <Badge className={className} variant="secondary">
+        {status ?? "Unknown"}
+      </Badge>
+    );
+  }
+
+  const Icon = variant.icon;
 
   return (
-    <Badge className={className} variant={variant?.badgeVariant}>
-      <Icon className="h-3.5 w-3.5" />
-      {variant?.label}
+    <Badge className={className} variant={variant.badgeVariant}>
+      <Icon className="h-3.5 w-3.5 mr-1" />
+      {variant.label}
     </Badge>
   );
 }

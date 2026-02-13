@@ -1,6 +1,3 @@
-// can you help divide and organise this component into separate and potentialy re-usable components
-// right now it's stored in /pages/order
-import { useEffect } from "react";
 import { DashboardLayout } from "../../components/layout/DashboardLayout";
 
 import {
@@ -11,99 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 
-import { toast } from "sonner";
-import { useDispatch, useSelector } from "react-redux";
-import { getOrders } from "@/services/order.service";
-import {
-  setAdminOrders,
-  setFilteredOrders,
-  setFilterOption,
-  setSearchQuery,
-} from "@/app/slices/adminOrderSlice";
 import OrdersTable from "./components/OrdersTable";
 import { OrdersToolbar } from "./components/OrdersToolbar";
 
 const Orders = () => {
-  const dispatch = useDispatch();
-  const ordersState = useSelector((state) => state.adminOrderState);
-
-  const applyOrderFilters = () => {
-    if (!ordersState?.orders) return;
-
-    let result = [...ordersState.orders];
-
-    if (ordersState.searchQuery) {
-      const query = ordersState.searchQuery.toLowerCase();
-
-      result = result.filter(
-        (order) =>
-          order?.userId?.name?.toLowerCase().includes(query) ||
-          order?.orderNumber?.toLowerCase().includes(query),
-      );
-    }
-
-    const filter = ordersState.filterOption?.toLowerCase();
-    if (filter && filter !== "all") {
-      result = result.filter(
-        (order) => order?.orderStatus?.toLowerCase() === filter,
-      );
-    }
-
-    dispatch(setFilteredOrders(result));
-  };
-
-  const handleOrderSearch = (value) => {
-    dispatch(setSearchQuery(value));
-  };
-
-  const handleFilters = (filter) => {
-    console.log(filter);
-    dispatch(setFilterOption(filter));
-  };
-
-  const handleUpdateStatus = (id, status) => {
-    toast.success(`Order ${id} status updated to ${status}`);
-    console.log("Update order status:", id, status);
-  };
-
-  const handleCancelOrder = (id) => {
-    alert("Cancel order:", id);
-  };
-  const handleConfirmOrder = (id) => {
-    alert("apply api req to id : ", id);
-  };
-  const handleShipOrder = (id) => {
-    alert("apply api req to id : ", id);
-  };
-  const handleDeliverOrder = (id) => {
-    alert("apply api req to id : ", id);
-  };
-  useEffect(() => {
-    const fetchOrders = async () => {
-      const response = await getOrders();
-      if (response.success) {
-        dispatch(setAdminOrders(response.orders));
-        dispatch(setFilteredOrders(response.orders));
-      } else {
-        console.error(response?.message);
-        toast.error("Failed to fetch orders");
-      }
-    };
-    if (!ordersState?.orders) {
-      fetchOrders();
-    }
-  }, [dispatch, ordersState?.orders]);
-  //listener for filters or search  change
-  useEffect(() => {
-    if (ordersState?.orders) {
-      applyOrderFilters();
-    }
-  }, [
-    ordersState?.orders,
-    ordersState?.searchQuery,
-    ordersState?.filterOption,
-  ]);
-
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-4 md:gap-6">

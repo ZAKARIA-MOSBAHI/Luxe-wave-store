@@ -1,4 +1,4 @@
-import { setCart } from "@/app/slices/cartSlice";
+import { setCart } from "@/app/slices/clientcartSlice";
 import {
   addProductToCart,
   decrementCartItemQuantity,
@@ -21,7 +21,7 @@ import { buildApiResponse } from "@/lib/utils";
  * while keeping components free from API and Redux implementation details.
  */
 export const useUserCart = () => {
-  const cart = useSelector((state) => state.cart.data); // starts as null
+  const cart = useSelector((state) => state.clientCartState.data); // starts as null
   const dispatch = useDispatch();
 
   const addToCart = async (productId, sizeChosen) => {
@@ -29,7 +29,7 @@ export const useUserCart = () => {
 
     if (response.success) {
       dispatch(setCart(response.cart));
-      return buildApiResponse(true, "Product added to cart");
+      return response;
     }
 
     return buildApiResponse(
@@ -43,7 +43,7 @@ export const useUserCart = () => {
 
     if (response.success) {
       dispatch(setCart(response.cart));
-      return buildApiResponse(true, "Product removed from cart");
+      return response;
     }
     // why ? use return response instead because the response is already build in the api func
     return buildApiResponse(
@@ -57,7 +57,7 @@ export const useUserCart = () => {
 
     if (response.success) {
       dispatch(setCart(response.cart));
-      return buildApiResponse(true, "Product quantity decremented");
+      return response;
     }
 
     return buildApiResponse(
@@ -71,7 +71,7 @@ export const useUserCart = () => {
 
     if (response.success) {
       dispatch(setCart(response.cart));
-      return buildApiResponse(true, "Product size updated");
+      return response;
     }
 
     return buildApiResponse(

@@ -75,6 +75,17 @@ export const getOrders = async () => {
     );
   }
 };
+export const getOrderById = async (orderId) => {
+  try {
+    const response = await api.get(`/orders/${orderId}`);
+    return response.data;
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't get orders!",
+    );
+  }
+};
 export const confirmOrder = async (orderId) => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));

@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { cn } from "@/lib/utils";
+import { cn, formatDateToText } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { Check, MoreVertical, Trash2 } from "lucide-react";
 import { useNotifications } from "@/hooks/useNotifications";
@@ -24,9 +24,7 @@ const notificationItemVariants = {
 
 const NotificationItem = ({ notification, className, variant = "default" }) => {
   const { markNotifAsRead, deleteNotif } = useNotifications();
-  const formattedDate = formatDistanceToNow(new Date(notification.createdAt), {
-    addSuffix: true,
-  });
+  const formattedDate = formatDateToText(notification.createdAt);
   const onMarkAsRead = async () => {
     const response = await markNotifAsRead(notification._id);
     if (!response.success) {

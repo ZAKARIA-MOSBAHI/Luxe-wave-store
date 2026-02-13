@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import { formatDistanceToNow } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 const Logout = () => {
@@ -35,7 +36,7 @@ const buildApiResponse = (status, message, data = {}) => ({
  * @param {File|File[]|undefined} additionalImages - new additional images or undefined to keep existing
  * @param {string[]|undefined} removedImages - images to remove from API, array even if 1 item
  */
-export const buildProductFormData = (
+const buildProductFormData = (
   formValues,
   sizeValues,
   mainImage = undefined,
@@ -80,7 +81,7 @@ export const buildProductFormData = (
   return formData;
 };
 
-export const isAuthenticated = () => {
+const isAuthenticated = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const accessToken = user?.accessToken;
 
@@ -91,6 +92,11 @@ export const isAuthenticated = () => {
     return buildApiResponse(true, "", { accessToken });
   }
 };
+const formatDateToText = (date) => {
+  return formatDistanceToNow(new Date(date), {
+    addSuffix: true,
+  });
+};
 export {
   Logout,
   cn,
@@ -98,4 +104,7 @@ export {
   DisableScroll,
   EnableScroll,
   buildApiResponse,
+  formatDateToText,
+  isAuthenticated,
+  buildProductFormData,
 };

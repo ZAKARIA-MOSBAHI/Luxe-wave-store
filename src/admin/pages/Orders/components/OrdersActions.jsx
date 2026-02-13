@@ -17,6 +17,7 @@ import {
   Truck,
 } from "lucide-react";
 import { useOrders } from "../../../../hooks/useOrders";
+import { Link } from "react-router-dom";
 export default function OrdersActions({ order }) {
   const {
     handleConfirmOrder,
@@ -36,8 +37,13 @@ export default function OrdersActions({ order }) {
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Eye className="mr-2 h-4 w-4" />
-          View Details
+          <Link
+            className="flex items-center "
+            to={`/admin/orders/${order?._id}`}
+          >
+            <Eye className="mr-2 h-4 w-4" />
+            View Details
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Printer className="mr-2 h-4 w-4" />
