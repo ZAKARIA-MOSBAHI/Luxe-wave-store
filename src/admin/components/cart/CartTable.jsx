@@ -24,7 +24,7 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import { toast } from "sonner";
-import { useAdminCarts } from "@/hooks/useAdminCarts";
+import { useAdminCarts } from "@/hooks/admin/useAdminCarts";
 import { useState } from "react";
 import { formatDateToText } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";

@@ -1,4 +1,4 @@
-import { setUserAddress } from "@/app/slices/addressSlice";
+import { setUserAddress } from "@/app/slices/userAddressSlice";
 import {
   createClientAddress,
   getClientAddress,
@@ -15,10 +15,8 @@ export const useUserAddress = () => {
     const response = await createClientAddress(data);
     if (response.success) {
       dispatch(setUserAddress(response.newAddress));
-      return response;
-    } else {
-      return response;
     }
+    return response;
   };
   useEffect(() => {
     const fetchAddress = async () => {

@@ -14,7 +14,7 @@ import { addAddressSchema } from "@/lib/schemas/addAddress.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useAddress } from "@/hooks/useAddress";
+import { useUserAddress } from "@/hooks/useUserAddress";
 
 const formFields = [
   {
@@ -49,7 +49,7 @@ const formFields = [
 
 export default function AddAddressForm({ setDialogOpen }) {
   const { setUser } = useAuth();
-  const { createAddress } = useAddress();
+  const { createAddress } = useUserAddress();
 
   const form = useForm({
     resolver: zodResolver(addAddressSchema),

@@ -1,4 +1,4 @@
-import { setUserCart } from "@/app/slices/clientcartSlice";
+import { clearCart, setUserCart } from "@/app/slices/clientcartSlice";
 import {
   addProductToCart,
   decrementCartItemQuantity,
@@ -79,7 +79,9 @@ export const useUserCart = () => {
       response?.message || "Failed to change product size",
     );
   };
-
+  const clearCartInStore = () => {
+    dispatch(clearCart());
+  };
   useEffect(() => {
     const fetchLoggedUserCart = async () => {
       try {
@@ -104,5 +106,6 @@ export const useUserCart = () => {
     deleteItem,
     decrementItemQuantity,
     updateItemSize,
+    clearCartInStore,
   };
 };

@@ -4,11 +4,11 @@ import { useState } from "react";
 import ProfileFormsDialog from "./components/ProfileFormsDialog";
 import AddPhoneNumberForm from "./forms/AddNumberForm";
 import AddAddressForm from "./forms/AddAddressForm";
-import { useAddress } from "@/hooks/useAddress";
+import { useUserAddress } from "@/hooks/useUserAddress";
 
 function Profile() {
   const { user } = useAuth();
-  const { address } = useAddress();
+  const { address } = useUserAddress();
   const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
   const [adressDialogOpen, setAdressDialogOpen] = useState(false);
 

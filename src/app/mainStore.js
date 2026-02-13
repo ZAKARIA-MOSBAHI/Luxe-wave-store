@@ -4,7 +4,7 @@ import productReducer from "./slices/productSlice";
 import favoritesReducer from "./slices/favoritesSlice";
 import cartReducer from "./slices/clientcartSlice";
 import categoryReducer from "./slices/categorySlice";
-import addressReducer from "./slices/addressSlice";
+import userAddressReducer from "./slices/userAddressSlice";
 import notificationReducer from "./slices/notificationSlice";
 import userOrderReducer from "./slices/userOrderSlice";
 import adminOrderReducer from "./slices/adminOrderSlice";
@@ -17,7 +17,7 @@ export const store = configureStore({
     clientCartState: cartReducer,
     adminCartsState: adminCartsReducer,
     categoriesState: categoryReducer,
-    userAddress: addressReducer,
+    userAddressState: userAddressReducer,
     notificationState: notificationReducer,
     userOrderState: userOrderReducer,
     adminOrderState: adminOrderReducer,

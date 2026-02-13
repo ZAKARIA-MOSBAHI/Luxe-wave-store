@@ -8,13 +8,13 @@ import { toast } from "sonner";
 import { clearCart } from "@/app/slices/clientcartSlice";
 import { useNavigate } from "react-router-dom";
 import { addUserOrder } from "@/app/slices/userOrderSlice";
-import { useAddress } from "@/hooks/useAddress";
+import { useUserAddress } from "@/hooks/useUserAddress";
 
 export default function DeliverySection() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { address } = useAddress();
+  const { address } = useUserAddress();
 
   const userOrderState = useSelector((state) => state.userOrderState);
   const fields = [
