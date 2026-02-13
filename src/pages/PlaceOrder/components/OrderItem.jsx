@@ -1,4 +1,4 @@
-import { returnImgUrl } from "@/lib/utils";
+import { returnImgUrl } from "@/utils/returnImgUrl";
 
 export default function OrderItem({ item }) {
   return (

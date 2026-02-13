@@ -18,7 +18,7 @@ export const useAdminCarts = () => {
       const response = await getCarts();
       console.warn("response");
       console.log(response);
-      if (response?.success) {
+      if (response.success) {
         dispatch(setCarts(response.carts));
       }
     };

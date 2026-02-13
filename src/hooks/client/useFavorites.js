@@ -17,19 +17,15 @@ export const useFavorites = () => {
     const response = await addFavoriteProduct(productId);
     if (response.success) {
       dispatch(setFavorites(response.newFavoriteList));
-      return buildApiResponse(true, response.message);
-    } else {
-      return buildApiResponse(false, response.message);
     }
+    return response;
   };
   const removeFavorite = async (productId) => {
     const response = await removeFavoriteProduct(productId);
     if (response.success) {
       dispatch(setFavorites(response.newFavoriteList));
-      return buildApiResponse(true, response.message);
-    } else {
-      return buildApiResponse(false, response.message);
     }
+    return response;
   };
   useEffect(() => {
     const fetchFavorites = async () => {

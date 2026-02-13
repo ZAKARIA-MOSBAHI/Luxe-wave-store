@@ -1,4 +1,4 @@
-import { returnImgUrl } from "@/lib/utils";
+import { returnImgUrl } from "@/utils/returnImgUrl";
 
 export function OrderItemCard({ item }) {
   const subtotal = item?.product?.price * item?.quantity;

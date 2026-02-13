@@ -26,7 +26,7 @@ export default function OrderDetails({ fetchOrderById }) {
   useEffect(() => {
     const fetchOrder = async () => {
       const response = await fetchOrderById(orderId);
-      if (response?.success) {
+      if (response.success) {
         setOrder(response.order);
       }
     };

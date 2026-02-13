@@ -5,11 +5,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { cn, formatDateToText } from "@/lib/utils";
-import { formatDistanceToNow } from "date-fns";
+import { cn } from "@/lib/utils";
 import { Check, MoreVertical, Trash2 } from "lucide-react";
 import { useNotifications } from "@/hooks/admin/useNotifications";
 import { toast } from "sonner";
+import { formatDateToText } from "@/utils/formatDateToText";
 
 const notificationItemVariants = {
   compact: {

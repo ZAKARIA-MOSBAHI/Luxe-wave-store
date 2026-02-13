@@ -14,10 +14,13 @@ const Collections = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const queryValue = queryParams.get("category");
+    console.log(queryValue);
     if (queryValue) {
       filterProducts("category", queryValue);
+    } else {
+      filterProducts("category", null);
     }
-  }, [location.search, filterProducts]);
+  }, [location.search]);
 
   if (filteredProducts?.length === 0) {
     return (

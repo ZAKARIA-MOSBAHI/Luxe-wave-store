@@ -29,7 +29,7 @@ export const useUserOrders = () => {
       try {
         const response = await getClientOrders();
 
-        if (response?.success) {
+        if (response.success) {
           dispatch(setUserOrders(response.orders));
         } else {
           setError(response?.message || "Failed to fetch orders");

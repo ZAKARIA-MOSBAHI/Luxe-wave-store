@@ -4,7 +4,7 @@ import HeartIcon from "../../assets/client/icons/HeartIcon";
 import CardBadge from "../ui/CardBadge";
 import { useAuth } from "@/context/AuthProvider";
 
-import { returnImgUrl } from "@/lib/utils";
+import { returnImgUrl } from "@/utils/returnImgUrl";
 import { useFavorites } from "@/hooks/client/useFavorites";
 import { toast } from "sonner";
 

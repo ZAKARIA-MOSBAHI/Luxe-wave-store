@@ -6,7 +6,7 @@ export default function OrderSummarySection() {
 
   return (
     <div className="order-1 md:order-2 bg-[#F1F4F9] p-8 w-full">
-      <h3 className="text-3xl font-bold tracking-tight mb-8">Order Items</h3>
+      <h3 className=" typography-h3 mb-8">Order Items</h3>
       {cart?.items.length > 0
         ? cart?.items.map((item, index) => {
             return <OrderItem item={item} key={index} />;

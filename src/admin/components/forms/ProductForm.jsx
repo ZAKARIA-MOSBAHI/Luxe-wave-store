@@ -25,7 +25,8 @@ import { productSchema } from "@/lib/schemas/product.schema";
 import SizeSelector from "./SizeSelector";
 import ProductImagePreview from "../shared/ProductImagePreview";
 import { FILTER_OPTIONS } from "@/constants/constants";
-import { buildProductFormData, returnImgUrl } from "@/lib/utils";
+import { buildProductFormData } from "@/utils/buildProductFormData";
+import { returnImgUrl } from "@/utils/returnImgUrl";
 import { useCategories } from "@/hooks/useCategories";
 import { toast } from "sonner";
 

@@ -1,7 +1,7 @@
 import QuantityCounter from "./QuantityCounter";
 import SelectMenu from "./SelectMenu";
 
-import { returnImgUrl } from "@/lib/utils";
+import { returnImgUrl } from "@/utils/returnImgUrl";
 import { useAuth } from "@/context/AuthProvider";
 import { toast } from "sonner";
 import { useUserCart } from "@/hooks/client/useUserCart";

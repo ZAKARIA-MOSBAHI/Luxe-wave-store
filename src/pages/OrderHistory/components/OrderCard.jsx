@@ -4,7 +4,7 @@ import { format } from "date-fns";
 
 import { Card, CardContent } from "@/components/ui/Card";
 import { OrderStatusBadge } from "./OrderStatusBadge";
-import { returnImgUrl } from "@/lib/utils";
+import { returnImgUrl } from "@/utils/returnImgUrl";
 
 export function OrderCard({ order }) {
   const formattedDate = format(new Date(order?.createdAt), "MMM dd, yyyy");

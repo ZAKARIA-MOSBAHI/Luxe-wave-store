@@ -22,25 +22,21 @@ export const useAdminOrders = () => {
 
   const handleConfirmOrder = async (orderId) => {
     const response = await confirmOrder(orderId);
-    if (response?.success) {
+    if (response.success) {
       dispatch(updateOrder(response.order));
-      toast.success("Order Confirmed! ");
-    } else {
-      toast.error("Couldn't Confirm Order!");
     }
+    return response;
   };
   const handleShipOrder = async (orderId) => {
     const response = await shipOrder(orderId);
-    if (response?.success) {
+    if (response.success) {
       dispatch(updateOrder(response.order));
-      toast.success("Order Shipped! ");
-    } else {
-      toast.error("Couldn't Ship Order!");
     }
+    return response;
   };
   const handleDeliverOrder = async (orderId) => {
     const response = await deliverOrder(orderId);
-    if (response?.success) {
+    if (response.success) {
       dispatch(updateOrder(response.order));
       toast.success("Order Delivered! ");
     } else {
@@ -49,11 +45,8 @@ export const useAdminOrders = () => {
   };
   const handleCancelOrder = async (orderId) => {
     const response = await cancelOrder(orderId);
-    if (response?.success) {
+    if (response.success) {
       dispatch(updateOrder(response.order));
-      toast.success("Order Cancelled! ");
-    } else {
-      toast.error("Couldn't Cancelled Order!");
     }
   };
   const applyOrderFilters = () => {

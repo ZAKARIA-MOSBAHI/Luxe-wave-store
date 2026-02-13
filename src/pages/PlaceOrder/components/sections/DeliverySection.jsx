@@ -63,9 +63,7 @@ export default function DeliverySection() {
   return (
     <div className=" order-2 md:order-1 flex gap-4 flex-col">
       <UserHeader />
-      <h3 className="text-3xl font-bold tracking-tight mb-8">
-        Delivery Details
-      </h3>
+      <h3 className="typography-h3 mb-8">Delivery Details</h3>
       <MissingInfoAlerts />
       <InfoGrid fields={fields} />
       <button

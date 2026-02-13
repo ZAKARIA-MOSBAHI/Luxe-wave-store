@@ -1,4 +1,4 @@
-import { returnImgUrl } from "@/lib/utils";
+import { returnImgUrl } from "@/utils/returnImgUrl";
 import RemoveButton from "./RemoveButton";
 import { useNavigate } from "react-router-dom";
 

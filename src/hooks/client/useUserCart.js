@@ -29,13 +29,8 @@ export const useUserCart = () => {
 
     if (response.success) {
       dispatch(setUserCart(response.cart));
-      return response;
     }
-
-    return buildApiResponse(
-      false,
-      response?.message || "Failed to add product to cart",
-    );
+    return response;
   };
 
   const deleteItem = async (productId, itemSize) => {
@@ -43,13 +38,8 @@ export const useUserCart = () => {
 
     if (response.success) {
       dispatch(setUserCart(response.cart));
-      return response;
     }
-    // why ? use return response instead because the response is already build in the api func
-    return buildApiResponse(
-      false,
-      response?.message || "Failed to delete product from cart",
-    );
+    return response;
   };
 
   const decrementItemQuantity = async (productId, itemSize) => {
@@ -57,13 +47,8 @@ export const useUserCart = () => {
 
     if (response.success) {
       dispatch(setUserCart(response.cart));
-      return response;
     }
-
-    return buildApiResponse(
-      false,
-      response?.message || "Failed to decrement product quantity",
-    );
+    return response;
   };
 
   const updateItemSize = async (productId, oldSize, newSize) => {
@@ -71,13 +56,8 @@ export const useUserCart = () => {
 
     if (response.success) {
       dispatch(setUserCart(response.cart));
-      return response;
     }
-
-    return buildApiResponse(
-      false,
-      response?.message || "Failed to change product size",
-    );
+    return response;
   };
   const clearCartInStore = () => {
     dispatch(clearCartInStore());

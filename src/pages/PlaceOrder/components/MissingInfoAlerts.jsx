@@ -1,11 +1,11 @@
 import { Alert, AlertAction, AlertContent } from "@/components/ui/Alert";
 import { useAuth } from "@/context/AuthProvider";
-import { useSelector } from "react-redux";
+import { useUserAddress } from "@/hooks/client/useUserAddress";
 import { useNavigate } from "react-router-dom";
 
 export default function MissingInfoAlerts() {
   const { user } = useAuth();
-  const userAddressState = useSelector((state) => state.userAddress?.address);
+  const { address } = useUserAddress();
 
   const navigate = useNavigate();
   const handleAlertClick = () => {
@@ -13,7 +13,7 @@ export default function MissingInfoAlerts() {
   };
   return (
     <>
-      {userAddressState ? null : (
+      {address ? null : (
         <Alert variant="error">
           <AlertContent>Address Is Required</AlertContent>
 

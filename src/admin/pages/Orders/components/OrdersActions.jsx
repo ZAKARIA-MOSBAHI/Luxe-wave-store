@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useAdminOrders } from "@/hooks/admin/useAdminOrders";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 export default function OrdersActions({ order }) {
   const {
     handleConfirmOrder,
@@ -25,6 +26,38 @@ export default function OrdersActions({ order }) {
     handleDeliverOrder,
     handleShipOrder,
   } = useAdminOrders();
+  const onConfirm = async (orderId) => {
+    const res = await handleConfirmOrder(orderId);
+    if (res.success) {
+      toast.success("Order Confirmed! ");
+    } else {
+      toast.error("Couldn't Confirm Order!");
+    }
+  };
+  const onCancel = async (orderId) => {
+    const res = await handleCancelOrder(orderId);
+    if (res.success) {
+      toast.success("Order Cancelled! ");
+    } else {
+      toast.error("Couldn't Cancelled Order!");
+    }
+  };
+  const onShip = async (orderId) => {
+    const res = await handleShipOrder(orderId);
+    if (res.success) {
+      toast.success("Order Shipped! ");
+    } else {
+      toast.error("Couldn't Ship Order!");
+    }
+  };
+  const onDeliver = async (orderId) => {
+    const res = await handleDeliverOrder(orderId);
+    if (res.success) {
+      toast.success("Order Delivered! ");
+    } else {
+      toast.error("Couldn't Deliver Order!");
+    }
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -52,7 +85,7 @@ export default function OrdersActions({ order }) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onClick={() => handleConfirmOrder(order?._id)}
+          onClick={() => onConfirm(order?._id)}
           className="flex items-center gap-2"
           disabled={order?.orderStatus?.toLowerCase() !== "pending"}
         >
@@ -61,7 +94,7 @@ export default function OrdersActions({ order }) {
         </DropdownMenuItem>
 
         <DropdownMenuItem
-          onClick={() => handleShipOrder(order?._id)}
+          onClick={() => onShip(order?._id)}
           className="flex items-center gap-2"
           disabled={order?.orderStatus?.toLowerCase() !== "confirmed"}
         >
@@ -70,7 +103,7 @@ export default function OrdersActions({ order }) {
         </DropdownMenuItem>
 
         <DropdownMenuItem
-          onClick={() => handleDeliverOrder(order?._id)}
+          onClick={() => onDeliver(order?._id)}
           className="flex items-center gap-2"
           disabled={order?.orderStatus?.toLowerCase() !== "shipped"}
         >
@@ -84,7 +117,7 @@ export default function OrdersActions({ order }) {
           order?.orderStatus?.toLowerCase() !== "delivered" && (
             <DropdownMenuItem
               className="text-red-600 focus:text-red-600"
-              onClick={() => handleCancelOrder(order?._id)}
+              onClick={() => onCancel(order?._id)}
             >
               <PackageX className="mr-2 h-4 w-4" />
               Cancel Order

@@ -3,7 +3,6 @@ import {
   removeNotification,
   setNotification,
 } from "@/app/slices/notificationSlice";
-import { buildApiResponse } from "@/lib/utils";
 import {
   deleteNotification,
   getNotifications,
@@ -25,19 +24,15 @@ export const useNotifications = () => {
     const response = await markNotificationAsRead(notificationId);
     if (response.success) {
       dispatch(markAsRead(notificationId));
-      return { success: true };
-    } else {
-      return buildApiResponse(false, response.message);
     }
+    return response;
   };
   const deleteNotif = async (notificationId) => {
     const response = await deleteNotification(notificationId);
     if (response.success) {
       dispatch(removeNotification(notificationId));
-      return { success: true };
-    } else {
-      return buildApiResponse(false, response.message);
     }
+    return response;
   };
   useEffect(() => {
     const fetchNotifications = async () => {

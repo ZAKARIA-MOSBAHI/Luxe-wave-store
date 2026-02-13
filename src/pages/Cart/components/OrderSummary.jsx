@@ -8,7 +8,7 @@ export default function OrderSummary() {
 
   return (
     <div className="w-full md:w-[35%]">
-      <h1 className="text-2xl font-medium sm:py-8 py-4 ">ORDER SUMMARY</h1>
+      <h1 className="typography-h3 sm:py-8 py-4 ">ORDER SUMMARY</h1>
       <div className="flex flex-col p-8  border my-2">
         <p className="flex justify-between text-sm  font-light sm:text-base">
           {cart?.items.length || 0} ITEMS

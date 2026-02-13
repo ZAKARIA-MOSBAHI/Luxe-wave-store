@@ -19,14 +19,13 @@ import {
   MoreHorizontal,
   Eye,
   Trash2,
-  ShoppingCart,
   FileText,
   ArrowUpDown,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useAdminCarts } from "@/hooks/admin/useAdminCarts";
 import { useState } from "react";
-import { formatDateToText } from "@/lib/utils";
+import { formatDateToText } from "@/utils/formatDateToText";
 import { Badge } from "@/components/ui/Badge";
 
 const CartTable = () => {
