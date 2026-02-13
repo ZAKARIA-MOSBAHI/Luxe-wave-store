@@ -7,11 +7,10 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 
-import { useOrders } from "@/hooks/useOrders";
-
 import { OrderRow } from "./OrderRow";
+import { useAdminOrders } from "@/hooks/admin/useAdminOrders";
 function OrdersTable() {
-  const { ordersState } = useOrders();
+  const { ordersState } = useAdminOrders();
   return (
     <Table>
       <TableHeader>

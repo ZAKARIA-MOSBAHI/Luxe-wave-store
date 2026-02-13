@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import HeartIcon from "../../../assets/client/icons/HeartIcon";
 import { useAuth } from "@/context/AuthProvider";
 
-import { useFavorites } from "@/hooks/useFavorites";
+import { useFavorites } from "@/hooks/client/useFavorites";
 import { toast } from "sonner";
 
 export default function ProductInfo({

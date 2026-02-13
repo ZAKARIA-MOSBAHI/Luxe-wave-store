@@ -2,7 +2,7 @@ import { ArrowLeft, Check } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import NotificationItem from "../components/Notifications/NotificationItem";
 import { Button } from "@/components/ui/Button";
-import { useNotifications } from "@/hooks/useNotifications";
+import { useNotifications } from "@/hooks/admin/useNotifications";
 
 export default function AdminNotificationsPage() {
   const navigate = useNavigate();

@@ -5,7 +5,7 @@ import CardBadge from "../ui/CardBadge";
 import { useAuth } from "@/context/AuthProvider";
 
 import { returnImgUrl } from "@/lib/utils";
-import { useFavorites } from "@/hooks/useFavorites";
+import { useFavorites } from "@/hooks/client/useFavorites";
 import { toast } from "sonner";
 
 export default function ProductCard({

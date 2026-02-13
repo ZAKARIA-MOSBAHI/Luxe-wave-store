@@ -8,7 +8,7 @@ import {
 import { cn, formatDateToText } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { Check, MoreVertical, Trash2 } from "lucide-react";
-import { useNotifications } from "@/hooks/useNotifications";
+import { useNotifications } from "@/hooks/admin/useNotifications";
 import { toast } from "sonner";
 
 const notificationItemVariants = {

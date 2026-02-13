@@ -10,7 +10,7 @@ import {
 import { Bell, Check } from "lucide-react";
 import NotificationItem from "./Notifications/NotificationItem";
 import { Link } from "react-router-dom";
-import { useNotifications } from "@/hooks/useNotifications";
+import { useNotifications } from "@/hooks/admin/useNotifications";
 import { useEffect } from "react";
 import { toast } from "sonner";
 

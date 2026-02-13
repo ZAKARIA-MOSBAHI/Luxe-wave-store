@@ -2,9 +2,9 @@ import { EmptyStateUI } from "@/components/shared/EmptyStateUI";
 import CartItem from "./components/CartItem";
 import OrderSummary from "./components/OrderSummary";
 
-import { useUserCart } from " @/hooks/client/useUserCart";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
+import { useUserCart } from "@/hooks/client/useUserCart";
 
 function Cart() {
   const { cart } = useUserCart();

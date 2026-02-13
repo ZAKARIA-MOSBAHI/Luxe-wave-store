@@ -12,10 +12,10 @@ import {
 import { Badge } from "@/components/ui/Badge";
 import { Search, Filter } from "lucide-react";
 import { orderFilterOptions } from "@/constants/order.constants";
-import { useOrders } from "@/hooks/useOrders";
+import { useAdminOrders } from "@/hooks/admin/useAdminOrders";
 
 export const OrdersToolbar = () => {
-  const { ordersState, setFilterOption, setSearchQuery } = useOrders();
+  const { ordersState, setFilterOption, setSearchQuery } = useAdminOrders();
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
       <div className="relative w-full sm:w-auto sm:flex-1 max-w-md">

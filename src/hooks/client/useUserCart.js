@@ -1,4 +1,4 @@
-import { clearCart, setUserCart } from "@/app/slices/userCartSlice";
+import { clearCartInStore, setUserCart } from "@/app/slices/userCartSlice";
 import {
   addProductToCart,
   decrementCartItemQuantity,
@@ -80,7 +80,7 @@ export const useUserCart = () => {
     );
   };
   const clearCartInStore = () => {
-    dispatch(clearCart());
+    dispatch(clearCartInStore());
   };
   useEffect(() => {
     const fetchLoggedUserCart = async () => {

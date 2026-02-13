@@ -16,7 +16,7 @@ import {
   Printer,
   Truck,
 } from "lucide-react";
-import { useOrders } from "../../../../hooks/useOrders";
+import { useAdminOrders } from "@/hooks/admin/useAdminOrders";
 import { Link } from "react-router-dom";
 export default function OrdersActions({ order }) {
   const {
@@ -24,7 +24,7 @@ export default function OrdersActions({ order }) {
     handleCancelOrder,
     handleDeliverOrder,
     handleShipOrder,
-  } = useOrders();
+  } = useAdminOrders();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

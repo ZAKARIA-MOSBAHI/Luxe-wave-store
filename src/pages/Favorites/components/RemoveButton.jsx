@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { toast } from "sonner";
-import { useFavorites } from "@/hooks/useFavorites";
+import { useFavorites } from "@/hooks/client/useFavorites";
 
 export default function RemoveButton({ productId }) {
   const { removeFavorite } = useFavorites();

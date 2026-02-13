@@ -1,7 +1,7 @@
 import { OrderCard } from "./components/OrderCard";
 import { EmptyStateUI } from "../../components/shared/EmptyStateUI";
 
-import { useUserOrders } from "@/hooks/useUserOrders";
+import { useUserOrders } from "@/hooks/client/useUserOrders";
 import { Link } from "react-router-dom";
 import { Package } from "lucide-react";
 

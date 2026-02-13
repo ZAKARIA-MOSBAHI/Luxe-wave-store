@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import FavoriteProducts from "./components/FavoriteProducts";
 import { useAuth } from "@/context/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
-import { useFavorites } from "@/hooks/useFavorites";
 import { toast } from "sonner";
 import { EmptyStateUI } from "@/components/shared/EmptyStateUI";
 import { Heart } from "lucide-react";
+import { useFavorites } from "@/hooks/client/useFavorites";
 
 export default function Favorites() {
   const { error, favoriteProducts } = useFavorites();
@@ -19,7 +19,6 @@ export default function Favorites() {
 
   if (user === null) {
     navigate("/login", { replace: true });
-    return null;
   }
   if (favoriteProducts && favoriteProducts?.length === 0) {
     return (

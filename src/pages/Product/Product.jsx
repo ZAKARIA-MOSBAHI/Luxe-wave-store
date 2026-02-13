@@ -6,7 +6,7 @@ import ProductInfo from "./components/ProductInfo";
 import ProductsCollection from "../Home/components/ProductsCollection";
 import ErrorPage from "../ErrorPage";
 import { toast } from "sonner";
-import { useUserCart } from " @/hooks/client/useUserCart";
+import { useUserCart } from "@/hooks/client/useUserCart";
 import { useProduct } from "@/hooks/useProduct";
 import { useProducts } from "@/hooks/useProducts";
 

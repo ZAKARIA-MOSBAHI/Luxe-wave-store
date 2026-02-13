@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useUserCart } from " @/hooks/client/useUserCart";
+import { useUserCart } from "@/hooks/client/useUserCart";
 
 export default function SelectMenu({ product }) {
   const { UpdateItemSize } = useUserCart();
