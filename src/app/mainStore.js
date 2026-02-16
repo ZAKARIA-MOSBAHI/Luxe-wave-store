@@ -9,6 +9,7 @@ import notificationReducer from "./slices/notificationSlice";
 import userOrderReducer from "./slices/userOrderSlice";
 import adminOrderReducer from "./slices/adminOrderSlice";
 import adminCartsReducer from "./slices/adminCartsSlice";
+import adminUsersReducer from "./slices/adminUsersSlice";
 export const store = configureStore({
   reducer: {
     user: userReducer,
@@ -21,6 +22,7 @@ export const store = configureStore({
     notificationState: notificationReducer,
     userOrderState: userOrderReducer,
     adminOrderState: adminOrderReducer,
+    adminUsersState: adminUsersReducer,
   },
 });
 

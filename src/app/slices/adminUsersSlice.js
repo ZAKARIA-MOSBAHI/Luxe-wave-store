@@ -1,0 +1,37 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const adminUsersState = createSlice({
+  name: "adminUsersState",
+  initialState: {
+    users: null,
+  },
+  reducers: {
+    setUsers: (state, action) => {
+      state.users = action.payload;
+    },
+    deleteUserFromStore: (state, action) => {
+      const userIdToDelete = action.payload;
+      if (state.users) {
+        state.users = state.users.filter((user) => user._id !== userIdToDelete);
+      }
+    },
+    suspendUserFromStore: (state, action) => {
+      const userIdToSuspend = action.payload;
+      if (state.users) {
+        state.users = state.users.map((user) =>
+          user._id === userIdToSuspend
+            ? { ...user, status: "suspended" }
+            : user,
+        );
+      }
+    },
+  },
+});
+
+export default adminUsersState.reducer;
+export const {
+  setUsers,
+  deleteUserFromStore,
+  suspendUserFromStore,
+  setFilteredUsers,
+} = adminUsersState.actions;

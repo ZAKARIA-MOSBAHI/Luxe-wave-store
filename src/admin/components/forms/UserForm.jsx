@@ -22,47 +22,22 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Eye, EyeClosed } from "lucide-react";
-import { DialogClose } from "@/components/ui/Dialog";
 import { PhoneInput } from "@/components/ui/PhoneInput";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { userSchema } from "../../../lib/schemas/user.schema";
+import { ADD_USER_FORM_DEFAULTS } from "@/constants/forms.constants";
 
 export function UserForm({ initialData, onSubmit }) {
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [showPword, setShowPword] = useState(false);
   const [showConfirmPword, setShowConfirmPword] = useState(false);
   const form = useForm({
     resolver: zodResolver(userSchema),
-    defaultValues: initialData || {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      phone: 0,
-      street: "",
-      city: "",
-      role: "",
-      state: "",
-    },
+    defaultValues: initialData || ADD_USER_FORM_DEFAULTS,
   });
 
-  const handleSubmit = (values) => {
-    const formattedPhone = isValidPhoneNumber(phoneNumber);
-    if (!formattedPhone) {
-      toast.error("Invalid phone number format.");
-      return;
-    }
-    const newValues = { ...values, phone: phoneNumber };
-    console.log("Submitted values:", newValues);
-    toast.success("User saved successfully!");
-  };
-  useEffect(() => {
-    console.log(phoneNumber);
-    console.log(typeof phoneNumber);
-  }, [phoneNumber]);
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2">
           <FormField
             control={form.control}
@@ -198,11 +173,12 @@ export function UserForm({ initialData, onSubmit }) {
             <FormItem>
               <FormLabel>Phone Number</FormLabel>
               <FormControl>
-                <PhoneInput
-                  value={phoneNumber}
-                  onChange={setPhoneNumber}
-                  defaultCountry="US"
-                  placeholder="Enter phone number"
+                <Input
+                  type="text"
+                  inputMode="tel"
+                  size="xl"
+                  placeholder="+212612345678 or 0612345678"
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
@@ -212,31 +188,31 @@ export function UserForm({ initialData, onSubmit }) {
         <div className="grid gap-6 md:grid-cols-2">
           <FormField
             control={form.control}
-            name="state"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>State</FormLabel>
-                <FormControl>
-                  <Input
-                    className="pl-7"
-                    {...field}
-                    type="text"
-                    placeholder="Enter state"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
             name="city"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>City</FormLabel>
                 <FormControl>
                   <Input {...field} type="text" placeholder="Enter city" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="zipCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Zip Code</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    placeholder="11000"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -258,9 +234,6 @@ export function UserForm({ initialData, onSubmit }) {
         />
 
         <div className="flex justify-end space-x-4">
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
           <Button type="submit">Save User</Button>
         </div>
       </form>

@@ -49,6 +49,7 @@ const AddCategoryPage = lazy(
 const EditCategoryPage = lazy(
   () => import("./admin/pages/Categories/EditCategoryPage"),
 );
+const AddUserPage = lazy(() => import("./admin/pages/Users/AddUserPage"));
 
 function App() {
   const { showSearch } = useContext(SearchContext);
@@ -204,6 +205,16 @@ function App() {
                 <ProtectedRoute>
                   <DashboardLayout>
                     <OrderDetails fetchOrderById={getOrderById} />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/users/add"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <AddUserPage />
                   </DashboardLayout>
                 </ProtectedRoute>
               }

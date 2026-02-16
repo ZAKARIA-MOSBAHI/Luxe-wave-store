@@ -1,3 +1,4 @@
+import { RECOMMENDED_PASSWORD_REGEX } from "@/constants/constants";
 import { z } from "zod";
 
 export const signupSchema = z.object({
@@ -8,7 +9,7 @@ export const signupSchema = z.object({
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters" })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).+$/, {
+    .regex(RECOMMENDED_PASSWORD_REGEX, {
       message:
         "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character",
     }),

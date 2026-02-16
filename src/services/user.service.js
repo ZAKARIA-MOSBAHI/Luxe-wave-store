@@ -93,6 +93,31 @@ export const getUsers = async () => {
     );
   }
 };
+export const suspendUserInApi = async (userId) => {
+  try {
+    const response = await api.put(`/users/suspend/${userId}`);
+
+    return response.data;
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't update account informations!",
+    );
+  }
+};
+export const deleteUserInApi = async (userId) => {
+  try {
+    const response = await api.delete(`/users/delete/${userId}`);
+
+    return response.data;
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't delete account!",
+    );
+  }
+};
+
 export const updateUser = async (payload, setUser) => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));

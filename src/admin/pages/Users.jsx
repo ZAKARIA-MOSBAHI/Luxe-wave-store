@@ -37,135 +37,54 @@ import {
   UserPlus,
 } from "lucide-react";
 import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
-import { UserForm } from "../components/forms/UserForm";
-import { getUsers } from "@/services/user.service";
 
-// Sample data - in a real application, this would come from an API
-const users = [
-  {
-    id: "user-1",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    avatar: "/avatar.png",
-    status: "active",
-    role: "user",
-    orders: 8,
-    lastActive: "2 hours ago",
-  },
-  {
-    id: "user-2",
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    avatar: "/avatar.png",
-    status: "active",
-    role: "user",
-    orders: 12,
-    lastActive: "1 day ago",
-  },
-  {
-    id: "user-3",
-    name: "Robert Johnson",
-    email: "robert.johnson@example.com",
-    avatar: "/avatar.png",
-    status: "inactive",
-    role: "user",
-    orders: 3,
-    lastActive: "2 weeks ago",
-  },
-  {
-    id: "user-4",
-    name: "Emily Davis",
-    email: "emily.davis@example.com",
-    avatar: "/avatar.png",
-    status: "active",
-    role: "admin",
-    orders: 0,
-    lastActive: "Just now",
-  },
-  {
-    id: "user-5",
-    name: "Michael Wilson",
-    email: "michael.wilson@example.com",
-    avatar: "/avatar.png",
-    status: "suspended",
-    role: "user",
-    orders: 5,
-    lastActive: "1 month ago",
-  },
-  {
-    id: "user-6",
-    name: "Sarah Taylor",
-    email: "sarah.taylor@example.com",
-    avatar: "/avatar.png",
-    status: "active",
-    role: "user",
-    orders: 9,
-    lastActive: "3 days ago",
-  },
-];
+import { useNavigate } from "react-router-dom";
+import { useAdminUsers } from "@/hooks/admin/useAdminUsers";
+import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
+import { formatDateToText } from "@/utils/formatDateToText";
 
 const Users = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const { users, suspendUser, deleteUser } = useAdminUsers();
+
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredUsers = users.filter(
+  const filteredUsers = users?.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleDelete = (id) => {
-    toast.success("User has been deleted");
-    console.log("Delete user:", id);
+  const handleDelete = async (id) => {
+    const res = await deleteUser(id);
+    console.log(res);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
   };
 
-  const handleSuspend = (id) => {
-    toast.success("User has been suspended");
-    console.log("Suspend user:", id);
+  const handleSuspend = async (id) => {
+    const res = await suspendUser(id);
+    console.log(res);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
   };
-  useEffect(() => {
-    getUsers();
-  }, []);
+
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-4 md:gap-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="text-3xl font-bold">Users</h1>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <UserPlus className="h-4 w-4 mr-2" />
-                Add User
-              </Button>
-            </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Add New Product</DialogTitle>
-                <DialogDescription>
-                  Fill in the details to add a new user to your inventory.
-                </DialogDescription>
-              </DialogHeader>
-              <UserForm
-                onSubmit={() => {
-                  toast.success("Product Created Successfully !", {
-                    action: {
-                      label: "Close",
-                      onClick: () => console.log("Undo"),
-                    },
-                  });
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+          <Button onClick={() => navigate("/admin/users/add")}>
+            <UserPlus className="h-4 w-4 mr-2" />
+            Add User
+          </Button>
         </div>
 
         <Card>
@@ -204,25 +123,20 @@ const Users = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredUsers.length > 0 ? (
-                    filteredUsers.map((user) => (
-                      <TableRow key={user.id}>
+                  {filteredUsers?.length > 0 ? (
+                    filteredUsers?.map((user) => (
+                      <TableRow key={user?._id}>
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-gray-200"></div>
-                            {/* <Avatar className="h-8 w-8">
-                              <AvatarImage src={user.avatar} alt={user.name} />
-                              <AvatarFallback>
-                                {user.name
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
+                            <Avatar className="h-8 w-8 bg-zinc-100">
+                              <AvatarFallback className="">
+                                {user?.name?.charAt(0)?.toUpperCase()}
                               </AvatarFallback>
-                            </Avatar> */}
+                            </Avatar>
                             <div>
-                              <div className="font-medium">{user.name}</div>
+                              <div className="font-medium">{user?.name}</div>
                               <div className="text-sm text-muted-foreground">
-                                {user.email}
+                                {user?.email}
                               </div>
                             </div>
                           </div>
@@ -230,28 +144,28 @@ const Users = () => {
                         <TableCell className="hidden md:table-cell">
                           <Badge
                             variant={
-                              user.role === "admin" ? "default" : "outline"
+                              user?.role === "admin" ? "default" : "outline"
                             }
                           >
-                            {user.role}
+                            {user?.role}
                           </Badge>
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
                           <Badge
-                            className={
-                              user.status === "active"
-                                ? "bg-green-100 text-green-800 hover:bg-green-100/80"
-                                : user.status === "inactive"
-                                  ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100/80"
-                                  : "bg-red-100 text-red-800 hover:bg-red-100/80"
+                            variant={
+                              user?.status === "active"
+                                ? "success"
+                                : user?.status === "inactive"
+                                  ? "warning"
+                                  : "danger"
                             }
                           >
-                            {user.status}
+                            {user?.status}
                           </Badge>
                         </TableCell>
-                        <TableCell>{user.orders}</TableCell>
+                        <TableCell>{user?.orderCount}</TableCell>
                         <TableCell className="hidden md:table-cell text-muted-foreground">
-                          {user.lastActive}
+                          {formatDateToText(user?.lastLogin)}
                         </TableCell>
                         <TableCell>
                           <DropdownMenu>
@@ -280,7 +194,7 @@ const Users = () => {
                               {user.status !== "suspended" && (
                                 <DropdownMenuItem
                                   className="text-amber-600 focus:text-amber-600"
-                                  onClick={() => handleSuspend(user.id)}
+                                  onClick={() => handleSuspend(user._id)}
                                 >
                                   <ShieldAlert className="mr-2 h-4 w-4" />
                                   Suspend User
@@ -288,7 +202,7 @@ const Users = () => {
                               )}
                               <DropdownMenuItem
                                 className="text-red-600 focus:text-red-600"
-                                onClick={() => handleDelete(user.id)}
+                                onClick={() => handleDelete(user._id)}
                               >
                                 <UserX className="mr-2 h-4 w-4" />
                                 Delete User
