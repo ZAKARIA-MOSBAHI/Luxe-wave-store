@@ -78,6 +78,7 @@ const NotificationItem = ({ notification, className, variant = "default" }) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
+            onClick={(e) => e.stopPropagation()}
             variant="ghost"
             size="icon"
             className="h-8 w-8 hover:bg-gray-200"

@@ -2,11 +2,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+  createUserInApi,
   deleteUserInApi,
   getUsers,
   suspendUserInApi,
 } from "@/services/user.service";
 import {
+  addUserInStore,
   deleteUserFromStore,
   setUsers,
   suspendUserFromStore,
@@ -17,6 +19,13 @@ export const useAdminUsers = () => {
 
   const { users } = useSelector((state) => state.adminUsersState);
 
+  const createUser = async (userId) => {
+    const response = await createUserInApi(userId);
+    if (response.success) {
+      dispatch(addUserInStore(response.newUser));
+    }
+    return response;
+  };
   const suspendUser = async (userId) => {
     const response = await suspendUserInApi(userId);
     if (response.success) {
@@ -51,6 +60,7 @@ export const useAdminUsers = () => {
     users,
     suspendUser,
     deleteUser,
+    createUser,
     // setSearchQuery: (v) => dispatch(setSearchQuery(v)),
     // setFilterOption: (v) => dispatch(setFilterOption(v)),
     // handleCancelOrder,

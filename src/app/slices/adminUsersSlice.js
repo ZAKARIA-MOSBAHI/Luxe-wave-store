@@ -9,6 +9,11 @@ const adminUsersState = createSlice({
     setUsers: (state, action) => {
       state.users = action.payload;
     },
+    addUserInStore: (state, action) => {
+      const newUser = action.payload;
+      const newUsers = [...state.users, newUser];
+      state.users = newUsers;
+    },
     deleteUserFromStore: (state, action) => {
       const userIdToDelete = action.payload;
       if (state.users) {
@@ -34,4 +39,5 @@ export const {
   deleteUserFromStore,
   suspendUserFromStore,
   setFilteredUsers,
+  addUserInStore,
 } = adminUsersState.actions;

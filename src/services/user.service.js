@@ -77,14 +77,7 @@ export const fetchLoggingUser = async (setUser) => {
 };
 export const getUsers = async () => {
   try {
-    console.log("fetching the users");
-    const accessToken = JSON.parse(localStorage.getItem("user")).accessToken;
-    const response = await api.get("/users", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log("response", response.data);
+    const response = await api.get("/users");
     return response.data;
   } catch (e) {
     return buildApiResponse(
@@ -114,6 +107,17 @@ export const deleteUserInApi = async (userId) => {
     return buildApiResponse(
       false,
       e?.response?.data?.message || "Couldn't delete account!",
+    );
+  }
+};
+export const createUserInApi = async (payload) => {
+  try {
+    const response = await api.post(`/users/create`, payload);
+    return response.data;
+  } catch (e) {
+    return buildApiResponse(
+      false,
+      e?.response?.data?.message || "Couldn't create account!",
     );
   }
 };

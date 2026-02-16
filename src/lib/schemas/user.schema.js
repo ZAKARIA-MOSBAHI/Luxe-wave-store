@@ -30,7 +30,7 @@ export const userSchema = z
     street: z
       .string()
       .min(10, { message: "Address must be at least 10 characters." }),
-    city: z.string().min(5, { message: "City must be at least 5 characters." }),
+    city: z.string().min(3, { message: "City must be at least 5 characters." }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],

@@ -19,11 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/Select";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
-import { PhoneInput } from "@/components/ui/PhoneInput";
-import { isValidPhoneNumber } from "react-phone-number-input";
+
 import { userSchema } from "../../../lib/schemas/user.schema";
 import { ADD_USER_FORM_DEFAULTS } from "@/constants/forms.constants";
 
@@ -34,10 +32,16 @@ export function UserForm({ initialData, onSubmit }) {
     resolver: zodResolver(userSchema),
     defaultValues: initialData || ADD_USER_FORM_DEFAULTS,
   });
+  const submitForm = async (values) => {
+    const res = await onSubmit(values);
+    if (res) {
+      form.reset();
+    }
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(submitForm)} className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2">
           <FormField
             control={form.control}
